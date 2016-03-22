@@ -1,0 +1,10 @@
+// Colours
+// Mixin to output gray from black percentage
+@function black-percent ( $percent ) {
+	@return rgb( (255 - (255 * ( $percent / 100 ))), (255 - (255 * ( $percent / 100 ))), (255 - (255 * ( $percent / 100 ))) );
+}
+
+$black: rgb(10,10,10);
+$white: rgb(255,255,255);
+$trans-black: rgba(10,10,10,0.9);
+$trans-white: rgba(255,255,255,0.9);

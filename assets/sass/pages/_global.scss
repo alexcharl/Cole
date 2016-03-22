@@ -1,0 +1,98 @@
+@include css-select ($white,$black);
+
+body,html,#wrapper {
+	width: 100%;
+	height: 100%;
+
+	&.no-scroll {
+		overflow: hidden;
+	}
+}
+
+#wrapper {
+	position: relative;
+
+	.overview-mode & {
+		overflow: hidden;
+	}
+
+	
+	// opacity: 0;
+	// display: none;
+	@include transition (opacity 500ms ease);
+	
+}
+
+* {
+	@include box-sizing (border-box);
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    outline: 0;
+    -webkit-text-size-adjust: 100%;
+}
+
+a,input[type="submit"],button {
+	cursor: pointer;
+	@include no-select;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+	@include no-select;
+}
+
+img {
+	@include no-select;
+}
+
+.clear {
+	display: block;
+	float: left;
+	clear: both;
+}
+
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+
+
+// SCROLLBAR STYLING
+$scrollbarWidth: 10px;
+$scrollbarBackground: $white;
+$scrollbarHandleColour: $black;
+
+::-webkit-scrollbar {
+	width: $scrollbarWidth;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 0px $scrollbarBackground;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	background: $scrollbarBackground;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+	background: $scrollbarHandleColour;
+    -webkit-box-shadow: inset 0 0 0px $scrollbarHandleColour; 
+}
+
+::-webkit-scrollbar-button { }
+::-webkit-scrollbar-track-piece { }
+::-webkit-scrollbar-corner { }
+::-webkit-resizer { }
+
+// MISC GLOBAL ELEMENTS
+// -------------------------------------
+
+
+// HEADER && FOOTER
+// ------------------------------------

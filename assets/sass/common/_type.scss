@@ -1,0 +1,53 @@
+
+
+// FONT STYLING MIXINS
+@mixin letter-spacing ($value) {
+	letter-spacing: ($value / 1000)+em;
+}
+
+@mixin italic {
+	// font-family: 'Chiswick Italic';
+}
+
+@mixin regular {
+	// font-family: 'Chiswick Regular';
+}
+
+
+// ---------------------------------------------------------
+// Function for converting em to px
+// ---------------------------------------------------------
+// See: http://vvv.tobiassjosten.net/css/px-to-em-with-sass/
+// Usage, eg:
+
+	// .title {
+	//     font-size: em(37px);
+	// }
+
+@function em($px, $base: $baseFontSize) {
+    @return ($px / $base) * 1em;
+}
+
+// -------------------------------------------------------
+
+
+
+// Typography
+// //////////
+
+// Set the base font size
+// Used to calcuate ems
+$baseFontSize: 17; // base font size in pixels
+
+body {
+	font-size: $baseFontSize + px;
+	@include regular;	
+}
+
+// PARAGRAPH STYLE MIXINS
+// ---------------------------------
+
+
+
+// CHARACTER STYLE MIXINS
+// ---------------------------------
