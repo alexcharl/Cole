@@ -70,7 +70,6 @@ module.exports = function(grunt) {
 
         uglify: {
 
-
             compile_scripts: {
                 options: {
                     mangle: false,
