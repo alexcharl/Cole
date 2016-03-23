@@ -107,7 +107,16 @@ table {
 
 /* line 42, ../../../assets/sass/common/_type.scss */
 body {
-  font-size: 17px; }
+  font-size: 17px;
+  font-family: 'Helvetica, Arial, Sans-serif'; }
+
+/* line 47, ../../../assets/sass/common/_type.scss */
+h1 {
+  margin-bottom: 0.6em; }
+
+/* line 54, ../../../assets/sass/common/_type.scss */
+p {
+  margin-bottom: 1em; }
 
 @font-face {
   font-family: "icons";

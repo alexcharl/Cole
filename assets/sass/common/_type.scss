@@ -10,7 +10,7 @@
 }
 
 @mixin regular {
-	// font-family: 'Chiswick Regular';
+	font-family: 'Helvetica, Arial, Sans-serif';
 }
 
 
@@ -44,10 +44,16 @@ body {
 	@include regular;	
 }
 
+h1 {
+	margin-bottom: 0.6em;
+}
+
 // PARAGRAPH STYLE MIXINS
 // ---------------------------------
 
-
+p {
+	margin-bottom: 1em;
+}
 
 // CHARACTER STYLE MIXINS
 // ---------------------------------
