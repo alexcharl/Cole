@@ -1,6 +1,6 @@
 // var vaRequest = new JSONRequest;
 var vaUrl = "http://www.vam.ac.uk/api/json/museumobject/";
-var searchTerms = ["william morris", "maucherat", "mcqueen", "eames", "gilbert", "stein"];
+var searchTerms = ["william morris", "maucherat", "mcqueen", "eames", "gilbert", "stein", "japan", "islamic", "argentina"];
 var vaSearch = searchTerms[pumkin.randomNum(0,searchTerms.length)];
 
 function makeVaRequest(searchTerm) {
@@ -11,7 +11,7 @@ function makeVaRequest(searchTerm) {
       data: {
         images: "1",
         limit: "45",
-        namesearch: searchTerm
+        q: searchTerm
       }
     })
       .done(function(data) {
@@ -32,18 +32,18 @@ function processResponse(data) {
 
     var numRecords = data.records.length;
 
-    $('#result').text("There are "+numRecords+" images available.");
+    // $('#result').text("There are "+numRecords+" images available.");
 
     if (numRecords>0) {
 
-        var whichRecord = pumkin.randomNum(0,numRecords);
-        console.log('record = '+whichRecord);
-        var imageId = data.records[whichRecord].fields.primary_image_id;
+        var whichRecord = data.records[pumkin.randomNum(0,numRecords)];
+        // console.log('record = '+whichRecord);
+        var imageId = whichRecord.fields.primary_image_id;
         var imageIdPrefix = imageId.substr(0,6);
 
         imgUrl = "http://media.vam.ac.uk/media/thira/collection_images/"+imageIdPrefix+"/"+imageId+".jpg";
 
-        // $('#result').text("There are "+numRecords+" images available.");
+        $('#title').text(whichRecord.fields.object+", "+whichRecord.fields.title+", "+whichRecord.fields.date_text+", "+whichRecord.fields.place);
         $('#image').attr('src', imgUrl);
         
     }
