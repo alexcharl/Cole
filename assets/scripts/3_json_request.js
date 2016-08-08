@@ -19,7 +19,7 @@ var vaCollectionsUrl = "http://collections.vam.ac.uk/item/";
 
 // Set our predefined search terms
 
-var searchTerms = ["william morris", "maucherat", "mcqueen", "eames", "gilbert", "stein", "japan", "islamic", "argentina"];
+var searchTerms = ["kettle", "chair", "lamp", "japan", "china", "islamic", "argentina", "africa", "united states"];
 
 // choose a term at random on which to run the search
 
@@ -38,14 +38,22 @@ function makeVaRequest(searchTerm) {
     // images => only return items with images attached
     // limit => increase from default of 15 results to api max of 45
     // q => the search term
+    // offset => offset the record from which to get the 45
+    // pad => only return images with full description
+    // after => only objects after this date
+    // random => *Not really random but a pseudo-random offset of the results. MySQL RAND() is SO slow.
 
     $.ajax({
       dataType: "json",
       url: vaUrl,
       data: {
         images: "1",
-        limit: "45",
-        quality: "3",
+        // limit: "45",
+        // offset: "500",
+        random: "1",
+        // quality: "3",
+        // pad: "1",
+        // after: "1900",
         q: searchTerm
       }
     })
@@ -95,10 +103,11 @@ function processResponse(data) {
         var imageId = objectInfo.primary_image_id;
         var imageIdPrefix = imageId.substr(0,6);
         var theObject = objectInfo.object;
-        var theTitle = objectInfo.title;
+        var theTitle = objectInfo.title != "" ? objectInfo.title : objectInfo.object;
         var thePlace = objectInfo.place;
-        var theDate = objectInfo.date_text;
+        var theDate = objectInfo.year_start;
         var theSlug = objectInfo.slug;
+        var theArtist = objectInfo.artist;
         var theObjectNumber = objectInfo.object_number;
 
         // construct the image url
@@ -111,7 +120,15 @@ function processResponse(data) {
 
         // inject the data into the page
 
-        $('#title').text(theObject+", "+theTitle+", "+theDate+", "+thePlace);
+        // <h5><span id="creator-name">Artist name</span><br>
+        // <span id="dates-alive">dates alive</span></h5>
+        // <h1 id="title"></h1>
+        // <h3 id="piece-date">(piece date)</h3>
+        // <h5 id="materials">Materials</h5>
+
+        $('#creator-name').text(theArtist);
+        $('#piece-date').text(theDate);
+        $('#title').text(theTitle);
         $('#image').attr('src', imgUrl);
         $('#link').attr('href', objectUrl);
         

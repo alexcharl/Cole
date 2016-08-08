@@ -269,7 +269,7 @@ var vaMediaUrl = "http://media.vam.ac.uk/media/thira/collection_images/";
 
 var vaCollectionsUrl = "http://collections.vam.ac.uk/item/";
 
-var searchTerms = [ "william morris", "maucherat", "mcqueen", "eames", "gilbert", "stein", "japan", "islamic", "argentina" ];
+var searchTerms = [ "kettle", "chair", "lamp", "japan", "china", "islamic", "argentina", "africa", "united states" ];
 
 function chooseSearchTerm() {
     return searchTerms[pumkin.randomNum(0, searchTerms.length)];
@@ -281,8 +281,7 @@ function makeVaRequest(searchTerm) {
         url: vaUrl,
         data: {
             images: "1",
-            limit: "45",
-            quality: "3",
+            random: "1",
             q: searchTerm
         }
     }).done(function(data) {
@@ -305,14 +304,17 @@ function processResponse(data) {
         var imageId = objectInfo.primary_image_id;
         var imageIdPrefix = imageId.substr(0, 6);
         var theObject = objectInfo.object;
-        var theTitle = objectInfo.title;
+        var theTitle = objectInfo.title != "" ? objectInfo.title : objectInfo.object;
         var thePlace = objectInfo.place;
-        var theDate = objectInfo.date_text;
+        var theDate = objectInfo.year_start;
         var theSlug = objectInfo.slug;
+        var theArtist = objectInfo.artist;
         var theObjectNumber = objectInfo.object_number;
         var imgUrl = vaMediaUrl + imageIdPrefix + "/" + imageId + ".jpg";
         var objectUrl = vaCollectionsUrl + theObjectNumber + "/" + theSlug;
-        $("#title").text(theObject + ", " + theTitle + ", " + theDate + ", " + thePlace);
+        $("#creator-name").text(theArtist);
+        $("#piece-date").text(theDate);
+        $("#title").text(theTitle);
         $("#image").attr("src", imgUrl);
         $("#link").attr("href", objectUrl);
     } else {
