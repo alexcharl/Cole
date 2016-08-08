@@ -141,6 +141,12 @@
 	background-color: rgba( $colour, $opacity );
 }
 
+.clear {
+	display: block;
+	float: left;
+	clear: both;
+}
+
 .clearfix:after {
 	visibility: hidden;
 	display: block;
@@ -173,3 +179,32 @@
 	@include animate(400ms);
 	opacity: 1;
 }
+
+// SCROLLBAR STYLING
+$scrollbarWidth: 10px;
+$scrollbarBackground: $white;
+$scrollbarHandleColour: $black;
+
+::-webkit-scrollbar {
+	width: $scrollbarWidth;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 0px $scrollbarBackground;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	background: $scrollbarBackground;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+	background: $scrollbarHandleColour;
+    -webkit-box-shadow: inset 0 0 0px $scrollbarHandleColour; 
+}
+
+::-webkit-scrollbar-button { }
+::-webkit-scrollbar-track-piece { }
+::-webkit-scrollbar-corner { }
+::-webkit-resizer { }
