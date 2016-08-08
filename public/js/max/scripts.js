@@ -265,9 +265,15 @@ var pumkin = window.pumkin = {};
 
 var vaUrl = "http://www.vam.ac.uk/api/json/museumobject/";
 
+var vaMediaUrl = "http://media.vam.ac.uk/media/thira/collection_images/";
+
+var vaCollectionsUrl = "http://collections.vam.ac.uk/item/";
+
 var searchTerms = [ "william morris", "maucherat", "mcqueen", "eames", "gilbert", "stein", "japan", "islamic", "argentina" ];
 
-var vaSearch = searchTerms[pumkin.randomNum(0, searchTerms.length)];
+function chooseSearchTerm() {
+    return searchTerms[pumkin.randomNum(0, searchTerms.length)];
+}
 
 function makeVaRequest(searchTerm) {
     $.ajax({
@@ -276,6 +282,7 @@ function makeVaRequest(searchTerm) {
         data: {
             images: "1",
             limit: "45",
+            quality: "3",
             q: searchTerm
         }
     }).done(function(data) {
@@ -291,17 +298,29 @@ function makeVaRequest(searchTerm) {
 function processResponse(data) {
     console.log(data);
     var numRecords = data.records.length;
+    console.log("There are " + numRecords + " images available.");
     if (numRecords > 0) {
-        var whichRecord = data.records[pumkin.randomNum(0, numRecords)];
-        var imageId = whichRecord.fields.primary_image_id;
+        var whichObject = data.records[pumkin.randomNum(0, numRecords)];
+        var objectInfo = whichObject.fields;
+        var imageId = objectInfo.primary_image_id;
         var imageIdPrefix = imageId.substr(0, 6);
-        imgUrl = "http://media.vam.ac.uk/media/thira/collection_images/" + imageIdPrefix + "/" + imageId + ".jpg";
-        $("#title").text(whichRecord.fields.object + ", " + whichRecord.fields.title + ", " + whichRecord.fields.date_text + ", " + whichRecord.fields.place);
+        var theObject = objectInfo.object;
+        var theTitle = objectInfo.title;
+        var thePlace = objectInfo.place;
+        var theDate = objectInfo.date_text;
+        var theSlug = objectInfo.slug;
+        var theObjectNumber = objectInfo.object_number;
+        var imgUrl = vaMediaUrl + imageIdPrefix + "/" + imageId + ".jpg";
+        var objectUrl = vaCollectionsUrl + theObjectNumber + "/" + theSlug;
+        $("#title").text(theObject + ", " + theTitle + ", " + theDate + ", " + thePlace);
         $("#image").attr("src", imgUrl);
-    } else {}
+        $("#link").attr("href", objectUrl);
+    } else {
+        makeVaRequest(chooseSearchTerm());
+    }
 }
 
-makeVaRequest(vaSearch);
+makeVaRequest(chooseSearchTerm());
 
 (function(window, $) {
     var pumkin = window.pumkin = window.pumkin || {};

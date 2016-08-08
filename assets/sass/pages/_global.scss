@@ -15,13 +15,13 @@ body,html,#wrapper {
 	.overview-mode & {
 		overflow: hidden;
 	}
-
 	
 	// opacity: 0;
 	// display: none;
 	@include transition (opacity 500ms ease);
 	
 }
+
 
 * {
 	@include box-sizing (border-box);
