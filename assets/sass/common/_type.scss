@@ -1,6 +1,25 @@
+@font-face {
+	font-family:"Work Sans Regular";
+	src:url("../../fonts/WorkSans-Regular.woff2") format("woff2"),
+		url("../../fonts/WorkSans-Regular.woff") format("woff"),
+		url("../../fonts/WorkSans-Regular.ttf") format("truetype");
+	font-weight:normal;
+	font-style:normal;
+}
 
+@font-face {
+	font-family:"Work Sans Semi Bold";
+	src:url("../../fonts/WorkSans-SemiBold.woff2") format("woff2"),
+		url("../../fonts/WorkSans-SemiBold.woff") format("woff"),
+		url("../../fonts/WorkSans-SemiBold.ttf") format("truetype");
+	font-weight:normal;
+	font-style:normal;
+}
 
 // FONT STYLING MIXINS
+// -----------------------------------
+
+// allows use of pixel values for letter spacing
 @mixin letter-spacing ($value) {
 	letter-spacing: ($value / 1000)+em;
 }
@@ -10,9 +29,12 @@
 }
 
 @mixin regular {
-	font-family: 'Helvetica, Arial, Sans-serif';
+	font-family: 'Work Sans Regular', Arial, Sans-serif;
 }
 
+@mixin semibold {
+	font-family: 'Work Sans Semi Bold', 'Arial Bold', Sans-serif;
+}
 
 // ---------------------------------------------------------
 // Function for converting em to px
@@ -37,22 +59,56 @@
 
 // Set the base font size
 // Used to calcuate ems
-$baseFontSize: 17; // base font size in pixels
+$baseFontSize: 16; // base font size in pixels
 
 body {
 	font-size: $baseFontSize + px;
 	@include regular;	
+	@include letter-spacing(-10);
 }
 
 h1 {
+	@include semibold;
+	font-size: 60px;
+	line-height: 60px;
 	margin-bottom: 0.6em;
+	@include letter-spacing(-20);
+
+	&.reduced {
+		font-size: 24px;
+		line-height: 28px;
+	}
 }
+
+h3 {
+	@include semibold;
+	font-size: 36px;
+	line-height: 24px;
+	margin-bottom: 0.6em;
+	@include letter-spacing(-20);
+
+	&.reduced {
+		font-size: 24px;
+		line-height: 28px;
+	}
+}
+
+h5 { }
 
 // PARAGRAPH STYLE MIXINS
 // ---------------------------------
 
 p {
 	margin-bottom: 1em;
+
+	&.small {
+		font-size: 14px;
+		line-height: 18px;
+	}
+}
+
+strong {
+	@include semibold;		
 }
 
 // CHARACTER STYLE MIXINS
