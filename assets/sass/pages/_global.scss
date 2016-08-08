@@ -1,28 +1,5 @@
 @include css-select ($white,$black);
 
-body,html,#wrapper {
-	width: 100%;
-	height: 100%;
-
-	&.no-scroll {
-		overflow: hidden;
-	}
-}
-
-#wrapper {
-	position: relative;
-
-	.overview-mode & {
-		overflow: hidden;
-	}
-	
-	// opacity: 0;
-	// display: none;
-	@include transition (opacity 500ms ease);
-	
-}
-
-
 * {
 	@include box-sizing (border-box);
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -45,53 +22,146 @@ img {
 	@include no-select;
 }
 
-.clear {
-	display: block;
-	float: left;
-	clear: both;
+// Variables
+// -------------------------------------
+
+$maxWrapperWidth: 1280px;
+$minWrapperWidth: 980px;
+$minWrapperHeight: 600px;
+$outerMarginWidth: 100px;
+
+// Layout
+// -------------------------------------
+
+body, html {
+	width: 100%;
+	height: 100%;
+	background: $lightGrey;
 }
 
-.clearfix:after {
-	visibility: hidden;
-	display: block;
-	font-size: 0;
-	content: " ";
-	clear: both;
-	height: 0;
+.wrapper {
+	position: relative;
+	background: $white;
+	overflow: hidden;
+
+	width:100%;
+	height:100%;
+	max-width:$maxWrapperWidth;
+	min-width:$minWrapperWidth;
+	min-height:$minWrapperHeight;
+
+	margin:0 auto;
+
+	// @include transition (opacity 500ms ease);	
+}
+
+// Credits overlay
+
+.overlay {
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	text-align: center;
+}
+
+.overlay.closed {
+	display:none;
+}
+
+.overlay.open {
+	display:block;
 }
 
 
-// SCROLLBAR STYLING
-$scrollbarWidth: 10px;
-$scrollbarBackground: $white;
-$scrollbarHandleColour: $black;
+// Outer margins
 
-::-webkit-scrollbar {
-	width: $scrollbarWidth;
+.left-margin, .right-margin {
+	width: $outerMarginWidth;
+	height: 100%;
+
+	position: absolute;
+	top:0;
 }
 
-::-webkit-scrollbar-track {
-	-webkit-box-shadow: inset 0 0 0px $scrollbarBackground;
-	-webkit-border-radius: 0px;
-	border-radius: 0px;
-	background: $scrollbarBackground;
+.left-margin {
+	left:0;
 }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-    -webkit-border-radius: 0px;
-    border-radius: 0px;
-	background: $scrollbarHandleColour;
-    -webkit-box-shadow: inset 0 0 0px $scrollbarHandleColour; 
+.right-margin {
+	right:0;
 }
 
-::-webkit-scrollbar-button { }
-::-webkit-scrollbar-track-piece { }
-::-webkit-scrollbar-corner { }
-::-webkit-resizer { }
+.object-side-caption {
+	margin:15% auto;
+	transform: rotate(-90deg);
+}
+
+
+// Main content area
+// ----------------------------------
+
+.content-area {
+	position: relative;
+	margin-left: $outerMarginWidth;
+	height:100%;
+}
+
+// Text area
+
+.text-content-column {
+	height:100%;
+	overflow: auto;
+}
+
+.object-header {
+	text-align: center;
+	margin: 15% 0 140px 0;
+}
+
+// Image area
+
+.image-content-column {
+	height:100%;
+}
+
+.object-image {
+	width:80%;
+	height:70%;
+	margin:10% auto;
+}
+
+.object-image img {
+	display:block;
+	margin:0 auto;
+	max-width:100%;
+	max-height: 100%;
+}
+
+.object-image-copyright {
+	width:80%;
+	margin:0 auto;
+	text-align:center;
+}
+
+
+// Tech info panel
+
+.technical-info {
+	position: absolute;
+	width:50%;
+	top:0;
+}
+
+.technical-info.closed {
+	right:-50%;
+}
+
 
 // MISC GLOBAL ELEMENTS
 // -------------------------------------
+
 
 
 // HEADER && FOOTER

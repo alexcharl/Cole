@@ -181,9 +181,9 @@
 }
 
 // SCROLLBAR STYLING
-$scrollbarWidth: 10px;
+$scrollbarWidth: 0px;
 $scrollbarBackground: $white;
-$scrollbarHandleColour: $black;
+$scrollbarHandleColour: $lightGrey;
 
 ::-webkit-scrollbar {
 	width: $scrollbarWidth;

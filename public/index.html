@@ -55,27 +55,30 @@
 	
 	<div class="wrapper">
 
-		<article class="overlay" id="credits"></article>
+		<article class="overlay closed" id="credits">
+			<h3>Credits</h3>
+		</article>
 
 		<div class="left-margin">
-			<div id="object-caption">Object caption</div>
+			<div class="object-side-caption" id="object-side-caption">Object caption</div>
 		</div><!-- .left-margin -->
 
-		<article class="content-area">
+		<article class="content-area grid">
 
-			<section class="text-content">
+			<section class="text-content-column grid__col grid__col--3-of-7">
 
-				<header>
-					<h5>Artist name<br>
-					dates alive</h5>
+				<header class="object-header">
+					<h5><span id="creator-name">Artist name</span><br>
+					<span id="dates-alive">dates alive</span></h5>
 					<h1 id="title"></h1>
-					<h3>(piece date)</h3>
-					<h5>Materials</h5>
+					<h3 id="piece-date">(piece date)</h3>
+					<h5 id="materials">Materials</h5>
 					<nav class="arrow"></nav>
 				</header>
 
 				<div class="text-block" id="object-description">
 					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit. Nulla facilisi. Nulla libero. Vivamus pharetra posuere sapien. Nam consectetuer. Sed aliquam, nunc eget euismod ullamcorper, lectus nunc ullamcorper orci, fermentum bibendum enim nibh eget ipsum. Donec porttitor ligula eu dolor. Maecenas vitae nulla consequat libero cursus venenatis.</p>
+					<p>Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit. Nulla facilisi. Nulla libero. Vivamus pharetra posuere sapien. Nam consectetuer. Sed aliquam, nunc eget euismod ullamcorper, lectus nunc ullamcorper orci, fermentum bibendum enim nibh eget ipsum. Donec porttitor ligula eu dolor.</p>
 				</div>
 
 				<div class="text-block" id="object-context">
@@ -83,15 +86,18 @@
 				</div>
 
 			</section>
-			<figure class="image-content">
+			<figure class="image-content-column grid__col grid__col--4-of-7">
 
 				<div class="object-image">
 					<a href="" id="link"><img src="" id="image"></img></a>
 				</div>
+				<div class="object-image-copyright">
+					<h5>&copy; Copyright statement</h5>
+				</div>
 
 			</figure>
 
-		<article>
+		</article>
 
 		<div class="right-margin">
 			<div class="share-icons">

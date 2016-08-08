@@ -63,6 +63,7 @@ $baseFontSize: 16; // base font size in pixels
 
 body {
 	font-size: $baseFontSize + px;
+	line-height: $baseFontSize + 4px;
 	@include regular;	
 	@include letter-spacing(-10);
 }
@@ -73,6 +74,8 @@ h1 {
 	line-height: 60px;
 	margin-bottom: 0.6em;
 	@include letter-spacing(-20);
+	word-break: break-word;
+	-webkit-hyphens: auto;
 
 	&.reduced {
 		font-size: 24px;
@@ -107,9 +110,9 @@ p {
 	}
 }
 
+// CHARACTER STYLE MIXINS
+// ---------------------------------
+
 strong {
 	@include semibold;		
 }
-
-// CHARACTER STYLE MIXINS
-// ---------------------------------
