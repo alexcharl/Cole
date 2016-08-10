@@ -16,6 +16,8 @@
 <!--<![endif]-->
 <head>
 <meta charset="UTF-8" content="IE=edge">
+<meta http-equiv="Content-Language" content="en">
+<meta name="google" content="notranslate">
 
 <title>V&amp;A Object search</title>
 <link rel="home" href="site.dev" />
@@ -27,31 +29,95 @@
 <link rel="apple-touch-icon-precomposed" href="/gfx/appleIcon.png" /> 
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-<meta name="description" content="V and A Object search">
+<meta name="description" content="site name">
 
 <link type='text/css' href='/css/min/main.css?v=0.1' rel='stylesheet' media='all' />
-
 <script src="/jquery/jquery_2.js"></script>
-
 <script src='/js/plugins.js?v=1.0'></script>
 <script src='/js/max/scripts.js?v=0.1'></script>
 
 </head>
 
+<body>
 	
-<body class="home">
-	
-	<div class='wrapper'>
-		<h1 id="title"></h1>
-	    <!-- <p id='result'></p> -->
-	    <img src="" id="image"></img>
-	</div>
+	<div class="wrapper">
 
-</body>
+		<article class="overlay closed" id="credits">
+			<h3>Credits</h3>
+		</article>
+
+		<div class="left-margin">
+			<div class="object-side-caption" id="object-side-caption">Object caption</div>
+		</div><!-- .left-margin -->
+
+		<article class="content-area grid">
+
+			<section class="text-content-column grid__col grid__col--3-of-7">
+
+				<header class="object-header">
+					<div class="object-header-inner">
+						<h5><span id="creator-name">Artist name</span><br>
+						<span id="dates-alive">dates alive</span></h5>
+						<h1 id="title"></h1>
+						<h3 id="piece-date">(piece date)</h3>
+						<h5 id="materials">Materials</h5>
+						<nav class="arrow"></nav>
+					</div>
+				</header>
+
+				<div class="object-text">
+
+					<div class="text-block" id="object-description">
+						<p>Description</p>
+					</div>
+
+					<div class="text-block" id="object-context">
+						<p>Context</p>
+					</div>
+
+				</div>
+
+			</section>
+			<figure class="image-content-column grid__col grid__col--4-of-7">
+
+				<div class="object-image-wrapper">
+					<div class="object-image">
+						<a href="" id="link"><img src="" id="image"></img></a>
+					</div>
+					<figcaption class="object-image-copyright">
+						<p><small>&copy; Copyright statement</small></p>
+					</figcaption>
+				</div>
+
+			</figure>
+
+		</article>
+
+		<div class="right-margin">
+			<div class="share-icons">
+				<div class="share-icon pinterest"></div>
+				<div class="share-icon link"></div>
+				<div class="share-icon copyright"></div>
+			</div>
+		</div><!-- .right-margin -->
+
+		<aside class="technical-info closed">
+
+			<div class="panel-background"></div>
+			<nav class="panel-open-icon"></nav>
+			<section class="text-content">
+				<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit. Nulla facilisi. Nulla libero. Vivamus pharetra posuere sapien. Nam consectetuer. Sed aliquam, nunc eget euismod ullamcorper, lectus nunc ullamcorper orci, fermentum bibendum enim nibh eget ipsum. Donec porttitor ligula eu dolor. Maecenas vitae nulla consequat libero cursus venenatis.</p>
+			</section>
+
+		</aside>
+
+	</div><!-- .wrapper -->
+
+</body>	
 
 <div id="mobileTester"></div>
 <div id="tabletTester"></div>
 <div id="gutter-tester"></div>
-
+	
 </body>
 </html>

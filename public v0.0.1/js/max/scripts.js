@@ -269,44 +269,25 @@ var vaMediaUrl = "http://media.vam.ac.uk/media/thira/collection_images/";
 
 var vaCollectionsUrl = "http://collections.vam.ac.uk/item/";
 
-var searchTerms = [ "kettle", "chair", "lamp", "poster", "sculpture", "japan", "china", "islamic", "argentina", "africa", "united states" ];
-
-var searchTerms2 = [ "Architecture", "Asia", "British Galleries", "Ceramics", "Childhood", "Contemporary", "Fashion & Jewellery", "Furniture", "Glass", "Metalwork", "Paintings & Drawings", "Photography", "Prints & Books", "Sculpture", "Textiles", "Theatre" ];
+var searchTerms = [ "william morris", "maucherat", "mcqueen", "eames", "gilbert", "stein", "japan", "islamic", "argentina" ];
 
 function chooseSearchTerm() {
-    return searchTerms2[pumkin.randomNum(0, searchTerms.length)];
+    return searchTerms[pumkin.randomNum(0, searchTerms.length)];
 }
 
-function makeVaRequest(objectNumber, searchTerm, withImages, limit, offset, withDescription, after, random) {
-    objectNumber = typeof objectNumber !== "undefined" ? objectNumber : null;
-    withImages = typeof withImages !== "undefined" ? withImages : "1";
-    limit = typeof limit !== "undefined" ? limit : "45";
-    searchTerm = typeof searchTerm !== "undefined" ? searchTerm : null;
-    offset = typeof offset !== "undefined" ? offset : null;
-    withDescription = typeof withDescription !== "undefined" ? withDescription : "1";
-    after = typeof after !== "undefined" ? after : null;
-    random = typeof random !== "undefined" ? random : "1";
-    quality = typeof quality !== "undefined" ? quality : null;
-    var expectFullResponse = objectNumber != null ? true : false;
-    vaUrl = objectNumber != null ? vaUrl + objectNumber : vaUrl;
-    console.log("expectFullResponse = " + expectFullResponse);
-    console.log("vaUrl = " + vaUrl);
+function makeVaRequest(searchTerm) {
     $.ajax({
         dataType: "json",
         url: vaUrl,
         data: {
-            images: withImages,
-            limit: limit,
-            offset: offset,
-            random: random,
-            quality: quality,
-            pad: withDescription,
-            after: after,
+            images: "1",
+            limit: "45",
+            quality: "3",
             q: searchTerm
         }
     }).done(function(data) {
         console.log("done");
-        processResponse(data, expectFullResponse);
+        processResponse(data);
     }).fail(function() {
         console.log("error");
     }).always(function() {
@@ -314,52 +295,32 @@ function makeVaRequest(objectNumber, searchTerm, withImages, limit, offset, with
     });
 }
 
-function processResponse(data, expectFullResponse) {
+function processResponse(data) {
     console.log(data);
-    if (expectFullResponse !== true) {
-        var numRecords = data.records.length;
-        console.log("There are " + numRecords + " objects available.");
-        if (numRecords > 0) {
-            var whichObject = data.records[pumkin.randomNum(0, numRecords)];
-            var objectNumber = whichObject.fields.object_number;
-            makeVaRequest(objectNumber);
-        } else {
-            makeVaRequest(null, chooseSearchTerm());
-        }
-        return;
+    var numRecords = data.records.length;
+    console.log("There are " + numRecords + " images available.");
+    if (numRecords > 0) {
+        var whichObject = data.records[pumkin.randomNum(0, numRecords)];
+        var objectInfo = whichObject.fields;
+        var imageId = objectInfo.primary_image_id;
+        var imageIdPrefix = imageId.substr(0, 6);
+        var theObject = objectInfo.object;
+        var theTitle = objectInfo.title;
+        var thePlace = objectInfo.place;
+        var theDate = objectInfo.date_text;
+        var theSlug = objectInfo.slug;
+        var theObjectNumber = objectInfo.object_number;
+        var imgUrl = vaMediaUrl + imageIdPrefix + "/" + imageId + ".jpg";
+        var objectUrl = vaCollectionsUrl + theObjectNumber + "/" + theSlug;
+        $("#title").text(theObject + ", " + theTitle + ", " + theDate + ", " + thePlace);
+        $("#image").attr("src", imgUrl);
+        $("#link").attr("href", objectUrl);
+    } else {
+        makeVaRequest(chooseSearchTerm());
     }
-    var objectInfo = data[0].fields;
-    var imageId = objectInfo.primary_image_id;
-    var imageIdPrefix = imageId.substr(0, 6);
-    var theObject = objectInfo.object;
-    var theTitle = objectInfo.title != "" ? objectInfo.title : objectInfo.object;
-    var thePlace = objectInfo.place;
-    var theDate = objectInfo.year_start;
-    var theSlug = objectInfo.slug;
-    var theArtist = objectInfo.artist;
-    var theObjectNumber = objectInfo.object_number;
-    var theMaterials = objectInfo.materials_techniques;
-    var theDescription = objectInfo.public_access_description.replace(/\n/g, "<br>");
-    var theContext = objectInfo.historical_context_note;
-    var artistInfo = objectInfo.names[0].fields;
-    var stillAlive = artistInfo.death_year != null ? false : true;
-    var prefix = stillAlive ? "Born " : "";
-    var suffix = stillAlive ? "" : " - " + artistInfo.death_year;
-    var datesAlive = artistInfo.birth_year != null ? prefix + artistInfo.birth_year + suffix : "";
-    var imgUrl = vaMediaUrl + imageIdPrefix + "/" + imageId + ".jpg";
-    var objectUrl = vaCollectionsUrl + theObjectNumber + "/" + theSlug;
-    $("#creator-name").text(theArtist);
-    $("#dates-alive").text(datesAlive);
-    $("#title").text(theTitle);
-    $("#piece-date").text("(" + theDate + ")");
-    $("#materials").text(theMaterials);
-    $("#image").attr("src", imgUrl);
-    $("#link").attr("href", objectUrl);
-    $("#object-description").html("<p>" + theDescription + "</p>");
-    $("#object-context").html("<p>" + theContext + "</p>");
 }
 
-makeVaRequest(null, chooseSearchTerm());
+makeVaRequest(chooseSearchTerm());
 
 (function(window, $) {
     var pumkin = window.pumkin = window.pumkin || {};

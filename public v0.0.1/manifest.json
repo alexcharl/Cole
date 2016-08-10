@@ -1,6 +1,6 @@
 {
   "name": "V&A object in every tab",
-  "version": "0.1",
+  "version": "0.0.1",
   "manifest_version": 2,
   "description": "Each time a tab opens, a wonderful object from the V&A collection appears",
   "homepage_url": "http://extensionizr.com",

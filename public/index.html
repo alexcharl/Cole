@@ -16,6 +16,8 @@
 <!--<![endif]-->
 <head>
 <meta charset="UTF-8" content="IE=edge">
+<meta http-equiv="Content-Language" content="en">
+<meta name="google" content="notranslate">
 
 <title>V&amp;A Object search</title>
 <link rel="home" href="site.dev" />
@@ -68,31 +70,38 @@
 			<section class="text-content-column grid__col grid__col--3-of-7">
 
 				<header class="object-header">
-					<h5><span id="creator-name">Artist name</span><br>
-					<span id="dates-alive">dates alive</span></h5>
-					<h1 id="title"></h1>
-					<h3 id="piece-date">(piece date)</h3>
-					<h5 id="materials">Materials</h5>
-					<nav class="arrow"></nav>
+					<div class="object-header-inner">
+						<h5><span id="creator-name">Artist name</span><br>
+						<span id="dates-alive">dates alive</span></h5>
+						<h1 id="title"></h1>
+						<h3 id="piece-date">(piece date)</h3>
+						<h5 id="materials">Materials</h5>
+						<nav class="arrow"></nav>
+					</div>
 				</header>
 
-				<div class="text-block" id="object-description">
-					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit. Nulla facilisi. Nulla libero. Vivamus pharetra posuere sapien. Nam consectetuer. Sed aliquam, nunc eget euismod ullamcorper, lectus nunc ullamcorper orci, fermentum bibendum enim nibh eget ipsum. Donec porttitor ligula eu dolor. Maecenas vitae nulla consequat libero cursus venenatis.</p>
-					<p>Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit. Nulla facilisi. Nulla libero. Vivamus pharetra posuere sapien. Nam consectetuer. Sed aliquam, nunc eget euismod ullamcorper, lectus nunc ullamcorper orci, fermentum bibendum enim nibh eget ipsum. Donec porttitor ligula eu dolor.</p>
-				</div>
+				<div class="object-text">
 
-				<div class="text-block" id="object-context">
-					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit. Nulla facilisi. Nulla libero. Vivamus pharetra posuere sapien. Nam consectetuer. Sed aliquam, nunc eget euismod ullamcorper, lectus nunc ullamcorper orci, fermentum bibendum enim nibh eget ipsum. Donec porttitor ligula eu dolor. Maecenas vitae nulla consequat libero cursus venenatis.</p>
+					<div class="text-block" id="object-description">
+						<p>Description</p>
+					</div>
+
+					<div class="text-block" id="object-context">
+						<p>Context</p>
+					</div>
+
 				</div>
 
 			</section>
 			<figure class="image-content-column grid__col grid__col--4-of-7">
 
-				<div class="object-image">
-					<a href="" id="link"><img src="" id="image"></img></a>
-				</div>
-				<div class="object-image-copyright">
-					<h5>&copy; Copyright statement</h5>
+				<div class="object-image-wrapper">
+					<div class="object-image">
+						<a href="" id="link"><img src="" id="image"></img></a>
+					</div>
+					<figcaption class="object-image-copyright">
+						<p><small>&copy; Copyright statement</small></p>
+					</figcaption>
 				</div>
 
 			</figure>
