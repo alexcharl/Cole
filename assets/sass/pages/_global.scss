@@ -117,16 +117,32 @@ body, html {
 
 .object-header {
 	text-align: center;
-	// height:100vh;
-	// top:50%;
+	height: 100%;
+    position: relative;
 }
 
 .object-header-inner {
+	position: relative;
+	top:50vh;
 	transform: translateY(-60%);
-    margin-top: 50vh;
+    // margin-top: 50vh;
 }
 
-.object-text {}
+.down-arrow {
+	width:28px;
+	height:40px;
+	background-image:url(../../gfx/arrow-down.svg);
+	background-size: cover;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	position: absolute;
+	bottom: 30px;
+	left: calc(50% - 14px);
+}
+
+.text-block {
+	margin-top:30px;
+}
 
 // Image area
 
@@ -164,14 +180,62 @@ body, html {
 
 .technical-info {
 	position: absolute;
+	height: 100vh;
 	width:50%;
 	top:0;
+	background-color:$lightGrey;
+	@include animate(500);
+}
+
+.technical-info .text-content {
+	margin:50px;
+	@include animate(500);
+}
+
+.panel-open-icon {
+	width:24px;
+	height: 24px;
+	position: absolute;
+	top: calc(50% - 12px);
+	left: -50px;
+	background-image: url(../../gfx/plus.svg);
+	background-size:cover;
+	background-position:50% 50%;
+	background-repeat:no-repeat;
+	cursor:pointer;
 }
 
 .technical-info.closed {
+
 	right:-50%;
 }
 
+.technical-info.hint {
+	
+	right:-40%;
+
+	.panel-open-icon {
+		left:50px;
+	}
+
+	.text-content {
+		margin:50px 50px 50px 150px;
+	}
+}
+
+.technical-info.open {
+	
+	right:0%;
+
+	.panel-open-icon {
+		transform: rotate(45deg);
+		left:50px;
+	}
+
+	.text-content {
+		margin:50px 50px 50px 150px;
+	}
+}
 
 // MISC GLOBAL ELEMENTS
 // -------------------------------------

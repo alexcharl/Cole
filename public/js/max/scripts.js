@@ -233,6 +233,7 @@ var pumkin = window.pumkin = {};
     function initMain() {
         defineVars();
         initFastclick();
+        handleClicks();
         onResize();
         onThrottledResize();
         onDebouncedResize();
@@ -240,6 +241,24 @@ var pumkin = window.pumkin = {};
         $window.on("resize", throttledResize);
         $window.on("resize", debouncedResize);
         console.log("initMain");
+    }
+    function handleClicks() {
+        $(".panel-open-icon").mouseover(function() {
+            $el = $(this).parent();
+            $el.addClass("hint");
+        });
+        $(".panel-open-icon").mouseout(function() {
+            $el = $(this).parent();
+            $el.removeClass("hint");
+        });
+        $(".panel-open-icon").click(function() {
+            $el = $(this).parent();
+            if ($el.hasClass("closed")) {
+                $el.removeClass("closed").addClass("open");
+            } else {
+                $el.removeClass("open hint").addClass("closed");
+            }
+        });
     }
     function onResize() {
         WIDTH = $window.width();
