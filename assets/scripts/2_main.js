@@ -37,6 +37,11 @@
 		browser = gv.browser;
 
 		// SPECIFIC TO HERE
+		$textContent = $('.text-content-column');
+		$sideCaption = $('.object-side-caption');
+		$downArrow = $('.down-arrow');
+		$panelOpenIcon = $('.panel-open-icon');
+		$objectHeader = $('.object-header');
 		
 		// FUNCTIONS FROM ELSEWHERE
 	}
@@ -58,32 +63,89 @@
 		$window.on('resize', throttledResize);
 		$window.on('resize', debouncedResize);
 
+		onThrottledScroll();
+		$textContent.on('scroll', throttledScroll);
+
 		console.log('initMain');
 		
 	}
 
 	function handleClicks () {
 
-		$('.panel-open-icon').mouseover(function(){
-			$el = $(this).parent();
-			$el.addClass('hint');
-		});
+		// $('.panel-open-icon').mouseover(function(){
+		// 	// $el = $(this).parent();
+		// 	$body.addClass('side-panel-hint');
+		// });
 
-		$('.panel-open-icon').mouseout(function(){
-			$el = $(this).parent();
-			$el.removeClass('hint');
-		});
+		// $('.panel-open-icon').mouseout(function(){
+		// 	// $el = $(this).parent();
+		// 	$body.removeClass('side-panel-hint');
+		// });
 
-		$('.panel-open-icon').click(function(){
-			$el = $(this).parent();
-			if ($el.hasClass('closed')) {
-				$el.removeClass('closed').addClass('open');
+		$panelOpenIcon.click(function(){
+			if ($body.hasClass('side-panel-closed')) {
+				$body.removeClass('side-panel-closed').addClass('side-panel-open');
 			}
 			else {
-				$el.removeClass('open hint').addClass('closed');
+				$body.removeClass('side-panel-open side-panel-hint').addClass('side-panel-closed');
 			}
 		});
+
+		$downArrow.click(function() {
+			console.log('scroll');
+			$('.object-text').velocity('scroll', {
+	            duration: 700,
+	            offset: -100,
+	            easing: 'ease-in-out',
+	            container: $textContent
+	        });
+		});
 	}
+
+	
+	// Scroll events
+	// ----------------------------------------------------
+
+	function onThrottledScroll () {
+
+		// console.log('text col scrollstop = '+$('.text-content-column').scrollTop());
+
+		var scrollAmt = $textContent.scrollTop();
+
+		// if ( scrollAmt > HEIGHT*0.85) {
+		// 	// hide the arrow
+		// 	$downArrow.addClass('hide');
+		// }
+		// else {	
+		// 	// show the arrow
+		// 	$downArrow.removeClass('hide');
+		// }
+
+		if ( scrollAmt > HEIGHT*0.5) {
+			// show the caption
+			$sideCaption.addClass('reveal');
+		}
+		else {
+			// hide the caption
+			$sideCaption.removeClass('reveal');
+		}
+
+		if ( scrollAmt > HEIGHT*0.5) {
+			// hide the header
+			$objectHeader.addClass('hide');
+		}
+		else {
+			// show the header
+			$objectHeader.removeClass('hide');
+		}
+	}
+
+	var throttledScroll = function() {
+		// DO SOMETHING EVERY 250ms
+		onThrottledScroll();
+		
+	};
+
 
 
 	// RESIZE SCRIPTS

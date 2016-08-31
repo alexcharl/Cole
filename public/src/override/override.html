@@ -31,93 +31,127 @@
 
 <meta name="description" content="site name">
 
-<link type='text/css' href='/css/min/main.css?v=0.1' rel='stylesheet' media='all' />
+<link type='text/css' href='/css/min/main.css?v=0.3' rel='stylesheet' media='all' />
 <script src="/jquery/jquery_2.js"></script>
-<script src='/js/plugins.js?v=1.0'></script>
-<script src='/js/max/scripts.js?v=0.1'></script>
+<script src='/js/plugins.js?v=1.1'></script>
+<script src='/js/max/scripts.js?v=0.3'></script>
 
 </head>
 
-<body>
+<body class="side-panel-closed">
 	
 	<div class="wrapper">
 
-		<article class="overlay closed" id="credits">
-			<h3>Credits</h3>
-		</article>
+		<div class="sliding-container">
 
-		<div class="left-margin">
-			<div class="object-side-caption" id="object-side-caption">Object caption</div>
-		</div><!-- .left-margin -->
+			<article class="overlay closed" id="credits">
+				<h3>Credits</h3>
+			</article>
 
-		<article class="content-area grid">
+			<div class="left-margin">
+				<div class="object-side-caption" id="object-side-caption">Object caption</div>
+			</div><!-- .left-margin -->
 
-			<section class="text-content-column grid__col grid__col--3-of-7">
+			<article class="content-area grid">
 
-				<header class="object-header">
-					<div class="object-header-inner">
-						<h5><span id="creator-name">Artist name</span><br>
-						<span id="dates-alive">dates alive</span></h5>
-						<h1 id="title"></h1>
-						<h3 id="piece-date">(piece date)</h3>
-						<h5 id="materials">Materials</h5>
-						<nav class="arrow"></nav>
+				<section class="text-content-column grid__col grid__col--3-of-7">
+
+					<header class="object-header">
+						<div class="object-header-inner">
+							<h5><span id="creator-name"></span><br>
+							<span id="dates-alive"></span></h5>
+							<h1 id="title"></h1>
+							<h3 id="piece-date"></h3>
+							<h5 id="materials"></h5>
+						</div>
+						<nav class="down-arrow"></nav>
+					</header>
+
+					<div class="object-text">
+
+						<div class="text-block" id="object-description">
+							<p></p>
+						</div>
+
+						<div class="text-block" id="object-context">
+							<p></p>
+						</div>
+
 					</div>
-				</header>
 
-				<div class="object-text">
+				</section>
+				<figure class="image-content-column grid__col grid__col--4-of-7">
 
-					<div class="text-block" id="object-description">
-						<p>Description</p>
+					<div class="object-image-wrapper">
+						<div class="object-image">
+							<a href="" id="link"><img src="" id="image"></img></a>
+						</div>
+						<figcaption class="object-image-copyright">
+							<p><small>&copy; Victoria &amp; Albert Museum, London</small></p>
+						</figcaption>
 					</div>
 
-					<div class="text-block" id="object-context">
-						<p>Context</p>
-					</div>
+				</figure>
 
+			</article>
+
+			<div class="right-margin">
+				<div class="share-icons">
+					<div class="share-icon pinterest"></div>
+					<div class="share-icon link"></div>
+					<div class="share-icon copyright"></div>
 				</div>
+			</div><!-- .right-margin -->
 
-			</section>
-			<figure class="image-content-column grid__col grid__col--4-of-7">
+			<aside class="technical-info side-panel">
 
-				<div class="object-image-wrapper">
-					<div class="object-image">
-						<a href="" id="link"><img src="" id="image"></img></a>
-					</div>
-					<figcaption class="object-image-copyright">
-						<p><small>&copy; Copyright statement</small></p>
-					</figcaption>
-				</div>
+				<div class="panel-background"></div>
+				<nav class="panel-open-icon"></nav>
+				<section class="text-content">
+					<h3>More information</h3>
+					<h4>Physical description</h4>
+					<p id="physical-description"></p>
+					<h4>Place of origin</h4>
+					<p id="place"></p>
+					<h4>Date</h4>
+					<p id="tech-info-piece-date"></p>
+					<h4>Artist/Maker</h4>
+					<p id="tech-info-creator-name"></p>
+					<h4>Materials and techniques</h4>
+					<p id="tech-info-materials"></p>
+					<h4>Dimensions</h4>
+					<p id="dimensions"></p>
+					<h4>Museum location</h4>
+					<p id="museum-location"></p>
+					<h4>Museum number</h4>
+					<p id="museum-number"></p>
+				</section>
 
-			</figure>
+			</aside>
 
-		</article>
-
-		<div class="right-margin">
-			<div class="share-icons">
-				<div class="share-icon pinterest"></div>
-				<div class="share-icon link"></div>
-				<div class="share-icon copyright"></div>
-			</div>
-		</div><!-- .right-margin -->
-
-		<aside class="technical-info closed">
-
-			<div class="panel-background"></div>
-			<nav class="panel-open-icon"></nav>
-			<section class="text-content">
-				<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit. Nulla facilisi. Nulla libero. Vivamus pharetra posuere sapien. Nam consectetuer. Sed aliquam, nunc eget euismod ullamcorper, lectus nunc ullamcorper orci, fermentum bibendum enim nibh eget ipsum. Donec porttitor ligula eu dolor. Maecenas vitae nulla consequat libero cursus venenatis.</p>
-			</section>
-
-		</aside>
+		</div><!-- .sliding-container -->
 
 	</div><!-- .wrapper -->
 
-</body>	
+	<aside id="legacy-warning">
+	    <p class="message">This browser is not supported. Kindly consider using another:</p>
+	    <ul class="new-browser-list">
+	        <li><a href="https://www.google.com/intl/en/chrome/browser">chrome</a>
+	        </li>
+	        <li><a href="http://support.apple.com/en_GB/downloads/#safari">safari</a>
+	        </li>
+	        <li><a href="http://www.mozilla.org/en-US/firefox/new">firefox</a>
+	        </li>
+	    </ul>
+	</aside>	
 
-<div id="mobileTester"></div>
-<div id="tabletTester"></div>
-<div id="gutter-tester"></div>
+	<div id="mobileTester"></div>
+	<div id="tabletTester"></div>
+	<div id="gutter-tester"></div>
+
+	<script src='//192.168.1.235:3000/socket.io/socket.io.js'></script>
+	<script>var ___socket___ = io.connect('http://192.168.1.235:3000');</script>
+	<script src='//192.168.1.235:3001/client/browser-sync-client.0.7.4.js'></script>
 	
 </body>
 </html>

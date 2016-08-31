@@ -229,6 +229,11 @@ var pumkin = window.pumkin = {};
         isDevice = gv.deviceVariables.isDevice;
         isTouch = gv.deviceVariables.isTouch;
         browser = gv.browser;
+        $textContent = $(".text-content-column");
+        $sideCaption = $(".object-side-caption");
+        $downArrow = $(".down-arrow");
+        $panelOpenIcon = $(".panel-open-icon");
+        $objectHeader = $(".object-header");
     }
     function initMain() {
         defineVars();
@@ -240,26 +245,44 @@ var pumkin = window.pumkin = {};
         $window.on("resize", onResize);
         $window.on("resize", throttledResize);
         $window.on("resize", debouncedResize);
+        onThrottledScroll();
+        $textContent.on("scroll", throttledScroll);
         console.log("initMain");
     }
     function handleClicks() {
-        $(".panel-open-icon").mouseover(function() {
-            $el = $(this).parent();
-            $el.addClass("hint");
-        });
-        $(".panel-open-icon").mouseout(function() {
-            $el = $(this).parent();
-            $el.removeClass("hint");
-        });
-        $(".panel-open-icon").click(function() {
-            $el = $(this).parent();
-            if ($el.hasClass("closed")) {
-                $el.removeClass("closed").addClass("open");
+        $panelOpenIcon.click(function() {
+            if ($body.hasClass("side-panel-closed")) {
+                $body.removeClass("side-panel-closed").addClass("side-panel-open");
             } else {
-                $el.removeClass("open hint").addClass("closed");
+                $body.removeClass("side-panel-open side-panel-hint").addClass("side-panel-closed");
             }
         });
+        $downArrow.click(function() {
+            console.log("scroll");
+            $(".object-text").velocity("scroll", {
+                duration: 700,
+                offset: -100,
+                easing: "ease-in-out",
+                container: $textContent
+            });
+        });
     }
+    function onThrottledScroll() {
+        var scrollAmt = $textContent.scrollTop();
+        if (scrollAmt > HEIGHT * .5) {
+            $sideCaption.addClass("reveal");
+        } else {
+            $sideCaption.removeClass("reveal");
+        }
+        if (scrollAmt > HEIGHT * .5) {
+            $objectHeader.addClass("hide");
+        } else {
+            $objectHeader.removeClass("hide");
+        }
+    }
+    var throttledScroll = function() {
+        onThrottledScroll();
+    };
     function onResize() {
         WIDTH = $window.width();
         HEIGHT = $window.height();
@@ -290,10 +313,12 @@ var vaCollectionsUrl = "http://collections.vam.ac.uk/item/";
 
 var searchTerms = [ "kettle", "chair", "lamp", "poster", "sculpture", "japan", "china", "islamic", "argentina", "africa", "united states" ];
 
-var searchTerms2 = [ "Architecture", "Asia", "British Galleries", "Ceramics", "Childhood", "Contemporary", "Fashion & Jewellery", "Furniture", "Glass", "Metalwork", "Paintings & Drawings", "Photography", "Prints & Books", "Sculpture", "Textiles", "Theatre" ];
+var searchTerms2 = [ "Architecture", "Asia", "British Galleries", "Ceramics", "Childhood", "Contemporary", "Fashion", "Jewellery", "Furniture", "Glass", "Metalwork", "Paintings", "Drawings", "Photography", "Prints", "Books", "Sculpture", "Textiles", "Theatre" ];
+
+var useSearchTerms = searchTerms2;
 
 function chooseSearchTerm() {
-    return searchTerms2[pumkin.randomNum(0, searchTerms.length)];
+    return useSearchTerms[pumkin.randomNum(0, useSearchTerms.length)];
 }
 
 function makeVaRequest(objectNumber, searchTerm, withImages, limit, offset, withDescription, after, random) {
@@ -352,30 +377,69 @@ function processResponse(data, expectFullResponse) {
     var imageIdPrefix = imageId.substr(0, 6);
     var theObject = objectInfo.object;
     var theTitle = objectInfo.title != "" ? objectInfo.title : objectInfo.object;
-    var thePlace = objectInfo.place;
     var theDate = objectInfo.year_start;
     var theSlug = objectInfo.slug;
     var theArtist = objectInfo.artist;
     var theObjectNumber = objectInfo.object_number;
     var theMaterials = objectInfo.materials_techniques;
-    var theDescription = objectInfo.public_access_description.replace(/\n/g, "<br>");
+    var theDescription = objectInfo.public_access_description;
     var theContext = objectInfo.historical_context_note;
     var artistInfo = objectInfo.names[0].fields;
     var stillAlive = artistInfo.death_year != null ? false : true;
     var prefix = stillAlive ? "Born " : "";
     var suffix = stillAlive ? "" : " - " + artistInfo.death_year;
     var datesAlive = artistInfo.birth_year != null ? prefix + artistInfo.birth_year + suffix : "";
+    var datesAlive = datesAlive != "" && datesAlive != "I" ? "(" + datesAlive + ")" : "";
     var imgUrl = vaMediaUrl + imageIdPrefix + "/" + imageId + ".jpg";
     var objectUrl = vaCollectionsUrl + theObjectNumber + "/" + theSlug;
+    var thePhysicalDescription = objectInfo.physical_description;
+    var theDimensions = objectInfo.dimensions;
+    var thePlace = objectInfo.place;
+    var theMuseumNumber = objectInfo.museum_number;
+    var theMuseumLocation = objectInfo.location;
+    theTitle = theTitle.replace(/\^/, "");
+    var theSideCaption = "<strong>" + theTitle + " " + theDate + "</strong>" + " &mdash; " + theArtist + " " + datesAlive;
+    theDescription = theDescription.replace(/Object Type\n/g, "");
+    theDescription = theDescription.replace(/People\n/g, "");
+    theDescription = theDescription.replace(/Place\n/g, "");
+    theDescription = theDescription.replace(/Places\n/g, "");
+    theDescription = theDescription.replace(/Time\n/g, "");
+    theDescription = theDescription.replace(/Design \& Designing\n/g, "");
+    theDescription = theDescription.replace(/Design\n/g, "");
+    theDescription = theDescription.replace(/Subject Depicted\n/g, "");
+    theDescription = theDescription.replace(/Subjects Depicted\n/g, "");
+    theDescription = theDescription.replace(/Materials \& Making\n/g, "");
+    theDescription = theDescription.replace(/Collectors \& Owners\n/g, "");
+    theDescription = theDescription.replace(/Ownership \& Use\n/g, "");
+    theDescription = theDescription.replace(/Trading\n/g, "");
+    theDescription = theDescription.replace(/Trade\n/g, "");
+    theDescription = theDescription.replace(/Historical Associations\n/g, "");
+    theDescription = theDescription.replace(/Other\n/g, "");
+    theDescription = theDescription.replace(/\n\n\n/g, "\n\n");
+    theDescription = theDescription.replace(/\n/g, "<br>");
+    theDate = typeof theDate !== "null" ? theDate : "";
+    if (theTitle.length > 42) {
+        $("#title").addClass("reduced");
+        $("#piece-date").addClass("reduced");
+    }
     $("#creator-name").text(theArtist);
     $("#dates-alive").text(datesAlive);
     $("#title").text(theTitle);
-    $("#piece-date").text("(" + theDate + ")");
-    $("#materials").text(theMaterials);
+    if (theDate != "") $("#piece-date").text("(" + theDate + ")");
+    $("#materials").html(theMaterials);
     $("#image").attr("src", imgUrl);
     $("#link").attr("href", objectUrl);
     $("#object-description").html("<p>" + theDescription + "</p>");
     $("#object-context").html("<p>" + theContext + "</p>");
+    $("#object-side-caption").html(theSideCaption);
+    $("#physical-description").text(thePhysicalDescription);
+    if (theDate != "") $("#tech-info-piece-date").text(theDate);
+    $("#tech-info-creator-name").text(theArtist);
+    $("#tech-info-materials").html(theMaterials);
+    $("#place").text(thePlace);
+    $("#dimensions").text(theDimensions);
+    $("#museum-location").text(theMuseumLocation);
+    $("#museum-number").text(theMuseumNumber);
 }
 
 makeVaRequest(null, chooseSearchTerm());

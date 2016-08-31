@@ -59,11 +59,21 @@
 
 // Set the base font size
 // Used to calcuate ems
-$baseFontSize: 16; // base font size in pixels
+$baseFontSize: 17; // base font size in pixels
+
+@mixin smallText {
+	font-size: $baseFontSize - 2 + px;
+	// line-height: 18px;
+}
+
+@mixin largeText {
+	font-size: $baseFontSize + 2 + px;
+	// line-height: 18px;
+}
 
 body {
 	font-size: $baseFontSize + px;
-	line-height: $baseFontSize + 4px;
+	line-height: 1.6em;
 	@include regular;	
 	@include letter-spacing(-10);
 }
@@ -72,23 +82,27 @@ h1 {
 	@include semibold;
 	font-size: 60px;
 	line-height: 60px;
-	margin-bottom: 0.6em;
+	margin-bottom: 0.4em;
 	@include letter-spacing(-20);
 	word-break: break-word;
 	-webkit-hyphens: auto;
 
 	&.reduced {
-		font-size: 24px;
-		line-height: 28px;
+		font-size: 32px;
+		line-height: 36px;
 	}
 }
 
 h3 {
 	@include semibold;
-	font-size: 36px;
-	line-height: 24px;
-	margin-bottom: 0.6em;
+	font-size: 34px;
+	line-height: 23px;
+	// margin-bottom: 0.6em;
 	@include letter-spacing(-20);
+
+	// &#piece-date {
+	margin-bottom: 1.6em;
+	// }
 
 	&.reduced {
 		font-size: 24px;
@@ -96,20 +110,32 @@ h3 {
 	}
 }
 
-h5 { }
+h4 {
+	@include semibold;
+	// margin-bottom: 1.2em;
+}
+
+h5 { 
+	margin-bottom: 1.2em;
+
+	&#materials {
+		max-width: 70%;
+		margin-left: auto;
+		margin-right: auto;
+		@include smallText;
+	}
+}
 
 // PARAGRAPH STYLE MIXINS
 // ---------------------------------
 
 p {
 	margin-bottom: 1em;
-
-	&.small {
-		font-size: 14px;
-		line-height: 18px;
-	}
 }
 
+.small, small {
+	font-size: 13px;
+}
 // CHARACTER STYLE MIXINS
 // ---------------------------------
 

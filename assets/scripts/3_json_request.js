@@ -26,22 +26,27 @@ var searchTerms2 = ["Architecture",
 "Ceramics",
 "Childhood",
 "Contemporary",
-"Fashion & Jewellery",
+"Fashion",
+"Jewellery",
 "Furniture",
 "Glass",
 "Metalwork",
-"Paintings & Drawings",
+"Paintings",
+"Drawings",
 "Photography",
-"Prints & Books",
+"Prints",
+"Books",
 "Sculpture",
 "Textiles",
 "Theatre"]
+
+var useSearchTerms = searchTerms2;
 
 // choose a term at random on which to run the search
 
 function chooseSearchTerm() {
 
-    return searchTerms2[pumkin.randomNum(0,searchTerms.length)];    
+    return useSearchTerms[pumkin.randomNum(0,useSearchTerms.length)];    
 }
 
 // make the call to the api
@@ -178,13 +183,12 @@ function processResponse(data, expectFullResponse) {
     var imageIdPrefix = imageId.substr(0,6);
     var theObject = objectInfo.object;
     var theTitle = objectInfo.title != "" ? objectInfo.title : objectInfo.object;
-    var thePlace = objectInfo.place;
     var theDate = objectInfo.year_start;
     var theSlug = objectInfo.slug;
     var theArtist = objectInfo.artist;
     var theObjectNumber = objectInfo.object_number;
     var theMaterials = objectInfo.materials_techniques;
-    var theDescription = objectInfo.public_access_description.replace(/\n/g,"<br>");
+    var theDescription = objectInfo.public_access_description;
     var theContext = objectInfo.historical_context_note;
 
     // artist info is a bit more complex, and there might be more than one...
@@ -197,6 +201,7 @@ function processResponse(data, expectFullResponse) {
     var prefix = stillAlive ? "Born " : "";
     var suffix = stillAlive ? "" : " - "+artistInfo.death_year;
     var datesAlive = artistInfo.birth_year != null ? prefix+artistInfo.birth_year+suffix : "";
+    var datesAlive = datesAlive != "" && datesAlive != "I" ? "(" + datesAlive + ")" : "";
 
     // construct the image url
 
@@ -206,24 +211,84 @@ function processResponse(data, expectFullResponse) {
 
     var objectUrl = vaCollectionsUrl+theObjectNumber+"/"+theSlug;
 
+    // Get the information for the technical info panel
+
+    var thePhysicalDescription = objectInfo.physical_description;
+    var theDimensions = objectInfo.dimensions;
+    var thePlace = objectInfo.place;
+    var theMuseumNumber = objectInfo.museum_number;
+    var theMuseumLocation = objectInfo.location;
+
+    // remove oddities from the title
+    theTitle = theTitle.replace(/\^/, "");
+
+    //  construct the title for the side margin
+    var theSideCaption  = "<strong>" 
+                        + theTitle 
+                        + " " + theDate
+                        + "</strong>"
+                        + " &mdash; "
+                        + theArtist
+                        + " " + datesAlive;
+
+    // remove the titles that appear in certain captions
+    theDescription = theDescription.replace(/Object Type\n/g, "");
+    theDescription = theDescription.replace(/People\n/g, "");
+    theDescription = theDescription.replace(/Place\n/g, "");
+    theDescription = theDescription.replace(/Places\n/g, "");
+    theDescription = theDescription.replace(/Time\n/g, "");
+    theDescription = theDescription.replace(/Design \& Designing\n/g, "");
+    theDescription = theDescription.replace(/Design\n/g, "");
+    theDescription = theDescription.replace(/Subject Depicted\n/g, "");
+    theDescription = theDescription.replace(/Subjects Depicted\n/g, "");
+    theDescription = theDescription.replace(/Materials \& Making\n/g, "");
+    theDescription = theDescription.replace(/Collectors \& Owners\n/g, "");
+    theDescription = theDescription.replace(/Ownership \& Use\n/g, "");
+    theDescription = theDescription.replace(/Trading\n/g, "");
+    theDescription = theDescription.replace(/Trade\n/g, "");
+    theDescription = theDescription.replace(/Historical Associations\n/g, "");
+    theDescription = theDescription.replace(/Other\n/g, "");
+
+    // remove multiple newlines (more than 2 in a row)
+    theDescription = theDescription.replace(/\n\n\n/g, "\n\n");
+
+    // replace newlines with <br>
+    theDescription = theDescription.replace(/\n/g,"<br>");
+
+    // occasionally we get a null date
+    theDate = typeof theDate !== "null" ? theDate : "";
+
     // inject the data into the page
 
-    // <h5><span id="creator-name">Artist name</span><br>
-    // <span id="dates-alive">dates alive</span></h5>
-    // <h1 id="title"></h1>
-    // <h3 id="piece-date">(piece date)</h3>
-    // <h5 id="materials">Materials</h5>
+    // set the title class for long ones
+    if (theTitle.length > 42) {
+        $('#title').addClass('reduced'); 
+        $('#piece-date').addClass('reduced'); 
+    }
 
+    // main panel
     $('#creator-name').text(theArtist);
     $('#dates-alive').text(datesAlive);
     $('#title').text(theTitle);
-    $('#piece-date').text("("+theDate+")");
-    $('#materials').text(theMaterials);
+    if (theDate != "") $('#piece-date').text("("+theDate+")");
+    $('#materials').html(theMaterials);
     $('#image').attr('src', imgUrl);
     $('#link').attr('href', objectUrl);
     $('#object-description').html('<p>'+theDescription+'</p>');
     $('#object-context').html('<p>'+theContext+'</p>');
 
+    // side caption
+    $('#object-side-caption').html(theSideCaption);
+
+    // technical info
+    $('#physical-description').text(thePhysicalDescription);
+    if (theDate != "") $('#tech-info-piece-date').text(theDate);
+    $('#tech-info-creator-name').text(theArtist);
+    $('#tech-info-materials').html(theMaterials);
+    $('#place').text(thePlace);
+    $('#dimensions').text(theDimensions);
+    $('#museum-location').text(theMuseumLocation);
+    $('#museum-number').text(theMuseumNumber);
 }
 
 // ******* Run once ******* //

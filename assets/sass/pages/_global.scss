@@ -43,7 +43,6 @@ body, html {
 	position: relative;
 	background: $white;
 	overflow: hidden;
-
 	width:100%;
 	height:100%;
 	max-width:$maxWrapperWidth;
@@ -53,6 +52,17 @@ body, html {
 	margin:0 auto;
 
 	// @include transition (opacity 500ms ease);	
+}
+
+.sliding-container {
+	width: auto;
+	height:100vh;
+	transform: translateX(0);
+	@include animate(750ms);
+}
+
+.side-panel-open .sliding-container {
+	transform: translateX(-50%);
 }
 
 // Credits overlay
@@ -80,7 +90,6 @@ body, html {
 .left-margin, .right-margin {
 	width: $outerMarginWidth;
 	height: 100%;
-
 	position: absolute;
 	top:0;
 }
@@ -94,8 +103,21 @@ body, html {
 }
 
 .object-side-caption {
-	margin:15% auto;
-	transform: rotate(-90deg);
+	@include smallText;
+	width: 65vh;
+    text-align: center;
+    height: 20px;
+    left: 40px;
+    position: absolute;
+    transform: rotate(-90deg) translateX(-50%) translateY(-50%);
+    transform-origin: top left;
+    top: 42vh;
+    opacity: 0;
+    @include animate(500ms);
+
+    &.reveal {
+    	opacity: 1;
+    }
 }
 
 
@@ -117,8 +139,13 @@ body, html {
 
 .object-header {
 	text-align: center;
-	height: 100%;
+	height: 100vh;
     position: relative;
+    @include animate(500ms);
+
+    &.hide {
+    	opacity: 0;
+    }
 }
 
 .object-header-inner {
@@ -126,6 +153,11 @@ body, html {
 	top:50vh;
 	transform: translateY(-60%);
     // margin-top: 50vh;
+}
+
+.object-text {
+	min-height: 70vh;
+    padding-bottom: 100px;
 }
 
 .down-arrow {
@@ -138,6 +170,17 @@ body, html {
 	position: absolute;
 	bottom: 30px;
 	left: calc(50% - 14px);
+	cursor: pointer;
+	opacity: 1;
+	@include animate(500ms);
+
+	&:hover {
+		transform: translateY(5px);
+	}
+
+	&.hide {
+		opacity: 0;
+	}
 }
 
 .text-block {
@@ -147,26 +190,28 @@ body, html {
 // Image area
 
 .image-content-column {
-	height:100%;
-}
-
-.object-image-wrapper {
 	height:100vh;
 }
 
+.object-image-wrapper {
+	position: relative;
+	// height:100%;
+	@include vertical-centre();
+}
+
 .object-image {
-	width:80%;
-	height:70%;
-	margin:0 auto;
-	transform: translateY(20%);
+	// max-width:80%;
+	// max-height:70%;
+	margin:0 auto 20px auto
+	// transform: translateY(20%);
 }
 
 .object-image img {
 	display:block;
 	margin:0 auto;
-	max-width:100%;
-	max-height: 100%;
-	
+	max-width:80%;
+	max-height:70vh;
+	// transform: translateY(50%);
 }
 
 .object-image-copyright {
@@ -181,61 +226,98 @@ body, html {
 .technical-info {
 	position: absolute;
 	height: 100vh;
+	overflow: scroll;
 	width:50%;
+	right:calc(-50% + 65px);
+	// width:400px;
+	// right:-400px;
 	top:0;
-	background-color:$lightGrey;
-	@include animate(500);
+	background-color:$white;
 }
 
 .technical-info .text-content {
-	margin:50px;
-	@include animate(500);
+	margin:100px;
 }
 
 .panel-open-icon {
-	width:24px;
-	height: 24px;
+	width:25px;
+	height: 25px;
 	position: absolute;
 	top: calc(50% - 12px);
-	left: -50px;
+	left: 20px;
 	background-image: url(../../gfx/plus.svg);
 	background-size:cover;
 	background-position:50% 50%;
 	background-repeat:no-repeat;
 	cursor:pointer;
+	transform: rotate(0deg);
+	@include animate(500ms);
+
+	&:hover {
+		transform: translateX(-5px);
+	}
 }
 
-.technical-info.closed {
-
-	right:-50%;
+.side-panel-open .panel-open-icon {
+	transform: rotate(45deg);
 }
 
-.technical-info.hint {
+.closed .technical-info {
+
 	
-	right:-40%;
-
-	.panel-open-icon {
-		left:50px;
-	}
-
-	.text-content {
-		margin:50px 50px 50px 150px;
-	}
 }
 
-.technical-info.open {
+// .technical-info.hint {
 	
-	right:0%;
+// 	right:-40%;
 
-	.panel-open-icon {
-		transform: rotate(45deg);
-		left:50px;
-	}
+// 	.panel-open-icon {
+// 		left:50px;
+// 	}
 
-	.text-content {
-		margin:50px 50px 50px 150px;
-	}
-}
+// 	.text-content {
+// 		margin:50px 50px 50px 150px;
+// 	}
+// }
+
+// .technical-info.open {
+	
+// 	right:0%;
+
+// 	.panel-open-icon {
+// 		transform: rotate(45deg);
+// 		left:50px;
+// 	}
+
+// 	.text-content {
+// 		margin:50px 50px 50px 150px;
+// 	}
+// }
+
+
+// SlIDING WRAPPER (TEST)
+// -------------------------------------
+
+// .sliding-container {
+// 	width: auto;
+// 	height:100%;
+// 	// background-color: red;
+// }
+
+// .content-area {
+// 	background-color:lightblue;
+// }
+
+// .tech-info {
+// 	background-color:pink;
+// 	position: absolute;
+// 	top:0;
+// 	right: -400px;
+// 	width: 400px;
+// 	height: 100%;
+// }
+
+
 
 // MISC GLOBAL ELEMENTS
 // -------------------------------------
