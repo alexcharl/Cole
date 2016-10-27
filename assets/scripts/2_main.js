@@ -42,6 +42,9 @@
 		$downArrow = $('.down-arrow');
 		$panelOpenIcon = $('.panel-open-icon');
 		$objectHeader = $('.object-header');
+		$creditsOpenBtn = $('.credits');
+		$overlayCloseBtn = $('.close-overlay');
+		$overlay = $('.overlay');
 		
 		// FUNCTIONS FROM ELSEWHERE
 	}
@@ -99,6 +102,33 @@
 	            easing: 'ease-in-out',
 	            container: $textContent
 	        });
+		});
+
+		$creditsOpenBtn.click(function() {
+			if ($overlay.hasClass('closed')) {
+				$overlay.removeClass('closed').addClass('open');
+				$overlay.fadeIn(500);
+				// console.log('fadein');
+			}
+			else {
+				$overlay.removeClass('open').addClass('closed');
+				$overlay.fadeOut(500);	
+			}
+		});
+
+		$overlayCloseBtn.click(function() {
+			$overlay.removeClass('open').addClass('closed');
+			$overlay.fadeOut(500);	
+		});
+
+		$('#go-to-options').click(function() {
+		  if (chrome.runtime.openOptionsPage) {
+		    // New way to open options pages, if supported (Chrome 42+).
+		    chrome.runtime.openOptionsPage();
+		  } else {
+		    // Reasonable fallback.
+		    window.open(chrome.runtime.getURL('/src/options/index.html'));
+		  }
 		});
 	}
 

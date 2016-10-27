@@ -19,8 +19,8 @@ var vaCollectionsUrl = "http://collections.vam.ac.uk/item/";
 
 // Set our predefined search terms
 
-var searchTerms = ["kettle", "chair", "lamp", "poster", "sculpture", "japan", "china", "islamic", "argentina", "africa", "united states"];
-var searchTerms2 = ["Architecture",
+// var searchTerms = ["kettle", "chair", "lamp", "poster", "sculpture", "japan", "china", "islamic", "argentina", "africa", "united states"];
+var defaultSearchTerms = ["Architecture",
 "Asia",
 "British Galleries",
 "Ceramics",
@@ -40,13 +40,45 @@ var searchTerms2 = ["Architecture",
 "Textiles",
 "Theatre"]
 
-var useSearchTerms = searchTerms2;
+var theSearchTerms;
 
 // choose a term at random on which to run the search
 
 function chooseSearchTerm() {
 
-    return useSearchTerms[pumkin.randomNum(0,useSearchTerms.length)];    
+    return theSearchTerms[pumkin.randomNum(0,theSearchTerms.length)];    
+}
+
+function start() {
+
+    console.log('looking for  user settings');
+
+    if (typeof chrome.storage != 'undefined') {
+
+        chrome.storage.sync.get({
+            userSearchTerms: 'none'
+          }, function(items) {
+            if ( items.userSearchTerms.length > 2 ) {
+                console.log('using user search terms: '+items.userSearchTerms);
+                theSearchTerms = items.userSearchTerms.split(',');
+            } else {
+                console.log('using default search terms: '+defaultSearchTerms);
+                theSearchTerms = defaultSearchTerms;
+            }
+
+            // Query the API
+            makeVaRequest(null, chooseSearchTerm() );
+
+          });
+    } 
+    // this fires when running as standalone page (ie not as an extension)
+    else {
+        console.log('Running as standalone page, using default search terms: '+defaultSearchTerms);
+        theSearchTerms = defaultSearchTerms;
+
+        // Query the API
+        makeVaRequest(null, chooseSearchTerm() );
+    }
 }
 
 // make the call to the api
@@ -194,14 +226,19 @@ function processResponse(data, expectFullResponse) {
     // artist info is a bit more complex, and there might be more than one...
 
     // we'll just go with the first for now
-    var artistInfo = objectInfo.names[0].fields;
+    if ( typeof objectInfo.names[0] !== 'undefined' ) {
+        var artistInfo = objectInfo.names[0].fields;
+    }
 
     // construct the 'dates alive' bit
-    var stillAlive = artistInfo.death_year != null ? false : true;
-    var prefix = stillAlive ? "Born " : "";
-    var suffix = stillAlive ? "" : " - "+artistInfo.death_year;
-    var datesAlive = artistInfo.birth_year != null ? prefix+artistInfo.birth_year+suffix : "";
-    var datesAlive = datesAlive != "" && datesAlive != "I" ? "(" + datesAlive + ")" : "";
+    if (typeof artistInfo != 'undefined') {
+
+        var stillAlive = typeof artistInfo.death_year != 'undefined' ? false : true;
+        var prefix = stillAlive ? "Born " : "";
+        var suffix = stillAlive ? "" : " - "+artistInfo.death_year;
+        var datesAlive = artistInfo.birth_year != null ? prefix+artistInfo.birth_year+suffix : "";
+        var datesAlive = datesAlive != "" && datesAlive != "I" ? "(" + datesAlive + ")" : "";
+    }
 
     // construct the image url
 
@@ -258,6 +295,14 @@ function processResponse(data, expectFullResponse) {
     // occasionally we get a null date
     theDate = typeof theDate !== "null" ? theDate : "";
 
+    // construct the Pinterest url
+    var pinterestUrl    = "https://www.pinterest.com/pin/create/button/"
+    pinterestUrl        += "?url="+objectUrl;
+    pinterestUrl        += "&media="+imgUrl;
+    pinterestUrl        += "&description="+theTitle;
+    if (theDate != "") pinterestUrl += " ("+thePlace+", "+theDate+")";
+    pinterestUrl        += ", V%26A Collection";
+
     // inject the data into the page
 
     // set the title class for long ones
@@ -271,9 +316,10 @@ function processResponse(data, expectFullResponse) {
     $('#dates-alive').text(datesAlive);
     $('#title').text(theTitle);
     if (theDate != "") $('#piece-date').text("("+theDate+")");
-    $('#materials').html(theMaterials);
+    $('#place').html(thePlace);
     $('#image').attr('src', imgUrl);
-    $('#link').attr('href', objectUrl);
+    $('#pinterest-button').attr('href', pinterestUrl);
+    $('#page-link').attr('href', objectUrl);
     $('#object-description').html('<p>'+theDescription+'</p>');
     $('#object-context').html('<p>'+theContext+'</p>');
 
@@ -285,10 +331,18 @@ function processResponse(data, expectFullResponse) {
     if (theDate != "") $('#tech-info-piece-date').text(theDate);
     $('#tech-info-creator-name').text(theArtist);
     $('#tech-info-materials').html(theMaterials);
-    $('#place').text(thePlace);
+    $('#tech-info-place').text(thePlace);
     $('#dimensions').text(theDimensions);
     $('#museum-location').text(theMuseumLocation);
     $('#museum-number').text(theMuseumNumber);
+
+    // reveal everything that's hidden
+    $('.content-placeholder, .hide-until-loaded').addClass('loaded');
+
+    // the image and related items (like the copyright statemetn) gets revealed once that's loaded
+    $('img.image-hide-until-loaded').load( function() {
+        $('.image-hide-until-loaded, .hide-after-loaded').addClass('loaded');
+    });
 }
 
 // ******* Run once ******* //
@@ -297,5 +351,7 @@ function processResponse(data, expectFullResponse) {
 // search the API!
 // we run the search term selector function and pass the result as an argument here
 
-makeVaRequest(null, chooseSearchTerm() );
+// makeVaRequest(null, chooseSearchTerm() );
+
+start();
 

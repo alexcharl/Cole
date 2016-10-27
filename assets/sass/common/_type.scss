@@ -101,7 +101,7 @@ h3 {
 	@include letter-spacing(-20);
 
 	// &#piece-date {
-	margin-bottom: 1.6em;
+	margin-bottom: 1.2em;
 	// }
 
 	&.reduced {
@@ -131,6 +131,10 @@ h5 {
 
 p {
 	margin-bottom: 1em;
+
+	a {
+		text-decoration: underline;
+	}
 }
 
 .small, small {

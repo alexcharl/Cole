@@ -1,9 +1,9 @@
 {
   "name": "V&A object in every tab",
-  "version": "0.3",
+  "version": "0.4",
   "manifest_version": 2,
   "description": "Each time a tab opens, a wonderful object from the V&A collection appears",
-  "homepage_url": "http://extensionizr.com",
+  "homepage_url": "http://gjover.com",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -14,7 +14,10 @@
     "page": "src/bg/background.html",
     "persistent": false
   },
-  "options_page": "src/options/index.html",
+  "options_ui": {
+      "page": "src/options/index.html",
+      "chrome_style": true
+  },
   "page_action": {
     "default_icon": "icons/icon19.png",
     "default_title": "page action demo",
@@ -26,6 +29,9 @@
   "permissions": [
     "tabs",
     "geolocation",
-    "http://www.vam.ac.uk/*"
+    "storage",
+    "http://www.vam.ac.uk/*",
+    "https://www.pinterest.com/*",
+    "http://assets.pinterest.com/*"
   ]
 }

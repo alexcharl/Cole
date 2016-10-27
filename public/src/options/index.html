@@ -1,9 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title></title>
+
+<head>	
+	<style>
+		body: { padding: 10px; }
+	</style>
+
+	<title>V&amp;A Options</title>
 </head>
+
 <body>
+
+	<p><label for "searchTerms">Enter your search terms below<br>(separate with commas, no spaces or punctuation please)</label></p>
+	<div>
+		<textarea id="searchTerms" rows="5" cols="60"></textarea>
+	</div>
+
+	<p id="status"></p>
+	
+	<p>
+		<button id="save">Save</button>
+	</p>
+
+	<script src="options.js"></script>
 
 </body>
 </html>

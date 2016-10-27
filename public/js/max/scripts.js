@@ -234,6 +234,9 @@ var pumkin = window.pumkin = {};
         $downArrow = $(".down-arrow");
         $panelOpenIcon = $(".panel-open-icon");
         $objectHeader = $(".object-header");
+        $creditsOpenBtn = $(".credits");
+        $overlayCloseBtn = $(".close-overlay");
+        $overlay = $(".overlay");
     }
     function initMain() {
         defineVars();
@@ -265,6 +268,26 @@ var pumkin = window.pumkin = {};
                 easing: "ease-in-out",
                 container: $textContent
             });
+        });
+        $creditsOpenBtn.click(function() {
+            if ($overlay.hasClass("closed")) {
+                $overlay.removeClass("closed").addClass("open");
+                $overlay.fadeIn(500);
+            } else {
+                $overlay.removeClass("open").addClass("closed");
+                $overlay.fadeOut(500);
+            }
+        });
+        $overlayCloseBtn.click(function() {
+            $overlay.removeClass("open").addClass("closed");
+            $overlay.fadeOut(500);
+        });
+        $("#go-to-options").click(function() {
+            if (chrome.runtime.openOptionsPage) {
+                chrome.runtime.openOptionsPage();
+            } else {
+                window.open(chrome.runtime.getURL("/src/options/index.html"));
+            }
         });
     }
     function onThrottledScroll() {
@@ -311,14 +334,34 @@ var vaMediaUrl = "http://media.vam.ac.uk/media/thira/collection_images/";
 
 var vaCollectionsUrl = "http://collections.vam.ac.uk/item/";
 
-var searchTerms = [ "kettle", "chair", "lamp", "poster", "sculpture", "japan", "china", "islamic", "argentina", "africa", "united states" ];
+var defaultSearchTerms = [ "Architecture", "Asia", "British Galleries", "Ceramics", "Childhood", "Contemporary", "Fashion", "Jewellery", "Furniture", "Glass", "Metalwork", "Paintings", "Drawings", "Photography", "Prints", "Books", "Sculpture", "Textiles", "Theatre" ];
 
-var searchTerms2 = [ "Architecture", "Asia", "British Galleries", "Ceramics", "Childhood", "Contemporary", "Fashion", "Jewellery", "Furniture", "Glass", "Metalwork", "Paintings", "Drawings", "Photography", "Prints", "Books", "Sculpture", "Textiles", "Theatre" ];
-
-var useSearchTerms = searchTerms2;
+var theSearchTerms;
 
 function chooseSearchTerm() {
-    return useSearchTerms[pumkin.randomNum(0, useSearchTerms.length)];
+    return theSearchTerms[pumkin.randomNum(0, theSearchTerms.length)];
+}
+
+function start() {
+    console.log("looking for  user settings");
+    if (typeof chrome.storage != "undefined") {
+        chrome.storage.sync.get({
+            userSearchTerms: "none"
+        }, function(items) {
+            if (items.userSearchTerms.length > 2) {
+                console.log("using user search terms: " + items.userSearchTerms);
+                theSearchTerms = items.userSearchTerms.split(",");
+            } else {
+                console.log("using default search terms: " + defaultSearchTerms);
+                theSearchTerms = defaultSearchTerms;
+            }
+            makeVaRequest(null, chooseSearchTerm());
+        });
+    } else {
+        console.log("Running as standalone page, using default search terms: " + defaultSearchTerms);
+        theSearchTerms = defaultSearchTerms;
+        makeVaRequest(null, chooseSearchTerm());
+    }
 }
 
 function makeVaRequest(objectNumber, searchTerm, withImages, limit, offset, withDescription, after, random) {
@@ -384,12 +427,16 @@ function processResponse(data, expectFullResponse) {
     var theMaterials = objectInfo.materials_techniques;
     var theDescription = objectInfo.public_access_description;
     var theContext = objectInfo.historical_context_note;
-    var artistInfo = objectInfo.names[0].fields;
-    var stillAlive = artistInfo.death_year != null ? false : true;
-    var prefix = stillAlive ? "Born " : "";
-    var suffix = stillAlive ? "" : " - " + artistInfo.death_year;
-    var datesAlive = artistInfo.birth_year != null ? prefix + artistInfo.birth_year + suffix : "";
-    var datesAlive = datesAlive != "" && datesAlive != "I" ? "(" + datesAlive + ")" : "";
+    if (typeof objectInfo.names[0] !== "undefined") {
+        var artistInfo = objectInfo.names[0].fields;
+    }
+    if (typeof artistInfo != "undefined") {
+        var stillAlive = typeof artistInfo.death_year != "undefined" ? false : true;
+        var prefix = stillAlive ? "Born " : "";
+        var suffix = stillAlive ? "" : " - " + artistInfo.death_year;
+        var datesAlive = artistInfo.birth_year != null ? prefix + artistInfo.birth_year + suffix : "";
+        var datesAlive = datesAlive != "" && datesAlive != "I" ? "(" + datesAlive + ")" : "";
+    }
     var imgUrl = vaMediaUrl + imageIdPrefix + "/" + imageId + ".jpg";
     var objectUrl = vaCollectionsUrl + theObjectNumber + "/" + theSlug;
     var thePhysicalDescription = objectInfo.physical_description;
@@ -418,6 +465,12 @@ function processResponse(data, expectFullResponse) {
     theDescription = theDescription.replace(/\n\n\n/g, "\n\n");
     theDescription = theDescription.replace(/\n/g, "<br>");
     theDate = typeof theDate !== "null" ? theDate : "";
+    var pinterestUrl = "https://www.pinterest.com/pin/create/button/";
+    pinterestUrl += "?url=" + objectUrl;
+    pinterestUrl += "&media=" + imgUrl;
+    pinterestUrl += "&description=" + theTitle;
+    if (theDate != "") pinterestUrl += " (" + thePlace + ", " + theDate + ")";
+    pinterestUrl += ", V%26A Collection";
     if (theTitle.length > 42) {
         $("#title").addClass("reduced");
         $("#piece-date").addClass("reduced");
@@ -426,9 +479,10 @@ function processResponse(data, expectFullResponse) {
     $("#dates-alive").text(datesAlive);
     $("#title").text(theTitle);
     if (theDate != "") $("#piece-date").text("(" + theDate + ")");
-    $("#materials").html(theMaterials);
+    $("#place").html(thePlace);
     $("#image").attr("src", imgUrl);
-    $("#link").attr("href", objectUrl);
+    $("#pinterest-button").attr("href", pinterestUrl);
+    $("#page-link").attr("href", objectUrl);
     $("#object-description").html("<p>" + theDescription + "</p>");
     $("#object-context").html("<p>" + theContext + "</p>");
     $("#object-side-caption").html(theSideCaption);
@@ -436,13 +490,17 @@ function processResponse(data, expectFullResponse) {
     if (theDate != "") $("#tech-info-piece-date").text(theDate);
     $("#tech-info-creator-name").text(theArtist);
     $("#tech-info-materials").html(theMaterials);
-    $("#place").text(thePlace);
+    $("#tech-info-place").text(thePlace);
     $("#dimensions").text(theDimensions);
     $("#museum-location").text(theMuseumLocation);
     $("#museum-number").text(theMuseumNumber);
+    $(".content-placeholder, .hide-until-loaded").addClass("loaded");
+    $("img.image-hide-until-loaded").load(function() {
+        $(".image-hide-until-loaded, .hide-after-loaded").addClass("loaded");
+    });
 }
 
-makeVaRequest(null, chooseSearchTerm());
+start();
 
 (function(window, $) {
     var pumkin = window.pumkin = window.pumkin || {};

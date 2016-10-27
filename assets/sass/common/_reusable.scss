@@ -88,7 +88,7 @@
 	transform: translateX(-50%);
 }
 
-@mixin translate-center($type: vertical, $position: absolute, $offsetLeft:0%, $offsetTop: 0%) {
+@mixin translate-center($type: '', $position: absolute, $offsetLeft:0%, $offsetTop: 0%) {
   position: $position;
   
   @if $type == "horizontal" {
