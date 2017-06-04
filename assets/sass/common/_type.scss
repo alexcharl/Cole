@@ -143,6 +143,6 @@ p {
 // CHARACTER STYLE MIXINS
 // ---------------------------------
 
-strong {
+strong, b {
 	@include semibold;		
 }

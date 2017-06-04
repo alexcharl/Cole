@@ -185,7 +185,7 @@ $scrollbarWidth: 0px;
 $scrollbarBackground: $white;
 $scrollbarHandleColour: $lightGrey;
 
-::-webkit-scrollbar {
+::-webkit-scrollbar,  {
 	width: $scrollbarWidth;
 }
 

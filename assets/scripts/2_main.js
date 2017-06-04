@@ -45,6 +45,7 @@
 		$creditsOpenBtn = $('.credits');
 		$overlayCloseBtn = $('.close-overlay');
 		$overlay = $('.overlay');
+		$techInfo = $('.technical-info .text-content');
 		
 		// FUNCTIONS FROM ELSEWHERE
 	}
@@ -75,16 +76,6 @@
 
 	function handleClicks () {
 
-		// $('.panel-open-icon').mouseover(function(){
-		// 	// $el = $(this).parent();
-		// 	$body.addClass('side-panel-hint');
-		// });
-
-		// $('.panel-open-icon').mouseout(function(){
-		// 	// $el = $(this).parent();
-		// 	$body.removeClass('side-panel-hint');
-		// });
-
 		$panelOpenIcon.click(function(){
 			if ($body.hasClass('side-panel-closed')) {
 				$body.removeClass('side-panel-closed').addClass('side-panel-open');
@@ -106,12 +97,12 @@
 
 		$creditsOpenBtn.click(function() {
 			if ($overlay.hasClass('closed')) {
-				$overlay.removeClass('closed').addClass('open');
+				$overlay.removeClass('closed').addClass('open for-credits');
 				$overlay.fadeIn(500);
 				// console.log('fadein');
 			}
 			else {
-				$overlay.removeClass('open').addClass('closed');
+				$overlay.removeClass('open for-warning for-credits').addClass('closed');
 				$overlay.fadeOut(500);	
 			}
 		});
@@ -121,7 +112,7 @@
 			$overlay.fadeOut(500);	
 		});
 
-		$('#go-to-options').click(function() {
+		$('.go-to-options').click(function() {
 		  if (chrome.runtime.openOptionsPage) {
 		    // New way to open options pages, if supported (Chrome 42+).
 		    chrome.runtime.openOptionsPage();
@@ -130,6 +121,12 @@
 		    window.open(chrome.runtime.getURL('/src/options/index.html'));
 		  }
 		});
+	}
+
+	function throwError() {
+
+		$overlay.removeClass('closed').addClass('open for-warning');
+		$overlay.fadeIn(500);
 	}
 
 	
@@ -187,6 +184,13 @@
 
 	function onThrottledResize () {
 		console.log('throttle');
+
+		if ($techInfo.height() < HEIGHT) {
+
+			$techInfo.addClass('middle');
+		} else {
+			$techInfo.removeClass('middle');
+		}
 	}
 
 	function onDebouncedResize () {
@@ -212,7 +216,7 @@
 	
 	// EXPORT
 	SITE.initMain = initMain;
-	
+	SITE.throwError = throwError;
 
 
 })( this, this.jQuery, this.Modernizr, this.screenfull, this.FastClick );

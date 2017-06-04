@@ -237,6 +237,7 @@ var pumkin = window.pumkin = {};
         $creditsOpenBtn = $(".credits");
         $overlayCloseBtn = $(".close-overlay");
         $overlay = $(".overlay");
+        $techInfo = $(".technical-info .text-content");
     }
     function initMain() {
         defineVars();
@@ -271,10 +272,10 @@ var pumkin = window.pumkin = {};
         });
         $creditsOpenBtn.click(function() {
             if ($overlay.hasClass("closed")) {
-                $overlay.removeClass("closed").addClass("open");
+                $overlay.removeClass("closed").addClass("open for-credits");
                 $overlay.fadeIn(500);
             } else {
-                $overlay.removeClass("open").addClass("closed");
+                $overlay.removeClass("open for-warning for-credits").addClass("closed");
                 $overlay.fadeOut(500);
             }
         });
@@ -289,6 +290,10 @@ var pumkin = window.pumkin = {};
                 window.open(chrome.runtime.getURL("/src/options/index.html"));
             }
         });
+    }
+    function throwError() {
+        $overlay.removeClass("closed").addClass("open for-warning");
+        $overlay.fadeIn(500);
     }
     function onThrottledScroll() {
         var scrollAmt = $textContent.scrollTop();
@@ -312,6 +317,11 @@ var pumkin = window.pumkin = {};
     }
     function onThrottledResize() {
         console.log("throttle");
+        if ($techInfo.height() < HEIGHT) {
+            $techInfo.addClass("middle");
+        } else {
+            $techInfo.removeClass("middle");
+        }
     }
     function onDebouncedResize() {
         console.log("debounce");
@@ -326,6 +336,7 @@ var pumkin = window.pumkin = {};
         FastClick.attach(document.body);
     }
     SITE.initMain = initMain;
+    SITE.throwError = throwError;
 })(this, this.jQuery, this.Modernizr, this.screenfull, this.FastClick);
 
 var vaUrl = "http://www.vam.ac.uk/api/json/museumobject/";
@@ -338,81 +349,130 @@ var defaultSearchTerms = [ "Architecture", "Asia", "British Galleries", "Ceramic
 
 var theSearchTerms;
 
+var chosenSearchTerm;
+
+var strictSearch = false;
+
+var searchCount = 0;
+
+var maxSearchCounts = 5;
+
 function chooseSearchTerm() {
-    return theSearchTerms[pumkin.randomNum(0, theSearchTerms.length)];
+    chosenSearchTerm = theSearchTerms[pumkin.randomNum(0, theSearchTerms.length)];
 }
 
 function start() {
     console.log("looking for  user settings");
-    if (typeof chrome.storage != "undefined") {
+    if (typeof chrome != "undefined" && typeof chrome.storage != "undefined") {
         chrome.storage.sync.get({
-            userSearchTerms: "none"
+            userSearchTerms: "",
+            strictSearch: "fuzzy"
         }, function(items) {
-            if (items.userSearchTerms.length > 2) {
+            if (items.userSearchTerms.length > 0) {
                 console.log("using user search terms: " + items.userSearchTerms);
-                theSearchTerms = items.userSearchTerms.split(",");
+                theSearchTerms = items.userSearchTerms.replace(/ /g, "+").split(",");
             } else {
                 console.log("using default search terms: " + defaultSearchTerms);
                 theSearchTerms = defaultSearchTerms;
             }
-            makeVaRequest(null, chooseSearchTerm());
+            console.log("strictSearch setting = " + items.strictSearch);
+            if (items.strictSearch == "strict") {
+                strictSearch = true;
+            }
+            chooseSearchTerm();
+            makeVaRequest(null, chosenSearchTerm);
         });
     } else {
         console.log("Running as standalone page, using default search terms: " + defaultSearchTerms);
         theSearchTerms = defaultSearchTerms;
-        makeVaRequest(null, chooseSearchTerm());
+        chooseSearchTerm();
+        makeVaRequest(null, chosenSearchTerm);
     }
 }
 
-function makeVaRequest(objectNumber, searchTerm, withImages, limit, offset, withDescription, after, random) {
-    objectNumber = typeof objectNumber !== "undefined" ? objectNumber : null;
-    withImages = typeof withImages !== "undefined" ? withImages : "1";
-    limit = typeof limit !== "undefined" ? limit : "45";
-    searchTerm = typeof searchTerm !== "undefined" ? searchTerm : null;
-    offset = typeof offset !== "undefined" ? offset : null;
-    withDescription = typeof withDescription !== "undefined" ? withDescription : "1";
-    after = typeof after !== "undefined" ? after : null;
-    random = typeof random !== "undefined" ? random : "1";
-    quality = typeof quality !== "undefined" ? quality : null;
-    var expectFullResponse = objectNumber != null ? true : false;
-    vaUrl = objectNumber != null ? vaUrl + objectNumber : vaUrl;
-    console.log("expectFullResponse = " + expectFullResponse);
-    console.log("vaUrl = " + vaUrl);
-    $.ajax({
-        dataType: "json",
-        url: vaUrl,
-        data: {
-            images: withImages,
-            limit: limit,
-            offset: offset,
-            random: random,
-            quality: quality,
-            pad: withDescription,
-            after: after,
-            q: searchTerm
+function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, withDescription, after, random) {
+    if (searchCount < maxSearchCounts) {
+        searchCount++;
+        objectNumber = typeof objectNumber !== "undefined" ? objectNumber : null;
+        withImages = typeof withImages !== "undefined" ? withImages : "1";
+        limit = typeof limit !== "undefined" ? limit : "1";
+        searchTerm = typeof searchTerm !== "undefined" ? searchTerm : null;
+        offset = typeof offset !== "undefined" ? offset : null;
+        withDescription = typeof withDescription !== "undefined" ? withDescription : "1";
+        after = typeof after !== "undefined" ? after : null;
+        random = typeof random !== "undefined" ? random : "0";
+        quality = typeof quality !== "undefined" ? quality : null;
+        var expectResponse = 0;
+        if (offset != null) {
+            expectResponse = 1;
+        } else if (objectNumber != null) {
+            expectResponse = 2;
         }
-    }).done(function(data) {
-        console.log("done");
-        processResponse(data, expectFullResponse);
-    }).fail(function() {
-        console.log("error");
-    }).always(function() {
-        console.log("complete");
-    });
+        if (strictSearch == true) {
+            var searchItem = searchTerm;
+            var searchTerm = null;
+        } else {
+            var searchItem = null;
+        }
+        console.log("strictSearch = " + strictSearch);
+        var queryUrl = "";
+        queryUrl = objectNumber != null ? vaUrl + objectNumber : vaUrl;
+        console.log("expectResponse = " + expectResponse);
+        console.log("queryUrl = " + queryUrl);
+        console.log("Chosen term = " + searchTerm);
+        console.log("Chosen item name = " + searchItem);
+        console.log("offset = " + offset);
+        $.ajax({
+            dataType: "json",
+            url: queryUrl,
+            type: "get",
+            cache: false,
+            data: {
+                images: withImages,
+                limit: limit,
+                offset: offset,
+                quality: quality,
+                pad: withDescription,
+                after: after,
+                objectnamesearch: searchItem,
+                q: searchTerm
+            }
+        }).done(function(data) {
+            console.log("done");
+            processResponse(data, expectResponse);
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    } else {
+        console.log("maximum number of search attempts reached, try changing search terms");
+        SITE.throwError();
+    }
 }
 
-function processResponse(data, expectFullResponse) {
+function processResponse(data, expectResponse) {
     console.log(data);
-    if (expectFullResponse !== true) {
+    if (expectResponse === 0) {
+        var numRecords = data.records.length;
+        if (numRecords > 0) {
+            var randomOffset = pumkin.randomNum(0, data.meta.result_count - 1);
+            console.log("total results = " + data.meta.result_count);
+            console.log("making query 2, with randomOffset of " + randomOffset);
+            makeVaRequest(null, chosenSearchTerm, randomOffset);
+        } else {
+            console.log("making a second request, no results found last time");
+            chooseSearchTerm();
+            makeVaRequest(null, chosenSearchTerm);
+        }
+        return;
+    }
+    if (expectResponse === 1) {
         var numRecords = data.records.length;
         console.log("There are " + numRecords + " objects available.");
-        if (numRecords > 0) {
-            var whichObject = data.records[pumkin.randomNum(0, numRecords)];
-            var objectNumber = whichObject.fields.object_number;
-            makeVaRequest(objectNumber);
-        } else {
-            makeVaRequest(null, chooseSearchTerm());
-        }
+        var whichObject = data.records[pumkin.randomNum(0, numRecords)];
+        var objectNumber = whichObject.fields.object_number;
+        makeVaRequest(objectNumber);
         return;
     }
     var objectInfo = data[0].fields;
@@ -431,10 +491,10 @@ function processResponse(data, expectFullResponse) {
         var artistInfo = objectInfo.names[0].fields;
     }
     if (typeof artistInfo != "undefined") {
-        var stillAlive = typeof artistInfo.death_year != "undefined" ? false : true;
-        var prefix = stillAlive ? "Born " : "";
-        var suffix = stillAlive ? "" : " - " + artistInfo.death_year;
-        var datesAlive = artistInfo.birth_year != null ? prefix + artistInfo.birth_year + suffix : "";
+        var stillAlive = typeof artistInfo.death_year != "undefined" && artistInfo.death_year != 0 ? false : true;
+        var prefix = stillAlive || artistInfo.death_year == null ? "Born " : "";
+        var suffix = stillAlive || artistInfo.death_year == null ? "" : " - " + artistInfo.death_year;
+        var datesAlive = artistInfo.birth_year != null && artistInfo.death_year != 0 ? prefix + artistInfo.birth_year + suffix : "";
         var datesAlive = datesAlive != "" && datesAlive != "I" ? "(" + datesAlive + ")" : "";
     }
     var imgUrl = vaMediaUrl + imageIdPrefix + "/" + imageId + ".jpg";
@@ -445,6 +505,10 @@ function processResponse(data, expectFullResponse) {
     var theMuseumNumber = objectInfo.museum_number;
     var theMuseumLocation = objectInfo.location;
     theTitle = theTitle.replace(/\^/, "");
+    theTitle = theTitle.replace(/\<i\>/g, "");
+    theTitle = theTitle.replace(/\<\\i\>/g, "");
+    theTitle = theTitle.replace(/\<b\>/g, "");
+    theTitle = theTitle.replace(/\<\\b\>/g, "");
     var theSideCaption = "<strong>" + theTitle + " " + theDate + "</strong>" + " &mdash; " + theArtist + " " + datesAlive;
     theDescription = theDescription.replace(/Object Type\n/g, "");
     theDescription = theDescription.replace(/People\n/g, "");
@@ -464,7 +528,15 @@ function processResponse(data, expectFullResponse) {
     theDescription = theDescription.replace(/Other\n/g, "");
     theDescription = theDescription.replace(/\n\n\n/g, "\n\n");
     theDescription = theDescription.replace(/\n/g, "<br>");
-    theDate = typeof theDate !== "null" ? theDate : "";
+    theDescription = theDescription.replace(/\<i\>/g, "");
+    theDescription = theDescription.replace(/\<\\i\>/g, "");
+    theDescription = theDescription.replace(/\<b\>/g, "");
+    theDescription = theDescription.replace(/\<\\b\>/g, "");
+    thePhysicalDescription = thePhysicalDescription.replace(/\<i\>/g, "");
+    thePhysicalDescription = thePhysicalDescription.replace(/\<\\i\>/g, "");
+    thePhysicalDescription = thePhysicalDescription.replace(/\<b\>/g, "");
+    thePhysicalDescription = thePhysicalDescription.replace(/\<\\b\>/g, "");
+    theDate = typeof theDate !== "undefined" && theDate != null ? theDate : "";
     var pinterestUrl = "https://www.pinterest.com/pin/create/button/";
     pinterestUrl += "?url=" + objectUrl;
     pinterestUrl += "&media=" + imgUrl;
@@ -477,7 +549,7 @@ function processResponse(data, expectFullResponse) {
     }
     $("#creator-name").text(theArtist);
     $("#dates-alive").text(datesAlive);
-    $("#title").text(theTitle);
+    $("#title").html(theTitle);
     if (theDate != "") $("#piece-date").text("(" + theDate + ")");
     $("#place").html(thePlace);
     $("#image").attr("src", imgUrl);
@@ -486,14 +558,55 @@ function processResponse(data, expectFullResponse) {
     $("#object-description").html("<p>" + theDescription + "</p>");
     $("#object-context").html("<p>" + theContext + "</p>");
     $("#object-side-caption").html(theSideCaption);
-    $("#physical-description").text(thePhysicalDescription);
-    if (theDate != "") $("#tech-info-piece-date").text(theDate);
-    $("#tech-info-creator-name").text(theArtist);
-    $("#tech-info-materials").html(theMaterials);
-    $("#tech-info-place").text(thePlace);
-    $("#dimensions").text(theDimensions);
-    $("#museum-location").text(theMuseumLocation);
-    $("#museum-number").text(theMuseumNumber);
+    if (thePhysicalDescription != "") {
+        $("#physical-description").html(thePhysicalDescription);
+    } else {
+        console.log("hiding physical description");
+        $("#physical-description").hide();
+        $("#physical-description").prev("h4").hide();
+    }
+    if (theDate != "") {
+        $("#tech-info-piece-date").text(theDate);
+    } else {
+        $("#tech-info-piece-date").hide();
+        $("#tech-info-piece-date").prev("h4").hide();
+    }
+    if (theArtist != "") {
+        $("#tech-info-creator-name").text(theArtist);
+    } else {
+        $("#tech-info-creator-name").hide();
+        $("#tech-info-creator-name").prev("h4").hide();
+    }
+    if (theMaterials != "") {
+        $("#tech-info-materials").html(theMaterials);
+    } else {
+        $("#tech-info-materials").hide();
+        $("#tech-info-materials").prev("h4").hide();
+    }
+    if (thePlace != "") {
+        $("#tech-info-place").text(thePlace);
+    } else {
+        $("#tech-info-place").hide();
+        $("#tech-info-place").prev("h4").hide();
+    }
+    if (theDimensions != "") {
+        $("#dimensions").text(theDimensions);
+    } else {
+        $("#dimensions").hide();
+        $("#dimensions").prev("h4").hide();
+    }
+    if (theMuseumLocation != "") {
+        $("#museum-location").text(theMuseumLocation);
+    } else {
+        $("#museum-location").hide();
+        $("#museum-location").prev("h4").hide();
+    }
+    if (theMuseumNumber != "") {
+        $("#museum-number").text(theMuseumNumber);
+    } else {
+        $("#museum-number").hide();
+        $("#museum-number").prev("h4").hide();
+    }
     $(".content-placeholder, .hide-until-loaded").addClass("loaded");
     $("img.image-hide-until-loaded").load(function() {
         $(".image-hide-until-loaded, .hide-after-loaded").addClass("loaded");
@@ -501,6 +614,32 @@ function processResponse(data, expectFullResponse) {
 }
 
 start();
+
+var _AnalyticsCode = "UA-87491627-1";
+
+var _gaq = _gaq || [];
+
+_gaq.push([ "_setAccount", _AnalyticsCode ]);
+
+_gaq.push([ "_trackPageview" ]);
+
+(function() {
+    var ga = document.createElement("script");
+    ga.type = "text/javascript";
+    ga.async = true;
+    ga.src = "https://ssl.google-analytics.com/ga.js";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+
+function trackPinterestShare(e) {
+    _gaq.push([ "_trackEvent", e.target.id, "pinterest-share" ]);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    var pinButton = document.getElementById("pinterest-button");
+    pinButton.addEventListener("click", trackPinterestShare);
+});
 
 (function(window, $) {
     var pumkin = window.pumkin = window.pumkin || {};

@@ -45,8 +45,8 @@ body, html {
 	overflow: hidden;
 	width:100%;
 	height:100%;
-	max-width:$maxWrapperWidth;
-	min-width:$minWrapperWidth;
+	// max-width:$maxWrapperWidth;
+	// min-width:$minWrapperWidth;
 	min-height:$minWrapperHeight;
 
 	margin:0 auto;
@@ -79,6 +79,24 @@ body, html {
 	// @include animate(1s);
 	display:none;
 	// opacity: 0;
+
+	&.for-warning {
+		.credits-wrapper {
+			display: none;
+		}
+		.warning-wrapper {
+			display: block;
+		}
+	}
+
+	&.for-credits {
+		.credits-wrapper {
+			display: block;
+		}
+		.warning-wrapper {
+			display: none;
+		}
+	}
 }
 
 .close-btn {
@@ -95,7 +113,7 @@ body, html {
 	background-image:url(../../gfx/close.svg);
 }
 
-.credits-wrapper {
+.credits-wrapper, .warning-wrapper {
 	width: 80%;
 	max-width: 400px;
 	min-height: 200px;
@@ -143,7 +161,7 @@ body, html {
     position: absolute;
     transform: rotate(-90deg) translateX(-50%) translateY(-50%);
     transform-origin: top left;
-    top: 42vh;
+    top: 50vh;
     opacity: 0;
     @include animate(500ms);
 
@@ -209,6 +227,9 @@ body, html {
 	text-align: center;
 	height: 100vh;
     position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+
     @include animate(500ms);
 
     &.hide {
@@ -226,6 +247,8 @@ body, html {
 .object-text {
 	min-height: 70vh;
     padding-bottom: 100px;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 .down-arrow {
@@ -305,6 +328,12 @@ body, html {
 
 .technical-info .text-content {
 	margin:100px;
+	max-width: 700px;
+
+	&.middle {
+		margin:50% 100px 0px 100px;
+		transform: translateY(-50%);
+	}
 }
 
 .panel-open-icon {
