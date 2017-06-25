@@ -543,7 +543,7 @@ table {
   font-style: normal; }
 /* line 74, ../../../assets/sass/common/_type.scss */
 body {
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.6em;
   font-family: 'Work Sans Regular', Arial, Sans-serif;
   letter-spacing: -0.01em; }
@@ -586,7 +586,7 @@ h5 {
     max-width: 70%;
     margin-left: auto;
     margin-right: auto;
-    font-size: 15px; }
+    font-size: 13px; }
 
 /* line 132, ../../../assets/sass/common/_type.scss */
 p {
@@ -949,7 +949,7 @@ body, html {
 
 /* line 155, ../../../assets/sass/pages/_global.scss */
 .object-side-caption {
-  font-size: 15px;
+  font-size: 13px;
   width: 65vh;
   text-align: center;
   height: 20px;

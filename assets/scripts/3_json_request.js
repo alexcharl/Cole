@@ -426,6 +426,9 @@ function processResponse(data, expectResponse) {
     if (theMuseumLocation != "") { $('#museum-location').text(theMuseumLocation) } else { $('#museum-location').hide(); $('#museum-location').prev('h4').hide(); }
     if (theMuseumNumber != "") { $('#museum-number').text(theMuseumNumber) } else { $('#museum-number').hide(); $('#museum-number').prev('h4').hide(); }
 
+    // run resize script
+    SITE.onThrottledResize();
+
     // reveal everything that's hidden
     $('.content-placeholder, .hide-until-loaded').addClass('loaded');
 

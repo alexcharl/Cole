@@ -316,10 +316,13 @@ var pumkin = window.pumkin = {};
         HEIGHT = $window.height();
     }
     function onThrottledResize() {
-        console.log("throttle");
-        if ($techInfo.height() < HEIGHT) {
+        console.log("tech info height: " + $techInfo.outerHeight(true));
+        console.log("window height: " + HEIGHT);
+        if ($techInfo.outerHeight(true) < HEIGHT) {
+            console.log("throttle: set middle class on");
             $techInfo.addClass("middle");
         } else {
+            console.log("throttle: set middle class off");
             $techInfo.removeClass("middle");
         }
     }
@@ -337,6 +340,7 @@ var pumkin = window.pumkin = {};
     }
     SITE.initMain = initMain;
     SITE.throwError = throwError;
+    SITE.onThrottledResize = onThrottledResize;
 })(this, this.jQuery, this.Modernizr, this.screenfull, this.FastClick);
 
 var vaUrl = "http://www.vam.ac.uk/api/json/museumobject/";
@@ -607,6 +611,7 @@ function processResponse(data, expectResponse) {
         $("#museum-number").hide();
         $("#museum-number").prev("h4").hide();
     }
+    SITE.onThrottledResize();
     $(".content-placeholder, .hide-until-loaded").addClass("loaded");
     $("img.image-hide-until-loaded").load(function() {
         $(".image-hide-until-loaded, .hide-after-loaded").addClass("loaded");

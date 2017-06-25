@@ -59,7 +59,7 @@
 
 // Set the base font size
 // Used to calcuate ems
-$baseFontSize: 17; // base font size in pixels
+$baseFontSize: 15; // base font size in pixels
 
 @mixin smallText {
 	font-size: $baseFontSize - 2 + px;

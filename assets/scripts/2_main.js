@@ -183,12 +183,15 @@
 	}
 
 	function onThrottledResize () {
-		console.log('throttle');
+		
+		console.log('tech info height: '+$techInfo.outerHeight(true));
+		console.log('window height: '+HEIGHT);
 
-		if ($techInfo.height() < HEIGHT) {
-
+		if ($techInfo.outerHeight(true) < HEIGHT) {
+			console.log('throttle: set middle class on');
 			$techInfo.addClass('middle');
 		} else {
+			console.log('throttle: set middle class off');
 			$techInfo.removeClass('middle');
 		}
 	}
@@ -217,6 +220,7 @@
 	// EXPORT
 	SITE.initMain = initMain;
 	SITE.throwError = throwError;
+	SITE.onThrottledResize = onThrottledResize;
 
 
 })( this, this.jQuery, this.Modernizr, this.screenfull, this.FastClick );
