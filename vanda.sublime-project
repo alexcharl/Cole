@@ -6,9 +6,6 @@
 		},
 		{
 			"path": "assets/scripts"
-		},
-		{
-			"path": "public"
 		}
 	]
 }

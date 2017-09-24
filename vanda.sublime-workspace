@@ -519,71 +519,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "public/manifest.json",
-			"settings":
-			{
-				"buffer_size": 935,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "assets/sass/pages/_global.scss",
-			"settings":
-			{
-				"buffer_size": 6390,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/index.html",
-			"settings":
-			{
-				"buffer_size": 6581,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "assets/scripts/3_json_request.js",
-			"settings":
-			{
-				"buffer_size": 16561,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "8486988",
-			"settings":
-			{
-				"buffer_size": 7,
-				"line_ending": "Unix",
-				"name": "8486988"
-			}
-		},
-		{
-			"file": "assets/scripts/2_main.js",
-			"settings":
-			{
-				"buffer_size": 4991,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/src/override/override.html",
-			"settings":
-			{
-				"buffer_size": 4876,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "assets/sass/common/_type.scss",
-			"settings":
-			{
-				"buffer_size": 2691,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -657,17 +592,20 @@
 	},
 	"file_history":
 	[
+		"/Users/alex/Repos/v_and_a_chrome_ext/public/src/override/override.html",
+		"/Users/alex/Repos/v_and_a_chrome_ext/worksofart/index.html",
+		"/Users/alex/Repos/v_and_a_chrome_ext/Gruntfile.js",
+		"/Users/alex/Repos/v_and_a_chrome_ext/assets/scripts/2_main.js",
+		"/Users/alex/Repos/v_and_a_chrome_ext/assets/scripts/3_json_request.js",
+		"/Users/alex/Repos/v_and_a_chrome_ext/assets/sass/pages/_global.scss",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public/manifest.json",
+		"/Users/alex/Repos/v_and_a_chrome_ext/assets/sass/common/_type.scss",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public/index.html",
 		"/Users/alex/Repos/v_and_a_chrome_ext/public/src/options/options.js",
 		"/Users/alex/Repos/v_and_a_chrome_ext/public/src/options/index.html",
-		"/Users/alex/Repos/v_and_a_chrome_ext/assets/sass/pages/_global.scss",
 		"/Users/alex/Library/Caches/Cleanup At Startup/Transmit/B073577D-DFC9-40F8-9B7C-4B7B4DB0CDAF/contact_style.html",
-		"/Users/alex/Repos/v_and_a_chrome_ext/assets/sass/common/_type.scss",
 		"/Users/alex/Repos/v_and_a_chrome_ext/assets/sass/common/_reusable.scss",
-		"/Users/alex/Repos/v_and_a_chrome_ext/assets/scripts/2_main.js",
 		"/Users/alex/Repos/v_and_a_chrome_ext/public/js/min/scripts.js",
-		"/Users/alex/Repos/v_and_a_chrome_ext/public/index.html",
-		"/Users/alex/Repos/v_and_a_chrome_ext/public/manifest.json",
-		"/Users/alex/Repos/v_and_a_chrome_ext/public/src/override/override.html",
 		"/Users/alex/Repos/v_and_a_chrome_ext/assets/plugins/3_velocity.js",
 		"/Users/alex/Repos/v_and_a_chrome_ext/public/sliding-layout.html",
 		"/Users/alex/Repos/v_and_a_chrome_ext/assets/scripts/1_global.js",
@@ -781,10 +719,7 @@
 		"/Users/alex/Repos/headway-website/craft/templates/_pageElements/_artistEntry.twig",
 		"/Users/alex/Repos/headway-website/craft/templates/page/_entry.twig",
 		"/Users/alex/Repos/headway-website/craft/templates/artists/_entry.twig",
-		"/Users/alex/Repos/headway-website/assets/coffee/Slideshow.coffee",
-		"/Users/alex/Repos/neyber-corporate/src/scss/helper/_function.scss",
-		"/Users/alex/Repos/neyber-corporate/src/scss/base/_config.scss",
-		"/Users/alex/Repos/neyber-corporate/src/scss/base/_base.scss"
+		"/Users/alex/Repos/headway-website/assets/coffee/Slideshow.coffee"
 	],
 	"find":
 	{
@@ -803,6 +738,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"onRes",
+			"middle",
+			"onThr",
+			"onT",
+			"onthrot",
+			"techInfo",
+			"middle",
 			"theDescription",
 			"makeVa",
 			"expectFullResponse",
@@ -923,14 +865,7 @@
 			"__nav",
 			"h-fw-bold",
 			"icon-block",
-			"letter-spa",
-			"minimen",
-			"btn",
-			"--first",
-			"flex",
-			"navigation",
-			"minime",
-			"span:after"
+			"letter-spa"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1003,226 +938,8 @@
 	"groups":
 	[
 		{
-			"selected": 4,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "public/manifest.json",
-					"settings":
-					{
-						"buffer_size": 935,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								56,
-								56
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "assets/sass/pages/_global.scss",
-					"settings":
-					{
-						"buffer_size": 6390,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1489,
-								1489
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 865.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "public/index.html",
-					"settings":
-					{
-						"buffer_size": 6581,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5959,
-								5959
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "assets/scripts/3_json_request.js",
-					"settings":
-					{
-						"buffer_size": 16561,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								893,
-								628
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"settings":
-					{
-						"buffer_size": 7,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								7
-							]
-						],
-						"settings":
-						{
-							"auto_name": "8486988",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "assets/scripts/2_main.js",
-					"settings":
-					{
-						"buffer_size": 4991,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4914,
-								4914
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2761.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "public/src/override/override.html",
-					"settings":
-					{
-						"buffer_size": 4876,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4478,
-								4478
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "assets/sass/common/_type.scss",
-					"settings":
-					{
-						"buffer_size": 2691,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2588,
-								2588
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],

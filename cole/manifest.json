@@ -1,9 +1,9 @@
 {
-  "name": "Works of Art",
-  "version": "0.1.8.1",
+  "name": "Cole",
+  "version": "0.2.0",
   "manifest_version": 2,
   "description": "Discover objects from the Victoria and Albert museum’s collection every time you open a new tab",
-  "homepage_url": "http:/alexcharlton.co",
+  "homepage_url": "http://cole-extension.com",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -29,9 +29,8 @@
     "newtab": "src/override/override.html"
   },
   "permissions": [
-    "tabs",
     "storage",
     "http://www.vam.ac.uk/*",
-    "https://*.pinterest.com/*",
+    "https://*.pinterest.com/*"
   ]
 }
