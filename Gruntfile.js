@@ -5,9 +5,9 @@ module.exports = function(grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
         asset_path: 'assets/',
-        public_path: 'worksofart/',
+        public_path: 'cole/',
         static_dev: 'dev/',
-        static_staging: 'worksofart/static/',
+        static_staging: 'cole/static/',
         static_twig_path: 'static_twig/',
 
         watch: {
