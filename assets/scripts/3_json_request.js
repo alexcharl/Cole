@@ -7,15 +7,15 @@
 
 // VAM api base url
 
-var vaUrl = "http://www.vam.ac.uk/api/json/museumobject/";
+var vaUrl = "https://www.vam.ac.uk/api/json/museumobject/";
 
 // VAM media base url
 
-var vaMediaUrl = "http://media.vam.ac.uk/media/thira/collection_images/";
+var vaMediaUrl = "https://media.vam.ac.uk/media/thira/collection_images/";
 
 // VAM collections base url 
 
-var vaCollectionsUrl = "http://collections.vam.ac.uk/item/";
+var vaCollectionsUrl = "https://collections.vam.ac.uk/item/";
 
 // Set our predefined search terms
 
@@ -169,9 +169,9 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
         console.log( "offset = "+offset );
 
         $.ajax({
-          dataType: "json",
-          url: queryUrl,
           type: "get",
+          url: queryUrl,
+          dataType: "json",
           cache: false,
           data: {
             images: withImages,
@@ -183,6 +183,11 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
             after: after,
             objectnamesearch: searchItem,
             q: searchTerm
+          },
+          error: function (xhr, textStatus, thrownError) {
+            // handleError(xhr, status, msg);
+            console.log('error status= '+textStatus);
+            console.log('error thrown= '+thrownError);
           }
         })
 
@@ -436,6 +441,13 @@ function processResponse(data, expectResponse) {
     $('img.image-hide-until-loaded').load( function() {
         $('.image-hide-until-loaded, .hide-after-loaded').addClass('loaded');
     });
+}
+
+function handleError(jqXHR, status, msg) {
+
+    // log the response data for reference
+
+    console.log("Error was: "+msg);
 }
 
 // ******* Run once ******* //

@@ -343,11 +343,11 @@ var pumkin = window.pumkin = {};
     SITE.onThrottledResize = onThrottledResize;
 })(this, this.jQuery, this.Modernizr, this.screenfull, this.FastClick);
 
-var vaUrl = "http://www.vam.ac.uk/api/json/museumobject/";
+var vaUrl = "https://www.vam.ac.uk/api/json/museumobject/";
 
-var vaMediaUrl = "http://media.vam.ac.uk/media/thira/collection_images/";
+var vaMediaUrl = "https://media.vam.ac.uk/media/thira/collection_images/";
 
-var vaCollectionsUrl = "http://collections.vam.ac.uk/item/";
+var vaCollectionsUrl = "https://collections.vam.ac.uk/item/";
 
 var defaultSearchTerms = [ "Architecture", "Asia", "British Galleries", "Ceramics", "Childhood", "Contemporary", "Fashion", "Jewellery", "Furniture", "Glass", "Metalwork", "Paintings", "Drawings", "Photography", "Prints", "Books", "Sculpture", "Textiles", "Theatre" ];
 
@@ -427,9 +427,9 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
         console.log("Chosen item name = " + searchItem);
         console.log("offset = " + offset);
         $.ajax({
-            dataType: "json",
-            url: queryUrl,
             type: "get",
+            url: queryUrl,
+            dataType: "json",
             cache: false,
             data: {
                 images: withImages,
@@ -440,6 +440,10 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
                 after: after,
                 objectnamesearch: searchItem,
                 q: searchTerm
+            },
+            error: function(xhr, textStatus, thrownError) {
+                console.log("error status= " + textStatus);
+                console.log("error thrown= " + thrownError);
             }
         }).done(function(data) {
             console.log("done");
@@ -616,6 +620,10 @@ function processResponse(data, expectResponse) {
     $("img.image-hide-until-loaded").load(function() {
         $(".image-hide-until-loaded, .hide-after-loaded").addClass("loaded");
     });
+}
+
+function handleError(jqXHR, status, msg) {
+    console.log("Error was: " + msg);
 }
 
 start();
