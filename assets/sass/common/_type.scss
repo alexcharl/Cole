@@ -1,17 +1,17 @@
 @font-face {
-	font-family:"Work Sans Regular";
-	src:url("../../fonts/WorkSans-Regular.woff2") format("woff2"),
-		url("../../fonts/WorkSans-Regular.woff") format("woff"),
-		url("../../fonts/WorkSans-Regular.ttf") format("truetype");
+	font-family:"Untitled Sans Regular";
+	src:url("../../fonts/UntitledSans-Regular.woff") format("woff"),
+		url("../../fonts/UntitledSans-Regular.eot") format("eot"),
+		url("../../fonts/UntitledSans-Regular.ttf") format("truetype");
 	font-weight:normal;
 	font-style:normal;
 }
 
 @font-face {
-	font-family:"Work Sans Semi Bold";
-	src:url("../../fonts/WorkSans-SemiBold.woff2") format("woff2"),
-		url("../../fonts/WorkSans-SemiBold.woff") format("woff"),
-		url("../../fonts/WorkSans-SemiBold.ttf") format("truetype");
+	font-family:"Untitled Sans Medium";
+	src:url("../../fonts/UntitledSans-Medium.woff") format("woff"),
+		url("../../fonts/UntitledSans-Medium.eot") format("eot"),
+		url("../../fonts/UntitledSans-Medium.ttf") format("truetype");
 	font-weight:normal;
 	font-style:normal;
 }
@@ -29,11 +29,11 @@
 }
 
 @mixin regular {
-	font-family: 'Work Sans Regular', Arial, Sans-serif;
+	font-family: 'Untitled Sans Regular', Arial, Sans-serif;
 }
 
-@mixin semibold {
-	font-family: 'Work Sans Semi Bold', 'Arial Bold', Sans-serif;
+@mixin medium {
+	font-family: 'Untitled Sans Semi Bold', 'Arial Bold', Sans-serif;
 }
 
 // ---------------------------------------------------------
@@ -79,7 +79,7 @@ body {
 }
 
 h1 {
-	@include semibold;
+	@include medium;
 	font-size: 60px;
 	line-height: 60px;
 	margin-bottom: 0.4em;
@@ -94,7 +94,7 @@ h1 {
 }
 
 h3 {
-	@include semibold;
+	@include medium;
 	font-size: 34px;
 	line-height: 23px;
 	// margin-bottom: 0.6em;
@@ -111,7 +111,7 @@ h3 {
 }
 
 h4 {
-	@include semibold;
+	@include medium;
 	// margin-bottom: 1.2em;
 }
 
@@ -144,5 +144,5 @@ p {
 // ---------------------------------
 
 strong, b {
-	@include semibold;		
+	@include medium;		
 }

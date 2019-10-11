@@ -532,25 +532,25 @@ table {
   vertical-align: middle; }
 
 @font-face {
-  font-family: "Work Sans Regular";
-  src: url("../../fonts/WorkSans-Regular.woff2") format("woff2"), url("../../fonts/WorkSans-Regular.woff") format("woff"), url("../../fonts/WorkSans-Regular.ttf") format("truetype");
+  font-family: "Untitled Sans Regular";
+  src: url("../../fonts/UntitledSans-Regular.woff") format("woff"), url("../../fonts/UntitledSans-Regular.eot") format("eot"), url("../../fonts/UntitledSans-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
 @font-face {
-  font-family: "Work Sans Semi Bold";
-  src: url("../../fonts/WorkSans-SemiBold.woff2") format("woff2"), url("../../fonts/WorkSans-SemiBold.woff") format("woff"), url("../../fonts/WorkSans-SemiBold.ttf") format("truetype");
+  font-family: "Untitled Sans Medium";
+  src: url("../../fonts/UntitledSans-Medium.woff") format("woff"), url("../../fonts/UntitledSans-Medium.eot") format("eot"), url("../../fonts/UntitledSans-Medium.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
 /* line 74, ../../../assets/sass/common/_type.scss */
 body {
   font-size: 15px;
   line-height: 1.6em;
-  font-family: 'Work Sans Regular', Arial, Sans-serif;
+  font-family: 'Untitled Sans Regular', Arial, Sans-serif;
   letter-spacing: -0.01em; }
 
 /* line 81, ../../../assets/sass/common/_type.scss */
 h1 {
-  font-family: 'Work Sans Semi Bold', 'Arial Bold', Sans-serif;
+  font-family: 'Untitled Sans Semi Bold', 'Arial Bold', Sans-serif;
   font-size: 60px;
   line-height: 60px;
   margin-bottom: 0.4em;
@@ -564,7 +564,7 @@ h1 {
 
 /* line 96, ../../../assets/sass/common/_type.scss */
 h3 {
-  font-family: 'Work Sans Semi Bold', 'Arial Bold', Sans-serif;
+  font-family: 'Untitled Sans Semi Bold', 'Arial Bold', Sans-serif;
   font-size: 34px;
   line-height: 23px;
   letter-spacing: -0.02em;
@@ -576,7 +576,7 @@ h3 {
 
 /* line 113, ../../../assets/sass/common/_type.scss */
 h4 {
-  font-family: 'Work Sans Semi Bold', 'Arial Bold', Sans-serif; }
+  font-family: 'Untitled Sans Semi Bold', 'Arial Bold', Sans-serif; }
 
 /* line 118, ../../../assets/sass/common/_type.scss */
 h5 {
@@ -601,7 +601,7 @@ p {
 
 /* line 146, ../../../assets/sass/common/_type.scss */
 strong, b {
-  font-family: 'Work Sans Semi Bold', 'Arial Bold', Sans-serif; }
+  font-family: 'Untitled Sans Semi Bold', 'Arial Bold', Sans-serif; }
 
 @font-face {
   font-family: "icons";

@@ -6,9 +6,6 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         asset_path: 'assets/',
         public_path: 'cole/',
-        static_dev: 'dev/',
-        static_staging: 'cole/static/',
-        static_twig_path: 'static_twig/',
 
         watch: {
             sass: {
@@ -19,24 +16,9 @@ module.exports = function(grunt) {
                 tasks: ['compass:dev']
             },
 
-            output_twig: {
-              files: [
-                  '<%= static_twig_path %>*',
-                  '<%= static_twig_path %>*/*'
-              ],
-              tasks: ['output_twig:dev']
-            },
-
             watchFiles: {
                 files: [
-                    '<%= public_path %>js/max/*',
-                    '*.php',
-                    'partials/*',
-                    'static/*',
-                    'static/*/*',
-                    'page_sections/*',
-                    'craft/templates/*',
-                    'craft/templates/*/*',
+                    '<%= public_path %>js/max/*'
                 ],
                 options: {
                     livereload: true
@@ -146,58 +128,7 @@ module.exports = function(grunt) {
               }
             }
           }
-        },
-
-      output_twig: {
-
-        // STAGING VERSION
-        dev: {
-          options: {
-            // docroot: 'test/templates/'
-            docroot: '<%= static_twig_path %>/',
-            tmpext: '.twig',
-            context: {
-              isDev: true,
-              assetPath: '/<%= public_path %>',
-              siteName: 'site name',
-              siteUrl: 'site.dev'
-            }
-          },
-          files: [
-            {
-              expand: true,
-              cwd: '<%= static_twig_path %>/',
-              src: ['**/*.twig','!_**/*', '!**/_*', '!_*'],
-              dest: '<%= static_dev %>',
-              ext: '.html'
-            }
-          ]
-        },
-
-        // STAGING VERSION
-        staging: {
-          options: {
-            // docroot: 'test/templates/'
-            docroot: '<%= static_twig_path %>/',
-            tmpext: '.twig',
-            context: {
-              isDev: false,
-              assetPath: '/',
-              siteName: 'site name',
-              siteUrl: 'site.dev'
-            }
-          },
-          files: [
-            {
-              expand: true,
-              cwd: '<%= static_twig_path %>/',
-              src: ['**/*.twig','!_**/*', '!**/_*', '!_*'],
-              dest: '<%= static_staging %>',
-              ext: '.html'
-            }
-          ]
         }
-      }
 
     }); // end init config
 
@@ -207,7 +138,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-browser-sync');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-webfont');
-    grunt.loadNpmTasks('grunt-output-twig');
 
     //register tasks
 
@@ -215,13 +145,10 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ["browserSync", "watch"]);
 
     // compile all files that need compiling
-    grunt.registerTask('c', ['compass', 'uglify', 'output_twig']);
+    grunt.registerTask('c', ['compass', 'uglify']);
 
     // make icon font
     grunt.registerTask('icons', ['webfont']);
-
-    // compile twig
-    grunt.registerTask('twig', ['output_twig']);
 
     grunt.registerTask("js", ["uglify:compile_scripts"])
     grunt.registerTask("sass", ["compass"])
