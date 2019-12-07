@@ -517,7 +517,7 @@ function processResponse(data, expectResponse) {
     theTitle = theTitle.replace(/\<\\i\>/g, "");
     theTitle = theTitle.replace(/\<b\>/g, "");
     theTitle = theTitle.replace(/\<\\b\>/g, "");
-    var theSideCaption = "<strong>" + theTitle + " " + theDate + "</strong>" + " &mdash; " + theArtist + " " + datesAlive;
+    var theCaption = "<strong>" + theTitle + " " + theDate + "</strong>" + " &mdash; " + theArtist + " " + datesAlive;
     theDescription = theDescription.replace(/Object Type\n/g, "");
     theDescription = theDescription.replace(/People\n/g, "");
     theDescription = theDescription.replace(/Place\n/g, "");
@@ -558,14 +558,14 @@ function processResponse(data, expectResponse) {
     $("#creator-name").text(theArtist);
     $("#dates-alive").text(datesAlive);
     $("#title").html(theTitle);
-    if (theDate != "") $("#piece-date").text("(" + theDate + ")");
+    if (theDate != "") $("#piece-date").text(theDate);
     $("#place").html(thePlace);
     $("#image").attr("src", imgUrl);
     $("#pinterest-button").attr("href", pinterestUrl);
     $("#page-link").attr("href", objectUrl);
     $("#object-description").html("<p>" + theDescription + "</p>");
     $("#object-context").html("<p>" + theContext + "</p>");
-    $("#object-side-caption").html(theSideCaption);
+    $("#object-caption").html(theCaption);
     if (thePhysicalDescription != "") {
         $("#physical-description").html(thePhysicalDescription);
     } else {

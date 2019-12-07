@@ -28,7 +28,7 @@ img {
 $maxWrapperWidth: 1280px;
 $minWrapperWidth: 980px;
 $minWrapperHeight: 600px;
-$outerMarginWidth: 100px;
+$outerMarginWidth: 88px;
 
 // Layout
 // -------------------------------------
@@ -143,6 +143,15 @@ body, html {
 	top:0;
 }
 
+ .top-margin {
+	width: 100%;
+	height: $outerMarginWidth;
+	position: absolute;
+	top:0;
+	left:0;
+	border-bottom: 2px solid $lightGrey;
+}
+
 .left-margin {
 	left:0;
 }
@@ -151,6 +160,22 @@ body, html {
 	right:0;
 	position:fixed;
 	z-index:100;
+}
+
+.object-caption {
+	@include smallText;
+	width: 65vh;
+    text-align: center;
+    height: 20px;
+    left: 40px;
+    position: absolute;
+    top: 20px;
+    opacity: 0;
+    @include animate(500ms);
+
+    &.reveal {
+    	opacity: 1;
+    }
 }
 
 .object-side-caption {
@@ -213,8 +238,8 @@ body, html {
 
 .content-area {
 	position: relative;
-	margin-left: $outerMarginWidth;
 	height:100%;
+	// background-color: $lightGrey;
 }
 
 // Text area
@@ -242,6 +267,8 @@ body, html {
 	position: relative;
 	top:50vh;
 	transform: translateY(-60%);
+	margin-left: 108px;
+	margin-right: 108px;
     // margin-top: 50vh;
 }
 

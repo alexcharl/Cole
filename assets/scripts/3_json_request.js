@@ -343,7 +343,7 @@ function processResponse(data, expectResponse) {
     theTitle = theTitle.replace(/\<\\b\>/g,"");
 
     //  construct the title for the side margin
-    var theSideCaption  = "<strong>" 
+    var theCaption  = "<strong>" 
                         + theTitle 
                         + " " + theDate
                         + "</strong>"
@@ -410,7 +410,7 @@ function processResponse(data, expectResponse) {
     $('#creator-name').text(theArtist);
     $('#dates-alive').text(datesAlive);
     $('#title').html(theTitle);
-    if (theDate != "") $('#piece-date').text("("+theDate+")");
+    if (theDate != "") $('#piece-date').text(theDate);
     $('#place').html(thePlace);
     $('#image').attr('src', imgUrl);
     $('#pinterest-button').attr('href', pinterestUrl);
@@ -419,7 +419,7 @@ function processResponse(data, expectResponse) {
     $('#object-context').html('<p>'+theContext+'</p>');
 
     // side caption
-    $('#object-side-caption').html(theSideCaption);
+    $('#object-caption').html(theCaption);
 
     // technical info
     if (thePhysicalDescription != "") { $('#physical-description').html(thePhysicalDescription) } else { console.log('hiding physical description'); $('#physical-description').hide(); $('#physical-description').prev('h4').hide(); }

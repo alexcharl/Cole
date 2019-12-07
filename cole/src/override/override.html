@@ -31,7 +31,7 @@
 <script src="/jquery/jquery_2.js"></script>
 
 <script src='/js/plugins.js?v=1.0'></script>
-<script src='/js/min/scripts.js?v=0.1'></script>
+<script src='/js/max/scripts.js?v=0.1'></script>
 
 </head>
 
@@ -39,109 +39,91 @@
 
 	<div class="wrapper">
 
+		<div class="top-margin">
+			<div class="object-caption" id="object-caption"></div>
+		</div><!-- .left-margin -->
+
+		<article class="content-area grid">
+
+			<section class="text-content-column grid__col grid__col--4-of-8">
+
+				<header class="object-header">
+					<div class="object-header-inner hide-until-loaded">
+
+						<h5><span id="creator-name" class="content-placeholder"></span></h5>
+						<h1 class="content-placeholder"><span id="title"></span>, <span id="piece-date" class="reg-weight"></span></h1>
+						
+					</div>
+					<nav class="down-arrow hide-until-loaded"></nav>
+				</header>
+
+				<div class="object-text">
+
+					<div class="text-block" id="object-description">
+						<p></p>
+					</div>
+
+					<div class="text-block" id="object-context">
+						<p></p>
+					</div>
+
+					<section class="text-content">
+						<h3>More information</h3>
+						<h4>Physical description</h4>
+						<p id="physical-description"></p>
+						<h4>Place of origin</h4>
+						<p id="tech-info-place"></p>
+						<h4>Date</h4>
+						<p id="tech-info-piece-date"></p>
+						<h4>Artist/Maker</h4>
+						<p id="tech-info-creator-name"></p>
+						<p id="dates-alive"></span></p>
+						<h4>Materials and techniques</h4>
+						<p id="tech-info-materials"></p>
+						<h4>Dimensions</h4>
+						<p id="dimensions"></p>
+						<h4>Museum location</h4>
+						<p id="museum-location"></p>
+						<h4>Museum number</h4>
+						<p id="museum-number"></p>
+
+						<p class="object-image-copyright">
+							<p><small>&copy; Victoria &amp; Albert Museum, London</small></p>
+						</p>
+					</section>
+
+				</div>
+
+			</section>
+			<figure class="image-content-column grid__col grid__col--4-of-8">
+
+				<div class="loading hide-after-loaded">
+					<div class="dot"></div>
+					<div class="dot"></div>
+					<div class="dot"></div>
+				</div>
+
+				<div class="object-image-wrapper">
+					<div class="object-image">
+						<img src="" id="image" class="image-hide-until-loaded"></img>
+					</div>
+				</div>
+
+			</figure>
+
+		</article>
+
 		<div class="sliding-container">
-
-			<div class="left-margin">
-				<div class="object-side-caption" id="object-side-caption"></div>
-			</div><!-- .left-margin -->
-
-			<article class="content-area grid">
-
-				<section class="text-content-column grid__col grid__col--3-of-7">
-
-					<header class="object-header">
-						<div class="object-header-inner hide-until-loaded">
-
-							<h5><span id="creator-name" class="content-placeholder"></span></h5>
-							<h1 class="content-placeholder"><span id="title"></span>, <span id="piece-date" class="reg-weight"></span></h1>
-							
-						</div>
-						<nav class="down-arrow hide-until-loaded"></nav>
-					</header>
-
-					<div class="object-text">
-
-						<div class="text-block" id="object-description">
-							<p></p>
-						</div>
-
-						<div class="text-block" id="object-context">
-							<p></p>
-						</div>
-
-						<section class="text-content">
-							<h3>More information</h3>
-							<h4>Physical description</h4>
-							<p id="physical-description"></p>
-							<h4>Place of origin</h4>
-							<p id="tech-info-place"></p>
-							<h4>Date</h4>
-							<p id="tech-info-piece-date"></p>
-							<h4>Artist/Maker</h4>
-							<p id="tech-info-creator-name"></p>
-							<p id="dates-alive"></span></p>
-							<h4>Materials and techniques</h4>
-							<p id="tech-info-materials"></p>
-							<h4>Dimensions</h4>
-							<p id="dimensions"></p>
-							<h4>Museum location</h4>
-							<p id="museum-location"></p>
-							<h4>Museum number</h4>
-							<p id="museum-number"></p>
-
-							<p class="object-image-copyright">
-								<p><small>&copy; Victoria &amp; Albert Museum, London</small></p>
-							</p>
-						</section>
-
-					</div>
-
-				</section>
-				<figure class="image-content-column grid__col grid__col--4-of-7">
-
-					<div class="loading hide-after-loaded">
-						<div class="dot"></div>
-						<div class="dot"></div>
-						<div class="dot"></div>
-					</div>
-
-					<div class="object-image-wrapper">
-						<div class="object-image">
-							<img src="" id="image" class="image-hide-until-loaded"></img>
-						</div>
-					</div>
-
-				</figure>
-
-			</article>
-
-			<div class="right-margin">
-				<nav class="panel-open-icon hide-until-loaded"></nav>
-			</div><!-- .right-margin -->
 
 			<aside class="technical-info side-panel">
 
 				<div class="panel-background"></div>
 				
 				<section class="text-content">
-					<h3>More information</h3>
-					<h4>Physical description</h4>
-					<p id="physical-description"></p>
-					<h4>Place of origin</h4>
-					<p id="tech-info-place"></p>
-					<h4>Date</h4>
-					<p id="tech-info-piece-date"></p>
-					<h4>Artist/Maker</h4>
-					<p id="tech-info-creator-name"></p>
-					<p id="dates-alive"></span></p>
-					<h4>Materials and techniques</h4>
-					<p id="tech-info-materials"></p>
-					<h4>Dimensions</h4>
-					<p id="dimensions"></p>
-					<h4>Museum location</h4>
-					<p id="museum-location"></p>
-					<h4>Museum number</h4>
-					<p id="museum-number"></p>
+					<h3>Credits</h3>
+					<p>Conceived, designed and realised by <a href="mailto:galajover@gmail.com">Gala Jover</a> and <a href="http://alexcharlton.co" target="_blank">Alex Charlton</a></p>
+					<p><a class="go-to-options">Change my search terms</a></p>
+					<p><a class="close-overlay">Close this panel</a></p>
 				</section>
 
 			</aside>
@@ -166,12 +148,6 @@
 
 		<article class="overlay closed" id="credits">
 			<a class="close-btn close-overlay"></a>
-			<div class="credits-wrapper">	
-				<h3>Credits</h3>
-				<p>Conceived, designed and realised by <a href="mailto:galajover@gmail.com">Gala Jover</a> and <a href="http://alexcharlton.co" target="_blank">Alex Charlton</a></p>
-				<p><a class="go-to-options">Change my search terms</a></p>
-				<p><a class="close-overlay">Close this panel</a></p>
-			</div>
 			<div class="warning-wrapper">	
 				<h3>Sorry!</h3>
 				<p>We couldn't match any objects to your search terms. Try changing them to something else, delete them all together (to search the whole collection), or turn off 'Strict Search' in the extension settings.</p>
