@@ -33,7 +33,7 @@
 }
 
 @mixin medium {
-	font-family: 'Untitled Sans Semi Bold', 'Arial Bold', Sans-serif;
+	font-family: 'Untitled Sans Medium', 'Arial Bold', Sans-serif;
 }
 
 // ---------------------------------------------------------
@@ -59,15 +59,15 @@
 
 // Set the base font size
 // Used to calcuate ems
-$baseFontSize: 15; // base font size in pixels
+$baseFontSize: 18; // base font size in pixels
 
 @mixin smallText {
-	font-size: $baseFontSize - 2 + px;
+	font-size: $baseFontSize - 4 + px;
 	// line-height: 18px;
 }
 
 @mixin largeText {
-	font-size: $baseFontSize + 2 + px;
+	font-size: $baseFontSize + 4 + px;
 	// line-height: 18px;
 }
 
@@ -80,7 +80,7 @@ body {
 
 h1 {
 	@include medium;
-	font-size: 60px;
+	font-size: 48px;
 	line-height: 60px;
 	margin-bottom: 0.4em;
 	@include letter-spacing(-20);
@@ -91,12 +91,16 @@ h1 {
 		font-size: 32px;
 		line-height: 36px;
 	}
+
+	.reg-weight {
+		@include regular;
+	}
 }
 
 h3 {
 	@include medium;
-	font-size: 34px;
-	line-height: 23px;
+	font-size: 32px;
+	line-height: 36px;
 	// margin-bottom: 0.6em;
 	@include letter-spacing(-20);
 

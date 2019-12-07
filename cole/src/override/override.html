@@ -26,7 +26,7 @@
 
 <link rel="icon" href="/icons/icon128.png" type="image/x-icon">
 
-<link type='text/css' href='/css/min/main.css?v=0.1' rel='stylesheet' media='all' />
+<link type='text/css' href='/css/max/main.css?v=0.1' rel='stylesheet' media='all' />
 
 <script src="/jquery/jquery_2.js"></script>
 
@@ -51,11 +51,10 @@
 
 					<header class="object-header">
 						<div class="object-header-inner hide-until-loaded">
-							<h5><span id="creator-name" class="content-placeholder"></span><br>
-							<span id="dates-alive" class="content-placeholder"></span></h5>
-							<h1 id="title" class="content-placeholder"></h1>
-							<h3 id="piece-date" class="content-placeholder"></h3>
-							<h5 id="place" class="content-placeholder"></h5>
+
+							<h5><span id="creator-name" class="content-placeholder"></span></h5>
+							<h1 class="content-placeholder"><span id="title"></span>, <span id="piece-date" class="reg-weight"></span></h1>
+							
 						</div>
 						<nav class="down-arrow hide-until-loaded"></nav>
 					</header>
@@ -69,6 +68,31 @@
 						<div class="text-block" id="object-context">
 							<p></p>
 						</div>
+
+						<section class="text-content">
+							<h3>More information</h3>
+							<h4>Physical description</h4>
+							<p id="physical-description"></p>
+							<h4>Place of origin</h4>
+							<p id="tech-info-place"></p>
+							<h4>Date</h4>
+							<p id="tech-info-piece-date"></p>
+							<h4>Artist/Maker</h4>
+							<p id="tech-info-creator-name"></p>
+							<p id="dates-alive"></span></p>
+							<h4>Materials and techniques</h4>
+							<p id="tech-info-materials"></p>
+							<h4>Dimensions</h4>
+							<p id="dimensions"></p>
+							<h4>Museum location</h4>
+							<p id="museum-location"></p>
+							<h4>Museum number</h4>
+							<p id="museum-number"></p>
+
+							<p class="object-image-copyright">
+								<p><small>&copy; Victoria &amp; Albert Museum, London</small></p>
+							</p>
+						</section>
 
 					</div>
 
@@ -85,9 +109,6 @@
 						<div class="object-image">
 							<img src="" id="image" class="image-hide-until-loaded"></img>
 						</div>
-						<figcaption class="object-image-copyright image-hide-until-loaded">
-							<p><small>&copy; Victoria &amp; Albert Museum, London</small></p>
-						</figcaption>
 					</div>
 
 				</figure>
@@ -112,6 +133,7 @@
 					<p id="tech-info-piece-date"></p>
 					<h4>Artist/Maker</h4>
 					<p id="tech-info-creator-name"></p>
+					<p id="dates-alive"></span></p>
 					<h4>Materials and techniques</h4>
 					<p id="tech-info-materials"></p>
 					<h4>Dimensions</h4>
@@ -162,6 +184,10 @@
 	<div id="mobileTester"></div>
 	<div id="tabletTester"></div>
 	<div id="gutter-tester"></div>
+
+	<script id="__bs_script__">//<![CDATA[
+	    document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.26.7'><\/script>".replace("HOST", location.hostname));
+	//]]></script>
 	
 </body>
 </html>
