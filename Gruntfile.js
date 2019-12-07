@@ -30,14 +30,7 @@ module.exports = function(grunt) {
                     '<%= asset_path %>scripts/*'
                 ],
                 tasks: ['uglify:compile_scripts']
-            },
-
-            webfont: {
-                files: [
-                    '<%= asset_path %>icons/*.svg'
-                ],
-                tasks: ['webfont']
-            }   
+            }
         },
 
         browserSync: {
@@ -106,28 +99,6 @@ module.exports = function(grunt) {
                     outputStyle: 'compressed'
                 }
             }
-        },
-
-        webfont: {
-          icons: {
-            src: '<%= asset_path %>icons/*.svg',
-            dest: '<%= public_path %>Fonts/icons',
-            destCss: '<%= asset_path %>sass/common',
-            
-            options: {
-              stylesheet: 'scss',
-              // template: 'icons/templates/_icon_template.scss',
-              relativeFontPath: '../../fonts/icons/',
-              destHtml: '<%= public_path %>Fonts/icons/preview',
-              ligatures: false,
-              engine: 'node',
-              templateOptions: {
-                baseClass: 'icon',
-                classPrefix: 'icon_',
-                mixinPrefix: 'icon-'
-              }
-            }
-          }
         }
 
     }); // end init config
@@ -137,7 +108,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-browser-sync');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-webfont');
 
     //register tasks
 
@@ -147,8 +117,6 @@ module.exports = function(grunt) {
     // compile all files that need compiling
     grunt.registerTask('c', ['compass', 'uglify']);
 
-    // make icon font
-    grunt.registerTask('icons', ['webfont']);
 
     grunt.registerTask("js", ["uglify:compile_scripts"])
     grunt.registerTask("sass", ["compass"])

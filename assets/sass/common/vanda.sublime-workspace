@@ -1,0 +1,911 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"pad",
+				"padding-top"
+			],
+			[
+				"back",
+				"background-color\tproperty"
+			],
+			[
+				"font",
+				"font-weight\tproperty"
+			],
+			[
+				"cae",
+				"case-studies"
+			],
+			[
+				"blue",
+				"blue-bg"
+			],
+			[
+				"work-",
+				"work--project-images"
+			],
+			[
+				"padd",
+				"padding"
+			],
+			[
+				"te",
+				"text-decoration\tproperty"
+			],
+			[
+				"marg",
+				"margin-top\tproperty"
+			],
+			[
+				"ver",
+				"very-large-width"
+			],
+			[
+				"no",
+				"no-background"
+			],
+			[
+				"arti",
+				"article-image"
+			],
+			[
+				"_",
+				"_blank"
+			],
+			[
+				"mediu",
+				"medium-height"
+			],
+			[
+				"zoom",
+				"zoom-150"
+			],
+			[
+				"medi",
+				"medium-width"
+			],
+			[
+				"crop",
+				"crop-left--30"
+			],
+			[
+				"ma",
+				"margin-left\tproperty"
+			],
+			[
+				"case",
+				"case-studies"
+			],
+			[
+				"bas",
+				"baseFontSize"
+			],
+			[
+				"fon",
+				"font-size\tproperty"
+			],
+			[
+				"base",
+				"baseFontSize"
+			],
+			[
+				"col",
+				"color\tproperty"
+			],
+			[
+				"mar",
+				"margin-right\tproperty"
+			],
+			[
+				"in",
+				"inline\tdisplay"
+			],
+			[
+				"di",
+				"display\tproperty"
+			],
+			[
+				"w",
+				"width\tproperty"
+			],
+			[
+				"font-",
+				"font-size\tproperty"
+			],
+			[
+				"st",
+				"std-content-width"
+			],
+			[
+				"scr",
+				"scrollTo"
+			],
+			[
+				"pa",
+				"padding"
+			],
+			[
+				"max",
+				"max-width"
+			],
+			[
+				"bac",
+				"background-color"
+			],
+			[
+				"text",
+				"text-decoration"
+			],
+			[
+				"trs",
+				"transition"
+			],
+			[
+				"re",
+				"removeClass"
+			],
+			[
+				"cred",
+				"creditsOpenBtn"
+			],
+			[
+				"min",
+				"min-height"
+			],
+			[
+				"inlie",
+				"inline-block"
+			],
+			[
+				"con",
+				"content-placeholder"
+			],
+			[
+				"hide",
+				"hide-before-loading"
+			],
+			[
+				"pin",
+				"pinterestUrl"
+			],
+			[
+				"obj",
+				"objectUrl"
+			],
+			[
+				"tex",
+				"text-decoration"
+			],
+			[
+				"choose",
+				"chooseSearchTerm"
+			],
+			[
+				"get",
+				"getSearchTerms"
+			],
+			[
+				"sea",
+				"searchTerms"
+			],
+			[
+				"user",
+				"userSearchTerms"
+			],
+			[
+				"tra",
+				"translateX"
+			],
+			[
+				"scrol",
+				"scrollTop"
+			],
+			[
+				"scro",
+				"scrollAmt"
+			],
+			[
+				"do",
+				"down-arrow"
+			],
+			[
+				"thr",
+				"throttledScroll"
+			],
+			[
+				"sma",
+				"smallText"
+			],
+			[
+				"onT",
+				"onThrottledScroll"
+			],
+			[
+				"theS",
+				"theSideCaption"
+			],
+			[
+				"dates",
+				"datesAlive"
+			],
+			[
+				"theP",
+				"thePhysicalDescription"
+			],
+			[
+				"obec",
+				"objectInfo"
+			],
+			[
+				"use",
+				"useSearchTerms"
+			],
+			[
+				"sear",
+				"searchTerms2"
+			],
+			[
+				"tran",
+				"transform"
+			],
+			[
+				"conten",
+				"content-area"
+			],
+			[
+				"pane",
+				"panel-open-icon"
+			],
+			[
+				"no-",
+				"no-repeat"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"date",
+				"datesAlive"
+			],
+			[
+				"artist",
+				"artistInfo"
+			],
+			[
+				"artst",
+				"artistInfo"
+			],
+			[
+				"ob",
+				"objectInfo"
+			],
+			[
+				"obe",
+				"objectInfo"
+			],
+			[
+				"obje",
+				"objectInfo"
+			],
+			[
+				"var",
+				"vaUrl"
+			],
+			[
+				"ex",
+				"expectFullResponse"
+			],
+			[
+				"object",
+				"objectNumber"
+			],
+			[
+				"va",
+				"vaUrl"
+			],
+			[
+				"wi",
+				"withImages"
+			],
+			[
+				"with",
+				"withDescription"
+			],
+			[
+				"piece",
+				"piece-date"
+			],
+			[
+				"tech",
+				"technical-info"
+			],
+			[
+				"out",
+				"outerMarginWidth"
+			],
+			[
+				"minw",
+				"minWrapperHeight"
+			],
+			[
+				"black",
+				"black-percent"
+			],
+			[
+				"letter",
+				"letter-spacing"
+			],
+			[
+				"Work",
+				"WorkSans-Regular"
+			],
+			[
+				"init",
+				"initHomeCarousels"
+			],
+			[
+				"slid",
+				"slideshow"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"margin",
+				"margin"
+			],
+			[
+				"inc",
+				"include"
+			],
+			[
+				"ha",
+				"has-dark-grey-background"
+			],
+			[
+				"has",
+				"has-teal-background"
+			],
+			[
+				"mag",
+				"margin-bottom"
+			],
+			[
+				"image",
+				"image-on-left"
+			],
+			[
+				"sec",
+				"section-panel-image"
+			],
+			[
+				"cut",
+				"custom-section"
+			],
+			[
+				"theOB",
+				"theObjectNumber"
+			],
+			[
+				"whi",
+				"whichObject"
+			],
+			[
+				"da",
+				"date_text"
+			],
+			[
+				"the",
+				"theObject"
+			],
+			[
+				"inli",
+				"inline-block"
+			],
+			[
+				"border",
+				"border-radius"
+			],
+			[
+				"margi",
+				"margin-bottom"
+			],
+			[
+				"max-",
+				"max-width"
+			],
+			[
+				"ma-",
+				"max-width"
+			],
+			[
+				"list-",
+				"list-style-type"
+			],
+			[
+				"sub",
+				"subnav-child-link"
+			],
+			[
+				"light",
+				"lightbox_mail"
+			],
+			[
+				"ligh",
+				"lightGrey"
+			],
+			[
+				"padding-",
+				"padding-left"
+			],
+			[
+				"he",
+				"height"
+			],
+			[
+				"socia",
+				"social-media-links"
+			],
+			[
+				"her",
+				"hero-banner"
+			],
+			[
+				"sc",
+				"social-two"
+			],
+			[
+				"text-",
+				"text-decoration"
+			],
+			[
+				"le",
+				"letter-spacing"
+			],
+			[
+				"lin",
+				"line-height"
+			],
+			[
+				"home",
+				"homeUrl"
+			],
+			[
+				"prev",
+				"previousPage"
+			],
+			[
+				"min-",
+				"min-width"
+			],
+			[
+				"sta",
+				"standfirst-header"
+			],
+			[
+				"apartment",
+				"apartment-number"
+			],
+			[
+				"smal",
+				"smallestGap"
+			],
+			[
+				"small",
+				"smallGap"
+			],
+			[
+				"pos",
+				"position"
+			],
+			[
+				"soho",
+				"sohomanagement"
+			],
+			[
+				"email_",
+				"email_msg"
+			],
+			[
+				"lightbox-",
+				"lightbox-rename-button"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "_type.scss",
+			"settings":
+			{
+				"buffer_size": 2704,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"lowe",
+				"Convert Case: Lower Case"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"mark",
+				"Set Syntax: Markdown"
+			],
+			[
+				"markdo",
+				"Set Syntax: MultiMarkdown"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"t",
+				"Tag: Auto-Format Tags on Document"
+			],
+			[
+				"tag",
+				"Tag: Auto-Format Tags on Document"
+			],
+			[
+				"Package Control: Install Package",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 125.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/alexcharlton/Repos/v_and_a_chrome_ext/assets/sass",
+		"/Users/alexcharlton/Repos/v_and_a_chrome_ext/assets/sass/common"
+	],
+	"file_history":
+	[
+		"/Users/alexcharlton/Library/Caches/Cleanup At Startup/Transmit/A9CB3EC9-D11E-435E-A800-6836273D9B67/index.php",
+		"/Users/alexcharlton/Downloads/sitemap.xml",
+		"/Users/alexcharlton/Repos/cole_old/assets/sass/common/_type.scss",
+		"/Users/alexcharlton/Repos/v_and_a_chrome_ext/cole/fonts/UntitledSans-Medium.css",
+		"/Users/alexcharlton/Repos/v_and_a_chrome_ext/cole/fonts/Untitled Sans Regular/UntitledSans-Regular.css",
+		"/Users/alexcharlton/Repos/v_and_a_chrome_ext/assets/scripts/3_json_request.js",
+		"/Users/alexcharlton/Repos/alex_charlton_design/public/partials/header.inc",
+		"/Users/alexcharlton/Repos/alex_charlton_design/public/partials/profile_nav.inc",
+		"/Users/alexcharlton/Repos/alex_charlton_design/public/pages/about/index.php",
+		"/Users/alexcharlton/Repos/alex_charlton_design/public/case-studies/bookingdotcom/index.php",
+		"/Users/alexcharlton/Repos/alex_charlton_design/assets/scripts/2_main.js",
+		"/Users/alexcharlton/Repos/alex_charlton_design/assets/sass/common/_reusable.scss",
+		"/Users/alexcharlton/Repos/alex_charlton_design/assets/sass/common/variables.scss",
+		"/Users/alexcharlton/Repos/alex_charlton_design/assets/sass/pages/_global.scss",
+		"/Users/alexcharlton/Repos/alex_charlton_design/public/case-studies/nsi/index.php",
+		"/Users/alexcharlton/Repos/alex_charlton_design/public/pages/case-studies/index.php",
+		"/Users/alexcharlton/Repos/alex_charlton_design/public/partials/case_study_sign_off.inc",
+		"/Users/alexcharlton/Repos/alex_charlton_design/public/partials/head.inc",
+		"/Users/alexcharlton/Repos/alex_charlton_design/assets/sass/common/_colours.scss",
+		"/Users/alexcharlton/Repos/alex_charlton_design/public/partials/foot.inc",
+		"/Users/alexcharlton/Repos/alex_charlton_design/assets/sass/pages/_work.scss",
+		"/Users/alexcharlton/Repos/alex_charlton_design/assets/sass/common/_type.scss",
+		"/Users/alexcharlton/Library/Caches/Cleanup At Startup/Transmit/40BBC68F-1208-4140-B473-9B4B7FADB3E6/index.php",
+		"/Users/alexcharlton/Repos/alex_charlton_design/public/partials/profile_contact.inc",
+		"/Users/alexcharlton/Dropbox/Private/Alex Charlton Design (NL)/job-apps.md",
+		"/Users/alex/Dropbox/Projects/Alex Charlton Design/statements.md",
+		"/Users/alex/Library/Caches/Cleanup At Startup/Transmit/1ABD87DE-96F3-4AED-AF4C-4A4108B58C7A/nav.html",
+		"/Users/alex/Library/Caches/Cleanup At Startup/Transmit/A992AD52-580B-4792-BC24-D605FF1C5093/index.twig",
+		"/Users/alex/Library/Caches/Cleanup At Startup/Transmit/637094E3-CB73-42BA-94AC-B0F9F9FAC7D5/index.php",
+		"/Users/alex/Repos/alex_charlton_design/public/pages/about/index.php",
+		"/Users/alex/Library/Caches/Cleanup At Startup/Transmit/287AEF97-CAE1-481A-81C5-8B3A444ED36C/index.php",
+		"/Users/alex/Library/Caches/Cleanup At Startup/Transmit/0D81EAA7-0B71-458A-A727-8FB9F4E018E1/index.php",
+		"/Users/alex/Dropbox/Projects/First News/Resource/site.css",
+		"/Users/alex/Downloads/noun_620704_cc.svg",
+		"/Users/alex/Downloads/noun_632036_cc.svg",
+		"/Users/alex/Downloads/noun_801107_cc.svg",
+		"/Users/alex/Downloads/noun_801115_cc.svg",
+		"/Users/alex/Downloads/noun_889032_cc.svg",
+		"/Users/alex/Downloads/noun_925594_cc.svg",
+		"/Users/alex/Downloads/noun_941437_cc.svg",
+		"/Users/alex/Repos/alex_charlton_design/public/case-studies/neyber/index.php",
+		"/Users/alex/Repos/alex_charlton_design/assets/sass/pages/_work.scss",
+		"/Users/alex/Repos/alex_charlton_design/assets/sass/common/_breakpoints.scss",
+		"/Users/alex/Repos/alex_charlton_design/assets/sass/pages/_global.scss",
+		"/Users/alex/Repos/alex_charlton_design/public/index.php",
+		"/Users/alex/Repos/alex_charlton_design/public/partials/profile_nav_social.inc",
+		"/Users/alex/Repos/alex_charlton_design/public/partials/profile_nav.inc",
+		"/Users/alex/Repos/alex_charlton_design/assets/sass/common/_type.scss",
+		"/Users/alex/Dropbox/Projects/Alex Charlton Design/job-apps.md",
+		"/Users/alex/Repos/alex_charlton_design/public/partials/header.inc",
+		"/Users/alex/Repos/alex_charlton_design/assets/scripts/2_main.js",
+		"/Users/alex/Repos/alex_charlton_design/Gruntfile.js",
+		"/Users/alex/Repos/alex_charlton_design/assets/sass/common/variables.scss",
+		"/Users/alex/Repos/alex_charlton_design/public/partials/head.inc",
+		"/Users/alex/Repos/alex_charlton_design/public/case-studies/vanda/index.php",
+		"/Users/alex/Repos/alex_charlton_design/assets/sass/common/_animations.scss",
+		"/Users/alex/Repos/alex_charlton_design/public/partials/foot.inc",
+		"/Users/alex/Repos/alex_charlton_design/public/case-studies/option-grid/index.php",
+		"/Users/alex/Repos/alex_charlton_design/assets/plugins/4_animate_it.js",
+		"/Users/alex/Repos/alex_charlton_design/assets/sass/common/_all.scss",
+		"/Users/alex/Downloads/Animate-Elements-In-When-They-Come-Into-View-jQuery-CSS3-Animate-It-Plugin/examples.php",
+		"/Users/alex/Repos/alex_charlton_design/assets/sass/common/_colours.scss",
+		"/Users/alex/Repos/alex_charlton_design/assets/sass/common/_reusable.scss",
+		"/Users/alex/Repos/alex_charlton_design/public/neyber-case-study.php",
+		"/Users/alex/Repos/alex_charlton_design/public/option-grid-case-study.php",
+		"/Users/alex/Repos/alex_charlton_design/public/folio.php",
+		"/Users/alex/Library/Caches/Cleanup At Startup/Transmit/9AD68ABB-85EE-4B02-A686-97447116F8DC/neyber-case-study.php",
+		"/Users/alex/Repos/alex_charlton_design/assets/sass/main.scss",
+		"/Users/alex/Library/Caches/Cleanup At Startup/Transmit/FB4B961E-9D6A-4C4B-8A9C-80EE966132B5/index.php",
+		"/Users/alex/Library/Caches/Cleanup At Startup/Transmit/22BA3F6E-0541-485C-94F1-6BA996AA14E0/index.php",
+		"/Users/alex/Library/Caches/Cleanup At Startup/Transmit/C7D2065E-E095-4CD9-B304-7546B9AAD788/index.php",
+		"/Applications/Adobe Photoshop CC 2015/Presets/Scripts/Pumkin_Image_Processor.js",
+		"/Users/alex/Repos/alex_charlton_design/assets/sass/common/statements.txt",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public/manifest.json",
+		"/Users/alex/Library/Caches/Cleanup At Startup/Transmit/D589054A-C911-4ACE-A259-BBE25955947F/js-test.html",
+		"/Users/alex/Library/Caches/Cleanup At Startup/Transmit/57FD6257-F498-4BAC-B580-C96A5B85447E/config.inc.php",
+		"/Users/alex/Library/Caches/Cleanup At Startup/Transmit/F382ADF1-EA50-4933-B97A-66DF428886EC/document.parser.class.inc.php",
+		"/Users/alex/Repos/alex_charlton_design/public/jquery/jquery_3.js",
+		"/Users/alex/Repos/alex_charlton_design/public/jquery/jquery_2.js",
+		"/Users/alex/Repos/alex_charlton_design/static_php/partials/head.inc",
+		"/Users/alex/Repos/alex_charlton_design/static_php/index.php",
+		"/Users/alex/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/alex/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/Users/alex/Repos/alex_charlton_design/public/partials/browser_watch.inc",
+		"/Users/alex/Repos/start_here/static_php/partials/head.inc",
+		"/Users/alex/Repos/alex_charlton_design/.htaccess",
+		"/Users/alex/Repos/alex_charlton_design/package.json",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public/js/min/scripts.js",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public/src/options/options.js",
+		"/Users/alex/Repos/v_and_a_chrome_ext/assets/sass/common/_type.scss",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public/index.html",
+		"/Users/alex/Repos/v_and_a_chrome_ext/assets/scripts/2_main.js",
+		"/Users/alex/Repos/v_and_a_chrome_ext/assets/sass/common/_reusable.scss",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public/src/override/override.html",
+		"/Users/alex/Repos/v_and_a_chrome_ext/assets/plugins/3_velocity.js",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public/sliding-layout.html",
+		"/Users/alex/Repos/v_and_a_chrome_ext/assets/scripts/1_global.js",
+		"/Users/alex/Repos/v_and_a_chrome_ext/assets/sass/common/_colours.scss",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public 2/src/override/override.html",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public 2/manifest.json",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public 2/index.html",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public v0.0.1/src/options/index.html",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public v0.0.1/src/bg/background.html",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public 2/src/bg/background.html",
+		"/Users/alex/Repos/v_and_a_chrome_ext/public/src/bg/background.html",
+		"/Users/alex/Repos/v_and_a_chrome_ext/assets/sass/common/_grid.scss",
+		"/Users/alex/Repos/v_and_a_chrome_ext/assets/sass/common/_all.scss",
+		"/Users/alex/Repos/test_repo/contributors.txt",
+		"/Users/alex/Repos/v_and_a_chrome_ext/assets/sass/pages/_global.scss",
+		"/Users/alex/Repos/optiongrid/assets/scripts/4_home.js",
+		"/Users/alex/Repos/optiongrid/Gruntfile.js",
+		"/Users/alex/Repos/optiongrid/craft/templates/_elements/_contentBlocks.twig",
+		"/Users/alex/Repos/optiongrid/assets/sass/thirdParty/_slick.scss",
+		"/Users/alex/Repos/optiongrid/assets/sass/OG_variables/_layout.scss",
+		"/Users/alex/Repos/optiongrid/assets/sass/OG_variables/_colours.scss",
+		"/Users/alex/Repos/optiongrid/craft/templates/_elements/_header.twig",
+		"/Users/alex/Repos/optiongrid/craft/templates/_partials/_browserWatch.twig",
+		"/Users/alex/Repos/optiongrid/craft/templates/index_old.twig",
+		"/Users/alex/Repos/headway-website/craft/templates/_globalElements/_globalArtsHeader.twig",
+		"/Users/alex/Repos/headway-website/craft/templates/_globalElements/_globalHeader.twig",
+		"/Users/alex/Repos/headway-website/craft/templates/_pageElements/_eventsEntries.twig",
+		"/Users/alex/Repos/headway-website/craft/templates/_pageElements/_newsEntries.twig",
+		"/Users/alex/Repos/headway-website/craft/templates/_globalElements/_layout-resources.twig",
+		"/Users/alex/Library/Caches/Cleanup At Startup/Transmit/F426C361-F1D3-4B08-8255-4C93A5F81D52/_layout-resources.twig",
+		"/Users/alex/Repos/headway-website/craft/templates/_macros/_basicPanel.twig",
+		"/Users/alex/Repos/headway-website/craft/templates/_pageElements/_homePageContentsMain.twig",
+		"/Users/alex/Repos/headway-website/assets/sass/pageElements/_panels.scss",
+		"/Users/alex/Repos/headway-website/assets/sass/pageElements/_slideshow.scss"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 101.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "_type.scss",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 2704,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Sass/Syntaxes/SCSS.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.markdown":
+	{
+		"height": 61.0
+	},
+	"pinned_build_system": "",
+	"project": "vanda.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"handlbars.js",
+				"Ghost/node_modules/express-hbs/node_modules/handlebars/lib/handlebars.js"
+			],
+			[
+				"handlears.js",
+				"Ghost/node_modules/express-hbs/node_modules/handlebars/lib/handlebars.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 236.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

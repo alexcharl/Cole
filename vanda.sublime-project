@@ -6,6 +6,9 @@
 		},
 		{
 			"path": "assets/scripts"
+		},
+		{
+			"path": "cole/src"
 		}
 	]
 }

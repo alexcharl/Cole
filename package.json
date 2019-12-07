@@ -3,16 +3,13 @@
   "version": "0.0.1",
   "private": false,
   "dependencies": {
-    "grunt": "~0.4.5",
+    "grunt": "^1.0.4",
     "grunt-browser-sync": "*",
     "grunt-contrib-compass": "~1.1.1",
     "grunt-contrib-uglify": "latest",
-    "grunt-contrib-watch": "latest",
-    "grunt-webfont": "*"
+    "grunt-contrib-watch": "latest"
   },
   "devDependencies": {
-    "grunt-mysql-dump-import": "http://github.com/pumkincreative/grunt-mysql-dump-import/archive/master.tar.gz",
-    "grunt-output-twig": "^0.1.2",
     "grunt-contrib-compass": "^1.1.1"
   }
 }
