@@ -38,7 +38,7 @@
 
 		// SPECIFIC TO HERE
 		$textContent = $('.text-content-column');
-		$sideCaption = $('.object-side-caption');
+		$objectCaption = $('.object-caption');
 		$downArrow = $('.down-arrow');
 		$panelOpenIcon = $('.panel-open-icon');
 		$objectHeader = $('.object-header');
@@ -150,11 +150,11 @@
 
 		if ( scrollAmt > HEIGHT*0.5) {
 			// show the caption
-			$sideCaption.addClass('reveal');
+			$objectCaption.addClass('reveal');
 		}
 		else {
 			// hide the caption
-			$sideCaption.removeClass('reveal');
+			$objectCaption.removeClass('reveal');
 		}
 
 		if ( scrollAmt > HEIGHT*0.5) {

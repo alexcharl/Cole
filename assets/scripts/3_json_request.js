@@ -345,11 +345,10 @@ function processResponse(data, expectResponse) {
     //  construct the title for the side margin
     var theCaption  = "<strong>" 
                         + theTitle 
-                        + " " + theDate
+                        + ", " + theDate
                         + "</strong>"
                         + " &mdash; "
-                        + theArtist
-                        + " " + datesAlive;
+                        + theArtist;
 
     // remove the titles that appear in certain captions
     theDescription = theDescription.replace(/Object Type\n/g, "");
@@ -400,10 +399,15 @@ function processResponse(data, expectResponse) {
 
     // inject the data into the page
 
-    // set the title class for long ones
-    if (theTitle.length > 42) {
-        $('#title').addClass('reduced'); 
-        $('#piece-date').addClass('reduced'); 
+    // set the title class for long and extra-long ones
+    if (theTitle.length > 20 && theTitle.length <= 40) {
+        $('#title').parent().addClass('reduced'); 
+        // $('#piece-date').addClass('reduced'); 
+    }
+
+    if (theTitle.length > 40) {
+        $('#title').parent().addClass('reduced-more'); 
+        // $('#piece-date').addClass('reduced'); 
     }
 
     // main panel

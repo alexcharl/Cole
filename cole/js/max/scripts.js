@@ -230,7 +230,7 @@ var pumkin = window.pumkin = {};
         isTouch = gv.deviceVariables.isTouch;
         browser = gv.browser;
         $textContent = $(".text-content-column");
-        $sideCaption = $(".object-side-caption");
+        $objectCaption = $(".object-caption");
         $downArrow = $(".down-arrow");
         $panelOpenIcon = $(".panel-open-icon");
         $objectHeader = $(".object-header");
@@ -298,9 +298,9 @@ var pumkin = window.pumkin = {};
     function onThrottledScroll() {
         var scrollAmt = $textContent.scrollTop();
         if (scrollAmt > HEIGHT * .5) {
-            $sideCaption.addClass("reveal");
+            $objectCaption.addClass("reveal");
         } else {
-            $sideCaption.removeClass("reveal");
+            $objectCaption.removeClass("reveal");
         }
         if (scrollAmt > HEIGHT * .5) {
             $objectHeader.addClass("hide");
@@ -517,7 +517,7 @@ function processResponse(data, expectResponse) {
     theTitle = theTitle.replace(/\<\\i\>/g, "");
     theTitle = theTitle.replace(/\<b\>/g, "");
     theTitle = theTitle.replace(/\<\\b\>/g, "");
-    var theCaption = "<strong>" + theTitle + " " + theDate + "</strong>" + " &mdash; " + theArtist + " " + datesAlive;
+    var theCaption = "<strong>" + theTitle + ", " + theDate + "</strong>" + " &mdash; " + theArtist;
     theDescription = theDescription.replace(/Object Type\n/g, "");
     theDescription = theDescription.replace(/People\n/g, "");
     theDescription = theDescription.replace(/Place\n/g, "");
@@ -551,9 +551,11 @@ function processResponse(data, expectResponse) {
     pinterestUrl += "&description=" + theTitle;
     if (theDate != "") pinterestUrl += " (" + thePlace + ", " + theDate + ")";
     pinterestUrl += ", V%26A Collection";
-    if (theTitle.length > 42) {
-        $("#title").addClass("reduced");
-        $("#piece-date").addClass("reduced");
+    if (theTitle.length > 20 && theTitle.length <= 40) {
+        $("#title").parent().addClass("reduced");
+    }
+    if (theTitle.length > 40) {
+        $("#title").parent().addClass("reduced-more");
     }
     $("#creator-name").text(theArtist);
     $("#dates-alive").text(datesAlive);

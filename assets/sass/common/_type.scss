@@ -59,15 +59,15 @@
 
 // Set the base font size
 // Used to calcuate ems
-$baseFontSize: 18; // base font size in pixels
+$baseFontSize: 17; // base font size in pixels
 
 @mixin smallText {
-	font-size: $baseFontSize - 4 + px;
-	// line-height: 18px;
+	font-size: $baseFontSize - 3 + px;
+	line-height: $baseFontSize + px;
 }
 
 @mixin largeText {
-	font-size: $baseFontSize + 4 + px;
+	font-size: $baseFontSize + 3 + px;
 	// line-height: 18px;
 }
 
@@ -81,15 +81,20 @@ body {
 h1 {
 	@include medium;
 	font-size: 48px;
-	line-height: 60px;
+	line-height: 56px;
 	margin-bottom: 0.4em;
 	@include letter-spacing(-20);
 	word-break: break-word;
 	-webkit-hyphens: auto;
 
 	&.reduced {
-		font-size: 32px;
-		line-height: 36px;
+		font-size: 40px;
+		line-height: 46px;
+
+		&-more {
+			font-size: 32px;
+			line-height: 36px;
+		}
 	}
 
 	.reg-weight {
