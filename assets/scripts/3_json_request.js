@@ -42,17 +42,13 @@ var defaultSearchTerms = ["Architecture",
 "Theatre"]
 
 var theSearchTerms;
+var theReadableSearchTerms;
 var chosenSearchTerm;
 var strictSearch = false;
 var searchCount = 0;
 var maxSearchCounts = 5;
 
 // choose a term at random on which to run the search
-
-function chooseSearchTerm() {
-
-    chosenSearchTerm = theSearchTerms[pumkin.randomNum(0,theSearchTerms.length)];    
-}
 
 function start() {
 
@@ -68,9 +64,11 @@ function start() {
           }, function(items) {
             if ( items.userSearchTerms.length > 0 ) {
                 console.log('using user search terms: '+items.userSearchTerms);
+                theReadableSearchTerms = items.userSearchTerms.toString();
                 theSearchTerms = items.userSearchTerms.replace(/ /g, '+').split(',');
             } else {
                 console.log('using default search terms: '+defaultSearchTerms);
+                theReadableSearchTerms = defaultSearchTerms.toString();
                 theSearchTerms = defaultSearchTerms;
             }
             console.log('strictSearch setting = '+items.strictSearch);
@@ -88,11 +86,17 @@ function start() {
     else {
         console.log('Running as standalone page, using default search terms: '+defaultSearchTerms);
         theSearchTerms = defaultSearchTerms;
+        theReadableSearchTerms = defaultSearchTerms.toString();
 
         // Query the API
         chooseSearchTerm();
-        makeVaRequest(null, chosenSearchTerm );
+        makeVaRequest(null, chosenSearchTerm);
     }
+}
+
+function chooseSearchTerm() {
+
+    chosenSearchTerm = theSearchTerms[pumkin.randomNum(0,theSearchTerms.length)];    
 }
 
 // make the call to the api
@@ -389,6 +393,9 @@ function processResponse(data, expectResponse) {
     // occasionally we get a null date
     theDate = typeof theDate !== "undefined" && theDate != null ? theDate : "";
 
+    // format the search terms into a more readable form
+    theReadableSearchTerms = theReadableSearchTerms.replace(/,(?=[^\s])/g, ", "); // replace spaces with commas
+
     // construct the Pinterest url
     var pinterestUrl    = "https://www.pinterest.com/pin/create/button/"
     pinterestUrl        += "?url="+objectUrl;
@@ -422,7 +429,7 @@ function processResponse(data, expectResponse) {
     $('#object-description').html('<p>'+theDescription+'</p>');
     $('#object-context').html('<p>'+theContext+'</p>');
 
-    // side caption
+    // caption appearing on scroll
     $('#object-caption').html(theCaption);
 
     // technical info
@@ -434,6 +441,9 @@ function processResponse(data, expectResponse) {
     if (theDimensions != "") { $('#dimensions').text(theDimensions) } else { $('#dimensions').hide(); $('#dimensions').prev('h4').hide(); }
     if (theMuseumLocation != "") { $('#museum-location').text(theMuseumLocation) } else { $('#museum-location').hide(); $('#museum-location').prev('h4').hide(); }
     if (theMuseumNumber != "") { $('#museum-number').text(theMuseumNumber) } else { $('#museum-number').hide(); $('#museum-number').prev('h4').hide(); }
+
+    // side panel 
+    $('#search-terms').text(theReadableSearchTerms);
 
     // run resize script
     SITE.onThrottledResize();

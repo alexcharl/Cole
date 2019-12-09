@@ -40,9 +40,10 @@
 		$textContent = $('.text-content-column');
 		$objectCaption = $('.object-caption');
 		$downArrow = $('.down-arrow');
-		$panelOpenIcon = $('.panel-open-icon');
 		$objectHeader = $('.object-header');
-		$creditsOpenBtn = $('.credits');
+		$sidePanel = $('.side-panel');
+		$sidePanelOpenBtn = $('.more');
+		$sidePanelCloseBtn = $('.close-side-panel');
 		$overlayCloseBtn = $('.close-overlay');
 		$overlay = $('.overlay');
 		$techInfo = $('.technical-info .text-content');
@@ -76,13 +77,17 @@
 
 	function handleClicks () {
 
-		$panelOpenIcon.click(function(){
-			if ($body.hasClass('side-panel-closed')) {
-				$body.removeClass('side-panel-closed').addClass('side-panel-open');
+		$sidePanelOpenBtn.click(function(){
+			if ($sidePanel.hasClass('open')) {
+				$sidePanel.removeClass('open');
 			}
 			else {
-				$body.removeClass('side-panel-open side-panel-hint').addClass('side-panel-closed');
+				$sidePanel.addClass('open');
 			}
+		});
+
+		$sidePanelCloseBtn.click(function(){
+			$sidePanel.removeClass('open');
 		});
 
 		$downArrow.click(function() {
@@ -93,18 +98,6 @@
 	            easing: 'ease-in-out',
 	            container: $textContent
 	        });
-		});
-
-		$creditsOpenBtn.click(function() {
-			if ($overlay.hasClass('closed')) {
-				$overlay.removeClass('closed').addClass('open for-credits');
-				$overlay.fadeIn(500);
-				// console.log('fadein');
-			}
-			else {
-				$overlay.removeClass('open for-warning for-credits').addClass('closed');
-				$overlay.fadeOut(500);	
-			}
 		});
 
 		$overlayCloseBtn.click(function() {

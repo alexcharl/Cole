@@ -232,9 +232,10 @@ var pumkin = window.pumkin = {};
         $textContent = $(".text-content-column");
         $objectCaption = $(".object-caption");
         $downArrow = $(".down-arrow");
-        $panelOpenIcon = $(".panel-open-icon");
         $objectHeader = $(".object-header");
-        $creditsOpenBtn = $(".credits");
+        $sidePanel = $(".side-panel");
+        $sidePanelOpenBtn = $(".more");
+        $sidePanelCloseBtn = $(".close-side-panel");
         $overlayCloseBtn = $(".close-overlay");
         $overlay = $(".overlay");
         $techInfo = $(".technical-info .text-content");
@@ -254,12 +255,15 @@ var pumkin = window.pumkin = {};
         console.log("initMain");
     }
     function handleClicks() {
-        $panelOpenIcon.click(function() {
-            if ($body.hasClass("side-panel-closed")) {
-                $body.removeClass("side-panel-closed").addClass("side-panel-open");
+        $sidePanelOpenBtn.click(function() {
+            if ($sidePanel.hasClass("open")) {
+                $sidePanel.removeClass("open");
             } else {
-                $body.removeClass("side-panel-open side-panel-hint").addClass("side-panel-closed");
+                $sidePanel.addClass("open");
             }
+        });
+        $sidePanelCloseBtn.click(function() {
+            $sidePanel.removeClass("open");
         });
         $downArrow.click(function() {
             console.log("scroll");
@@ -269,15 +273,6 @@ var pumkin = window.pumkin = {};
                 easing: "ease-in-out",
                 container: $textContent
             });
-        });
-        $creditsOpenBtn.click(function() {
-            if ($overlay.hasClass("closed")) {
-                $overlay.removeClass("closed").addClass("open for-credits");
-                $overlay.fadeIn(500);
-            } else {
-                $overlay.removeClass("open for-warning for-credits").addClass("closed");
-                $overlay.fadeOut(500);
-            }
         });
         $overlayCloseBtn.click(function() {
             $overlay.removeClass("open").addClass("closed");
@@ -353,6 +348,8 @@ var defaultSearchTerms = [ "Architecture", "Asia", "British Galleries", "Ceramic
 
 var theSearchTerms;
 
+var theReadableSearchTerms;
+
 var chosenSearchTerm;
 
 var strictSearch = false;
@@ -360,10 +357,6 @@ var strictSearch = false;
 var searchCount = 0;
 
 var maxSearchCounts = 5;
-
-function chooseSearchTerm() {
-    chosenSearchTerm = theSearchTerms[pumkin.randomNum(0, theSearchTerms.length)];
-}
 
 function start() {
     console.log("looking for  user settings");
@@ -374,9 +367,11 @@ function start() {
         }, function(items) {
             if (items.userSearchTerms.length > 0) {
                 console.log("using user search terms: " + items.userSearchTerms);
+                theReadableSearchTerms = items.userSearchTerms.toString();
                 theSearchTerms = items.userSearchTerms.replace(/ /g, "+").split(",");
             } else {
                 console.log("using default search terms: " + defaultSearchTerms);
+                theReadableSearchTerms = defaultSearchTerms.toString();
                 theSearchTerms = defaultSearchTerms;
             }
             console.log("strictSearch setting = " + items.strictSearch);
@@ -389,9 +384,14 @@ function start() {
     } else {
         console.log("Running as standalone page, using default search terms: " + defaultSearchTerms);
         theSearchTerms = defaultSearchTerms;
+        theReadableSearchTerms = defaultSearchTerms.toString();
         chooseSearchTerm();
         makeVaRequest(null, chosenSearchTerm);
     }
+}
+
+function chooseSearchTerm() {
+    chosenSearchTerm = theSearchTerms[pumkin.randomNum(0, theSearchTerms.length)];
 }
 
 function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, withDescription, after, random) {
@@ -545,6 +545,7 @@ function processResponse(data, expectResponse) {
     thePhysicalDescription = thePhysicalDescription.replace(/\<b\>/g, "");
     thePhysicalDescription = thePhysicalDescription.replace(/\<\\b\>/g, "");
     theDate = typeof theDate !== "undefined" && theDate != null ? theDate : "";
+    theReadableSearchTerms = theReadableSearchTerms.replace(/,(?=[^\s])/g, ", ");
     var pinterestUrl = "https://www.pinterest.com/pin/create/button/";
     pinterestUrl += "?url=" + objectUrl;
     pinterestUrl += "&media=" + imgUrl;
@@ -617,6 +618,7 @@ function processResponse(data, expectResponse) {
         $("#museum-number").hide();
         $("#museum-number").prev("h4").hide();
     }
+    $("#search-terms").text(theReadableSearchTerms);
     SITE.onThrottledResize();
     $(".content-placeholder, .hide-until-loaded").addClass("loaded");
     $("img.image-hide-until-loaded").load(function() {

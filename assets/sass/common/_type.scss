@@ -80,8 +80,9 @@ body {
 
 h1 {
 	@include medium;
+	@include font-smoothing;
 	font-size: 48px;
-	line-height: 56px;
+	line-height: 59px;
 	margin-bottom: 0.4em;
 	@include letter-spacing(-20);
 	word-break: break-word;
@@ -89,11 +90,11 @@ h1 {
 
 	&.reduced {
 		font-size: 40px;
-		line-height: 46px;
+		line-height: 47px;
 
 		&-more {
 			font-size: 32px;
-			line-height: 36px;
+			line-height: 39px;
 		}
 	}
 
@@ -105,7 +106,7 @@ h1 {
 h3 {
 	@include medium;
 	font-size: 32px;
-	line-height: 36px;
+	line-height: 39px;
 	// margin-bottom: 0.6em;
 	@include letter-spacing(-20);
 
@@ -121,11 +122,10 @@ h3 {
 
 h4 {
 	@include medium;
-	// margin-bottom: 1.2em;
 }
 
 h5 { 
-	margin-bottom: 1.2em;
+	margin-bottom: 0.75em;
 
 	&#materials {
 		max-width: 70%;
@@ -148,7 +148,13 @@ p {
 
 .small, small {
 	font-size: 13px;
+	line-height: 21px;
 }
+
+.knock-out {
+	color: $midGrey;
+}
+
 // CHARACTER STYLE MIXINS
 // ---------------------------------
 
