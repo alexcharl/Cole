@@ -49,6 +49,7 @@ var searchCount = 0;
 var maxSearchCounts = 5;
 var historyCount = 0;
 var maxHistoryItems = 8;
+var imageId;
 
 // set up history storage
 var theHistory = new Array();
@@ -58,7 +59,7 @@ var theHistory = new Array();
 
 function start() {
 
-    console.log('looking for  user settings');
+    // console.log('looking for  user settings');
 
     // if not in Chrome browser (probably running as web page)
     // or if Chrome but no storage options available (possibly running in Chrome but not as extension)
@@ -90,7 +91,7 @@ function start() {
 
             if (items.history.length > 0) {
 
-                console.log('found '+items.history.length+' items in history');
+                // console.log('found '+items.history.length+' items in history');
                 theHistory = items.history;
             }
 
@@ -133,7 +134,7 @@ function addToHistory(objectNumber) {
 
 // make the call to the api
 
-function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, withDescription, after, random, forHistory) {
+function makeVaRequest(objectNumber, searchTerm, offset, limit, after, forHistory) {
 
     // set up ajax request, sending VAM parameters as below
     // returns a JSON-formatted response
@@ -147,7 +148,7 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
         objectNumber = typeof objectNumber !== 'undefined' ? objectNumber : null;
         
         // images => only return items with images attached
-        withImages = typeof withImages !== 'undefined' ? withImages : "1";
+        // withImages = typeof withImages !== 'undefined' ? withImages : "1";
         
         // limit => decrease from default of 15 results to 1. api max is 45
         limit = typeof limit !== 'undefined' ? limit : "1";
@@ -165,7 +166,7 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
         after = typeof after !== 'undefined' ? after : null;
         
         // random => *Not really random but a pseudo-random offset of the results. MySQL RAND() is SO slow.
-        random = typeof random !== 'undefined' ? random : "0";
+        // random = typeof random !== 'undefined' ? random : "0";
 
         // quality => unsure if this is having an effect or not...
         quality = typeof quality !== 'undefined' ? quality : null;
@@ -214,6 +215,9 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
         console.log( "Chosen term = "+searchTerm);
         console.log( "Chosen item name = "+searchItem);
         console.log( "offset = "+offset );
+        console.log( "after = "+after );
+        // console.log( "quality = "+quality );
+        console.log( "limit = "+limit );
 
         $.ajax({
           type: "get",
@@ -221,9 +225,9 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
           dataType: "json",
           cache: false,
           data: {
-            images: withImages,
             limit: limit,
             offset: offset,
+            images: 1,
             // random: random,
             quality: quality,
             pad: withDescription,
@@ -241,7 +245,7 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
         // handle the response
 
           .done(function(data) {
-            console.log( "done" );
+            console.log( "done, received data\n\n" );
             processResponse(data, expectResponse);
           })
           .fail(function() {
@@ -267,8 +271,7 @@ function processResponse(data, expectResponse) {
 
     // if expectResponse is 0 (as it should be the first time around)
     // then we query the api again using a randomised offset based on the total number of records
-    // if expectResponse is 1 (2nd time around)
-    // then we query a final time using the object number, which will give us a complete dataset for the object
+    // this helps us get deeper into the results and by-passes the fixed limit
     
     if (expectResponse === 0) {
 
@@ -283,8 +286,8 @@ function processResponse(data, expectResponse) {
 
             // send another query but this time with an offset, and with the same search term
 
-            console.log('making query 2, with randomOffset of '+randomOffset);
-            makeVaRequest(null, chosenSearchTerm, randomOffset);
+            console.log('making query 2. Returning a new set of results from '+data.meta.result_count+' results with randomOffset of '+randomOffset);
+            makeVaRequest(null, chosenSearchTerm, randomOffset, 1);
 
         }
 
@@ -295,11 +298,14 @@ function processResponse(data, expectResponse) {
 
             console.log('making a second request, no results found last time');
             chooseSearchTerm();
-            makeVaRequest(null, chosenSearchTerm);
+            makeVaRequest(null, chosenSearchTerm, null, 15);   // objectNumber, searchTerm, offset, limit
         }
 
         return;
     }
+
+    // if expectResponse is 1 (2nd time around)
+    // then we query a final time using the object number, which will give us a complete dataset for the object
 
     if (expectResponse === 1) {
         
@@ -307,17 +313,22 @@ function processResponse(data, expectResponse) {
 
         var numRecords = data.records.length;
 
-        // log the number of records returned, for reference
+         // randomly choose the record from the ones that were returned
 
-        console.log("There are "+numRecords+" objects available.");
-
-        // randomly choose the record from the ones that were returned
-
-        var whichObject = data.records[pumkin.randomNum(0,numRecords)];
+        var randomNum = pumkin.randomNum(0,numRecords);
+        var whichObject = data.records[randomNum];
 
         // get the object number
 
         var objectNumber = whichObject.fields.object_number;
+
+        // cache the imageid
+        // this is a workaround as sometimes the full dataset misses the primary_image_id field when the basic record doesn't
+        imageId = whichObject.fields.primary_image_id;
+
+        // log the number of records returned, for reference
+
+        console.log("Making query 3. Choosing object "+objectNumber+" at position "+randomNum+" from "+numRecords+" available objects.");
 
         // send another query with a specific object number to get the full details
 
@@ -338,7 +349,7 @@ function processResponse(data, expectResponse) {
 
     // get the image, and other information
 
-    var imageId = objectInfo.primary_image_id;
+    imageId = typeof objectInfo.primary_image_id == 'undefined' ? imageId : objectInfo.primary_image_id;
     var imageIdPrefix = imageId.substr(0,6);
     var theObject = objectInfo.object;
     var theTitle = objectInfo.title != "" ? objectInfo.title : objectInfo.object;
@@ -485,7 +496,7 @@ function processResponse(data, expectResponse) {
         $('#object-caption').html(theCaption);
 
         // technical info
-        if (thePhysicalDescription != "") { $('#physical-description').html(thePhysicalDescription) } else { console.log('hiding physical description'); $('#physical-description').hide(); $('#physical-description').prev('h4').hide(); }
+        if (thePhysicalDescription != "") { $('#physical-description').html(thePhysicalDescription) } else { $('#physical-description').hide(); $('#physical-description').prev('h4').hide(); }
         if (theDate != "") { $('#tech-info-piece-date').text(theDate) } else { $('#tech-info-piece-date').hide(); $('#tech-info-piece-date').prev('h4').hide(); }
         if (theArtist != "") { $('#tech-info-creator-name').text(theArtist) } else { $('#tech-info-creator-name').hide(); $('#tech-info-creator-name').prev('h4').hide(); }
         if (theMaterials != "") { $('#tech-info-materials').html(theMaterials) } else { $('#tech-info-materials').hide(); $('#tech-info-materials').prev('h4').hide(); }
@@ -525,7 +536,7 @@ function processResponse(data, expectResponse) {
 
             searchCount = 0;
             historyCount++;
-            makeVaRequest(theHistory[historyCount], undefined, undefined, undefined, undefined, undefined, undefined, undefined, true); // last arg is 'forHistory'
+            makeVaRequest(theHistory[historyCount], undefined, undefined, undefined, undefined, true); // objectNumber, searchTerm, offset, limit, after, forHistory
         }
     }
 }

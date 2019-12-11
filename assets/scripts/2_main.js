@@ -92,7 +92,7 @@
 		});
 
 		$downArrow.click(function() {
-			console.log('scroll');
+			// console.log('scroll');
 			$('.object-text').velocity('scroll', {
 	            duration: 700,
 	            offset: -100,
@@ -146,7 +146,7 @@
 		// $('#history-objects').text(theHistory.toString());
 
 		searchCount = 0; // reset the limit so this doesn't interfere
-		makeVaRequest(theHistory[0], undefined, undefined, undefined, undefined, undefined, undefined, undefined, true); // last arg is 'forHistory'
+		makeVaRequest(theHistory[0], undefined, undefined, undefined, undefined, true); // last arg is 'forHistory'
 
 		$('.history-wrapper .loading').addClass('loaded');
 	}
@@ -212,21 +212,10 @@
 	}
 
 	function onThrottledResize () {
-		
-		console.log('tech info height: '+$techInfo.outerHeight(true));
-		console.log('window height: '+HEIGHT);
-
-		if ($techInfo.outerHeight(true) < HEIGHT) {
-			console.log('throttle: set middle class on');
-			$techInfo.addClass('middle');
-		} else {
-			console.log('throttle: set middle class off');
-			$techInfo.removeClass('middle');
-		}
 	}
 
 	function onDebouncedResize () {
-		console.log('debounce');
+		// console.log('debounce');
 	}
 	  
 	var throttledResize = $.throttle(250, function() {

@@ -267,7 +267,6 @@ var pumkin = window.pumkin = {};
             $sidePanel.removeClass("open");
         });
         $downArrow.click(function() {
-            console.log("scroll");
             $(".object-text").velocity("scroll", {
                 duration: 700,
                 offset: -100,
@@ -305,7 +304,7 @@ var pumkin = window.pumkin = {};
     }
     function showHistory() {
         searchCount = 0;
-        makeVaRequest(theHistory[0], undefined, undefined, undefined, undefined, undefined, undefined, undefined, true);
+        makeVaRequest(theHistory[0], undefined, undefined, undefined, undefined, true);
         $(".history-wrapper .loading").addClass("loaded");
     }
     function hideHistory() {
@@ -332,20 +331,8 @@ var pumkin = window.pumkin = {};
         WIDTH = $window.width();
         HEIGHT = $window.height();
     }
-    function onThrottledResize() {
-        console.log("tech info height: " + $techInfo.outerHeight(true));
-        console.log("window height: " + HEIGHT);
-        if ($techInfo.outerHeight(true) < HEIGHT) {
-            console.log("throttle: set middle class on");
-            $techInfo.addClass("middle");
-        } else {
-            console.log("throttle: set middle class off");
-            $techInfo.removeClass("middle");
-        }
-    }
-    function onDebouncedResize() {
-        console.log("debounce");
-    }
+    function onThrottledResize() {}
+    function onDebouncedResize() {}
     var throttledResize = $.throttle(250, function() {
         onThrottledResize();
     });
@@ -384,10 +371,11 @@ var historyCount = 0;
 
 var maxHistoryItems = 8;
 
+var imageId;
+
 var theHistory = new Array();
 
 function start() {
-    console.log("looking for  user settings");
     if (typeof chrome != "undefined" && typeof chrome.storage != "undefined") {
         chrome.storage.sync.get({
             userSearchTerms: "",
@@ -408,7 +396,6 @@ function start() {
                 strictSearch = true;
             }
             if (items.history.length > 0) {
-                console.log("found " + items.history.length + " items in history");
                 theHistory = items.history;
             }
             chooseSearchTerm();
@@ -437,17 +424,15 @@ function addToHistory(objectNumber) {
     });
 }
 
-function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, withDescription, after, random, forHistory) {
+function makeVaRequest(objectNumber, searchTerm, offset, limit, after, forHistory) {
     if (searchCount < maxSearchCounts) {
         searchCount++;
         objectNumber = typeof objectNumber !== "undefined" ? objectNumber : null;
-        withImages = typeof withImages !== "undefined" ? withImages : "1";
         limit = typeof limit !== "undefined" ? limit : "1";
         searchTerm = typeof searchTerm !== "undefined" ? searchTerm : null;
         offset = typeof offset !== "undefined" ? offset : null;
         withDescription = typeof withDescription !== "undefined" ? withDescription : "1";
         after = typeof after !== "undefined" ? after : null;
-        random = typeof random !== "undefined" ? random : "0";
         quality = typeof quality !== "undefined" ? quality : null;
         var expectResponse = 0;
         if (offset != null) {
@@ -473,15 +458,17 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
         console.log("Chosen term = " + searchTerm);
         console.log("Chosen item name = " + searchItem);
         console.log("offset = " + offset);
+        console.log("after = " + after);
+        console.log("limit = " + limit);
         $.ajax({
             type: "get",
             url: queryUrl,
             dataType: "json",
             cache: false,
             data: {
-                images: withImages,
                 limit: limit,
                 offset: offset,
+                images: 1,
                 quality: quality,
                 pad: withDescription,
                 after: after,
@@ -493,7 +480,7 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
                 console.log("error thrown= " + thrownError);
             }
         }).done(function(data) {
-            console.log("done");
+            console.log("done, received data\n\n");
             processResponse(data, expectResponse);
         }).fail(function() {
             console.log("error");
@@ -513,26 +500,28 @@ function processResponse(data, expectResponse) {
         if (numRecords > 0) {
             var randomOffset = pumkin.randomNum(0, data.meta.result_count - 1);
             console.log("total results = " + data.meta.result_count);
-            console.log("making query 2, with randomOffset of " + randomOffset);
-            makeVaRequest(null, chosenSearchTerm, randomOffset);
+            console.log("making query 2. Returning a new set of results from " + data.meta.result_count + " results with randomOffset of " + randomOffset);
+            makeVaRequest(null, chosenSearchTerm, randomOffset, 1);
         } else {
             console.log("making a second request, no results found last time");
             chooseSearchTerm();
-            makeVaRequest(null, chosenSearchTerm);
+            makeVaRequest(null, chosenSearchTerm, null, 15);
         }
         return;
     }
     if (expectResponse === 1) {
         var numRecords = data.records.length;
-        console.log("There are " + numRecords + " objects available.");
-        var whichObject = data.records[pumkin.randomNum(0, numRecords)];
+        var randomNum = pumkin.randomNum(0, numRecords);
+        var whichObject = data.records[randomNum];
         var objectNumber = whichObject.fields.object_number;
+        imageId = whichObject.fields.primary_image_id;
+        console.log("Making query 3. Choosing object " + objectNumber + " at position " + randomNum + " from " + numRecords + " available objects.");
         makeVaRequest(objectNumber);
         addToHistory(objectNumber);
         return;
     }
     var objectInfo = data[0].fields;
-    var imageId = objectInfo.primary_image_id;
+    imageId = typeof objectInfo.primary_image_id == "undefined" ? imageId : objectInfo.primary_image_id;
     var imageIdPrefix = imageId.substr(0, 6);
     var theObject = objectInfo.object;
     var theTitle = objectInfo.title != "" ? objectInfo.title : objectInfo.object;
@@ -621,7 +610,6 @@ function processResponse(data, expectResponse) {
         if (thePhysicalDescription != "") {
             $("#physical-description").html(thePhysicalDescription);
         } else {
-            console.log("hiding physical description");
             $("#physical-description").hide();
             $("#physical-description").prev("h4").hide();
         }
@@ -682,7 +670,7 @@ function processResponse(data, expectResponse) {
         if (historyCount < maxHistoryItems - 1) {
             searchCount = 0;
             historyCount++;
-            makeVaRequest(theHistory[historyCount], undefined, undefined, undefined, undefined, undefined, undefined, undefined, true);
+            makeVaRequest(theHistory[historyCount], undefined, undefined, undefined, undefined, true);
         }
     }
 }
