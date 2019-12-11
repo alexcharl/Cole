@@ -48,6 +48,10 @@ var strictSearch = false;
 var searchCount = 0;
 var maxSearchCounts = 5;
 
+// set up history storage
+var theHistory = new Array();
+
+
 // choose a term at random on which to run the search
 
 function start() {
@@ -60,9 +64,13 @@ function start() {
 
         chrome.storage.sync.get({
             userSearchTerms: '',
-            strictSearch: 'fuzzy'
+            strictSearch: 'fuzzy',
+            history: []
           }, function(items) {
-            if ( items.userSearchTerms.length > 0 ) {
+
+            // retrieve search parameters and set in a local var
+
+            if (items.userSearchTerms.length > 0) {
                 console.log('using user search terms: '+items.userSearchTerms);
                 theReadableSearchTerms = items.userSearchTerms.toString();
                 theSearchTerms = items.userSearchTerms.replace(/ /g, '+').split(',');
@@ -72,8 +80,16 @@ function start() {
                 theSearchTerms = defaultSearchTerms;
             }
             console.log('strictSearch setting = '+items.strictSearch);
-            if ( items.strictSearch == 'strict' ) {
+            if (items.strictSearch == 'strict') {
                 strictSearch = true;
+            }
+
+            // retrieve obbject history
+
+            if (items.history.length > 0) {
+
+                console.log('found '+items.history.length+' items in history');
+                theHistory = items.history;
             }
 
             // Query the API
@@ -97,6 +113,20 @@ function start() {
 function chooseSearchTerm() {
 
     chosenSearchTerm = theSearchTerms[pumkin.randomNum(0,theSearchTerms.length)];    
+}
+
+function addToHistory(objectNumber) {
+
+    theHistory.unshift(objectNumber); // add the new object number to the beginning
+
+    if (theHistory.length > 10) {
+        theHistory.pop(); // and pop out the last one
+    }
+
+    // update chrome storage
+    chrome.storage.sync.set({
+        history : theHistory
+    });
 }
 
 // make the call to the api
@@ -279,6 +309,9 @@ function processResponse(data, expectResponse) {
         // send another query with a specific object number to get the full details
 
         makeVaRequest(objectNumber);
+
+        // add this item to the history
+        addToHistory(objectNumber);
 
         return;
     }

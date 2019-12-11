@@ -44,6 +44,7 @@
 		$sidePanel = $('.side-panel');
 		$sidePanelOpenBtn = $('.more');
 		$sidePanelCloseBtn = $('.close-side-panel');
+		$historyOpenBtn = $('.history');
 		$overlayCloseBtn = $('.close-overlay');
 		$overlay = $('.overlay');
 		$techInfo = $('.technical-info .text-content');
@@ -100,6 +101,20 @@
 	        });
 		});
 
+		$historyOpenBtn.click(function() {
+			if ($overlay.hasClass('closed')) {
+				$overlay.removeClass('closed').addClass('open for-history');
+				showHistory();
+				$overlay.fadeIn(500);
+			}
+			else {
+				$overlay.removeClass('open for-warning for-history').addClass('closed');
+				$overlay.fadeOut(500, function() {
+					hideHistory();
+				});	
+			}
+		});
+
 		$overlayCloseBtn.click(function() {
 			$overlay.removeClass('open').addClass('closed');
 			$overlay.fadeOut(500);	
@@ -122,6 +137,24 @@
 		$overlay.fadeIn(500);
 	}
 
+
+	// Object History
+	// ----------------------------------------------------
+
+	function showHistory() {
+
+		$('#history-objects').text(theHistory.toString());
+
+		$('.history-wrapper .loading').addClass('loaded');
+	}
+
+	function hideHistory() {
+
+		$('#history-objects').text('');
+
+		('.history-wrapper .loading').removeClass('loaded');
+
+	}
 	
 	// Scroll events
 	// ----------------------------------------------------

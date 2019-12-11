@@ -65,20 +65,20 @@ body, html {
 	display:none;
 	// opacity: 0;
 
-	&.for-warning {
-		.credits-wrapper {
+	&.for-history {
+		.warning-wrapper {
 			display: none;
 		}
-		.warning-wrapper {
+		.history-wrapper {
 			display: block;
 		}
 	}
 
 	&.for-credits {
-		.credits-wrapper {
+		.warning-wrapper {
 			display: block;
 		}
-		.warning-wrapper {
+		.history-wrapper {
 			display: none;
 		}
 	}
@@ -86,8 +86,8 @@ body, html {
 
 .close-btn {
 	position: absolute;
-	top: 24px;
-	right: 36px;
+	top: 26px;
+	right: 34px;
 	text-decoration: none;
 	width: 24px;
 	height: 24px;
@@ -96,15 +96,33 @@ body, html {
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
 	background-image:url(../../gfx/close.svg);
+	z-index: 10;
 }
 
-.credits-wrapper, .warning-wrapper {
+.warning-wrapper {
 	width: 80%;
 	max-width: 400px;
 	min-height: 200px;
 	margin-left:auto;
 	margin-right: auto;
 	@include translate-center;
+	z-index: 1;
+}
+
+.history-wrapper {
+	text-align: left;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top:0;
+	left: 0;
+	padding:30px $outerMarginWidth $outerMarginWidth $outerMarginWidth;
+	z-index: 1;
+
+	.history-title {
+		width: 50%;
+		
+	}
 }
 
 .overlay.closed {
@@ -338,7 +356,7 @@ body, html {
 .object-image img {
 	display:block;
 	margin:0 auto;
-	max-width:calc(100% - 176px); // 2x outermarginwidth
+	max-width:calc(100% - 176px); // 2x $outerMarginWidth
 	max-height:70vh;
 }
 
@@ -419,17 +437,23 @@ body, html {
 .hide-until-hover,
 .hide-until-loaded,  
 .image-hide-until-loaded,
-.hide-after-loaded.loaded {
+.history-hide-after-loaded.loaded,
+.hide-after-loaded.loaded
+{
 	opacity: 0;
 	@include animate(1s);
 }
 
 .hide-until-loaded, 
-.image-hide-until-loaded {
-
+.image-hide-until-loaded
+{
 	&.loaded {
 		opacity: 1;
 	}
+}
+
+.history-hide-after-loaded {
+	opacity: 1;
 }
 
 // loader 

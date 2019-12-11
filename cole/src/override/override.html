@@ -171,6 +171,15 @@
 
 		<article class="overlay closed" id="credits">
 			<a class="close-btn close-overlay"></a>
+			<div class="history-wrapper">
+				<h4>Recent history</h4>
+				<div class="loading history-hide-after-loaded">
+					<div class="dot"></div>
+					<div class="dot"></div>
+					<div class="dot"></div>
+				</div>
+				<section class="history-objects-wrapper" id="history-objects"></section>
+			</div>
 			<div class="warning-wrapper">	
 				<h3>Sorry!</h3>
 				<p>We couldn't match any objects to your search terms. Try changing them to something else, delete them all together (to search the whole collection), or turn off 'Strict Search' in the extension settings.</p>
@@ -183,10 +192,6 @@
 	<div id="mobileTester"></div>
 	<div id="tabletTester"></div>
 	<div id="gutter-tester"></div>
-
-	<script id="__bs_script__">//<![CDATA[
-	    document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.26.7'><\/script>".replace("HOST", location.hostname));
-	//]]></script>
 	
 </body>
 </html>

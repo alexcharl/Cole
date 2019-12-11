@@ -236,6 +236,7 @@ var pumkin = window.pumkin = {};
         $sidePanel = $(".side-panel");
         $sidePanelOpenBtn = $(".more");
         $sidePanelCloseBtn = $(".close-side-panel");
+        $historyOpenBtn = $(".history");
         $overlayCloseBtn = $(".close-overlay");
         $overlay = $(".overlay");
         $techInfo = $(".technical-info .text-content");
@@ -274,6 +275,18 @@ var pumkin = window.pumkin = {};
                 container: $textContent
             });
         });
+        $historyOpenBtn.click(function() {
+            if ($overlay.hasClass("closed")) {
+                $overlay.removeClass("closed").addClass("open for-history");
+                showHistory();
+                $overlay.fadeIn(500);
+            } else {
+                $overlay.removeClass("open for-warning for-history").addClass("closed");
+                $overlay.fadeOut(500, function() {
+                    hideHistory();
+                });
+            }
+        });
         $overlayCloseBtn.click(function() {
             $overlay.removeClass("open").addClass("closed");
             $overlay.fadeOut(500);
@@ -289,6 +302,14 @@ var pumkin = window.pumkin = {};
     function throwError() {
         $overlay.removeClass("closed").addClass("open for-warning");
         $overlay.fadeIn(500);
+    }
+    function showHistory() {
+        $("#history-objects").text(theHistory.toString());
+        $(".history-wrapper .loading").addClass("loaded");
+    }
+    function hideHistory() {
+        $("#history-objects").text("");
+        ".history-wrapper .loading".removeClass("loaded");
     }
     function onThrottledScroll() {
         var scrollAmt = $textContent.scrollTop();
@@ -358,12 +379,15 @@ var searchCount = 0;
 
 var maxSearchCounts = 5;
 
+var theHistory = new Array();
+
 function start() {
     console.log("looking for  user settings");
     if (typeof chrome != "undefined" && typeof chrome.storage != "undefined") {
         chrome.storage.sync.get({
             userSearchTerms: "",
-            strictSearch: "fuzzy"
+            strictSearch: "fuzzy",
+            history: []
         }, function(items) {
             if (items.userSearchTerms.length > 0) {
                 console.log("using user search terms: " + items.userSearchTerms);
@@ -377,6 +401,10 @@ function start() {
             console.log("strictSearch setting = " + items.strictSearch);
             if (items.strictSearch == "strict") {
                 strictSearch = true;
+            }
+            if (items.history.length > 0) {
+                console.log("found " + items.history.length + " items in history");
+                theHistory = items.history;
             }
             chooseSearchTerm();
             makeVaRequest(null, chosenSearchTerm);
@@ -392,6 +420,16 @@ function start() {
 
 function chooseSearchTerm() {
     chosenSearchTerm = theSearchTerms[pumkin.randomNum(0, theSearchTerms.length)];
+}
+
+function addToHistory(objectNumber) {
+    theHistory.unshift(objectNumber);
+    if (theHistory.length > 10) {
+        theHistory.pop();
+    }
+    chrome.storage.sync.set({
+        history: theHistory
+    });
 }
 
 function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, withDescription, after, random) {
@@ -481,6 +519,7 @@ function processResponse(data, expectResponse) {
         var whichObject = data.records[pumkin.randomNum(0, numRecords)];
         var objectNumber = whichObject.fields.object_number;
         makeVaRequest(objectNumber);
+        addToHistory(objectNumber);
         return;
     }
     var objectInfo = data[0].fields;
