@@ -304,7 +304,8 @@ var pumkin = window.pumkin = {};
         $overlay.fadeIn(500);
     }
     function showHistory() {
-        $("#history-objects").text(theHistory.toString());
+        searchCount = 0;
+        makeVaRequest(theHistory[0], undefined, undefined, undefined, undefined, undefined, undefined, undefined, true);
         $(".history-wrapper .loading").addClass("loaded");
     }
     function hideHistory() {
@@ -379,6 +380,10 @@ var searchCount = 0;
 
 var maxSearchCounts = 5;
 
+var historyCount = 0;
+
+var maxHistoryItems = 8;
+
 var theHistory = new Array();
 
 function start() {
@@ -432,7 +437,7 @@ function addToHistory(objectNumber) {
     });
 }
 
-function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, withDescription, after, random) {
+function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, withDescription, after, random, forHistory) {
     if (searchCount < maxSearchCounts) {
         searchCount++;
         objectNumber = typeof objectNumber !== "undefined" ? objectNumber : null;
@@ -448,7 +453,11 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
         if (offset != null) {
             expectResponse = 1;
         } else if (objectNumber != null) {
-            expectResponse = 2;
+            if (forHistory == true) {
+                expectResponse = 3;
+            } else {
+                expectResponse = 2;
+            }
         }
         if (strictSearch == true) {
             var searchItem = searchTerm;
@@ -546,123 +555,136 @@ function processResponse(data, expectResponse) {
     }
     var imgUrl = vaMediaUrl + imageIdPrefix + "/" + imageId + ".jpg";
     var objectUrl = vaCollectionsUrl + theObjectNumber + "/" + theSlug;
-    var thePhysicalDescription = objectInfo.physical_description;
-    var theDimensions = objectInfo.dimensions;
-    var thePlace = objectInfo.place;
-    var theMuseumNumber = objectInfo.museum_number;
-    var theMuseumLocation = objectInfo.location;
     theTitle = theTitle.replace(/\^/, "");
     theTitle = theTitle.replace(/\<i\>/g, "");
     theTitle = theTitle.replace(/\<\\i\>/g, "");
     theTitle = theTitle.replace(/\<b\>/g, "");
     theTitle = theTitle.replace(/\<\\b\>/g, "");
-    var theCaption = "<strong>" + theTitle + ", " + theDate + "</strong>" + " &mdash; " + theArtist;
-    theDescription = theDescription.replace(/Object Type\n/g, "");
-    theDescription = theDescription.replace(/People\n/g, "");
-    theDescription = theDescription.replace(/Place\n/g, "");
-    theDescription = theDescription.replace(/Places\n/g, "");
-    theDescription = theDescription.replace(/Time\n/g, "");
-    theDescription = theDescription.replace(/Design \& Designing\n/g, "");
-    theDescription = theDescription.replace(/Design\n/g, "");
-    theDescription = theDescription.replace(/Subject Depicted\n/g, "");
-    theDescription = theDescription.replace(/Subjects Depicted\n/g, "");
-    theDescription = theDescription.replace(/Materials \& Making\n/g, "");
-    theDescription = theDescription.replace(/Collectors \& Owners\n/g, "");
-    theDescription = theDescription.replace(/Ownership \& Use\n/g, "");
-    theDescription = theDescription.replace(/Trading\n/g, "");
-    theDescription = theDescription.replace(/Trade\n/g, "");
-    theDescription = theDescription.replace(/Historical Associations\n/g, "");
-    theDescription = theDescription.replace(/Other\n/g, "");
-    theDescription = theDescription.replace(/\n\n\n/g, "\n\n");
-    theDescription = theDescription.replace(/\n/g, "<br>");
-    theDescription = theDescription.replace(/\<i\>/g, "");
-    theDescription = theDescription.replace(/\<\\i\>/g, "");
-    theDescription = theDescription.replace(/\<b\>/g, "");
-    theDescription = theDescription.replace(/\<\\b\>/g, "");
-    thePhysicalDescription = thePhysicalDescription.replace(/\<i\>/g, "");
-    thePhysicalDescription = thePhysicalDescription.replace(/\<\\i\>/g, "");
-    thePhysicalDescription = thePhysicalDescription.replace(/\<b\>/g, "");
-    thePhysicalDescription = thePhysicalDescription.replace(/\<\\b\>/g, "");
     theDate = typeof theDate !== "undefined" && theDate != null ? theDate : "";
-    theReadableSearchTerms = theReadableSearchTerms.replace(/,(?=[^\s])/g, ", ");
-    var pinterestUrl = "https://www.pinterest.com/pin/create/button/";
-    pinterestUrl += "?url=" + objectUrl;
-    pinterestUrl += "&media=" + imgUrl;
-    pinterestUrl += "&description=" + theTitle;
-    if (theDate != "") pinterestUrl += " (" + thePlace + ", " + theDate + ")";
-    pinterestUrl += ", V%26A Collection";
-    if (theTitle.length > 20 && theTitle.length <= 40) {
-        $("#title").parent().addClass("reduced");
+    var theCaption = "<strong>" + theTitle + ", " + theDate + "</strong>" + " &mdash; " + theArtist;
+    if (expectResponse === 2) {
+        theDescription = theDescription.replace(/Object Type\n/g, "");
+        theDescription = theDescription.replace(/People\n/g, "");
+        theDescription = theDescription.replace(/Place\n/g, "");
+        theDescription = theDescription.replace(/Places\n/g, "");
+        theDescription = theDescription.replace(/Time\n/g, "");
+        theDescription = theDescription.replace(/Design \& Designing\n/g, "");
+        theDescription = theDescription.replace(/Design\n/g, "");
+        theDescription = theDescription.replace(/Subject Depicted\n/g, "");
+        theDescription = theDescription.replace(/Subjects Depicted\n/g, "");
+        theDescription = theDescription.replace(/Materials \& Making\n/g, "");
+        theDescription = theDescription.replace(/Collectors \& Owners\n/g, "");
+        theDescription = theDescription.replace(/Ownership \& Use\n/g, "");
+        theDescription = theDescription.replace(/Trading\n/g, "");
+        theDescription = theDescription.replace(/Trade\n/g, "");
+        theDescription = theDescription.replace(/Historical Associations\n/g, "");
+        theDescription = theDescription.replace(/Other\n/g, "");
+        theDescription = theDescription.replace(/\n\n\n/g, "\n\n");
+        theDescription = theDescription.replace(/\n/g, "<br>");
+        theDescription = theDescription.replace(/\<i\>/g, "");
+        theDescription = theDescription.replace(/\<\\i\>/g, "");
+        theDescription = theDescription.replace(/\<b\>/g, "");
+        theDescription = theDescription.replace(/\<\\b\>/g, "");
+        var thePhysicalDescription = objectInfo.physical_description;
+        var theDimensions = objectInfo.dimensions;
+        var thePlace = objectInfo.place;
+        var theMuseumNumber = objectInfo.museum_number;
+        var theMuseumLocation = objectInfo.location;
+        thePhysicalDescription = thePhysicalDescription.replace(/\<i\>/g, "");
+        thePhysicalDescription = thePhysicalDescription.replace(/\<\\i\>/g, "");
+        thePhysicalDescription = thePhysicalDescription.replace(/\<b\>/g, "");
+        thePhysicalDescription = thePhysicalDescription.replace(/\<\\b\>/g, "");
+        theReadableSearchTerms = theReadableSearchTerms.replace(/,(?=[^\s])/g, ", ");
+        var pinterestUrl = "https://www.pinterest.com/pin/create/button/";
+        pinterestUrl += "?url=" + objectUrl;
+        pinterestUrl += "&media=" + imgUrl;
+        pinterestUrl += "&description=" + theTitle;
+        if (theDate != "") pinterestUrl += " (" + thePlace + ", " + theDate + ")";
+        pinterestUrl += ", V%26A Collection";
+        if (theTitle.length > 20 && theTitle.length <= 40) {
+            $("#title").parent().addClass("reduced");
+        }
+        if (theTitle.length > 40) {
+            $("#title").parent().addClass("reduced-more");
+        }
+        $("#creator-name").text(theArtist);
+        $("#dates-alive").text(datesAlive);
+        $("#title").html(theTitle);
+        if (theDate != "") $("#piece-date").text(theDate);
+        $("#place").html(thePlace);
+        $("#image").attr("src", imgUrl);
+        $("#pinterest-button").attr("href", pinterestUrl);
+        $("#page-link").attr("href", objectUrl);
+        $("#object-description").html("<p>" + theDescription + "</p>");
+        $("#object-context").html("<p>" + theContext + "</p>");
+        $("#object-caption").html(theCaption);
+        if (thePhysicalDescription != "") {
+            $("#physical-description").html(thePhysicalDescription);
+        } else {
+            console.log("hiding physical description");
+            $("#physical-description").hide();
+            $("#physical-description").prev("h4").hide();
+        }
+        if (theDate != "") {
+            $("#tech-info-piece-date").text(theDate);
+        } else {
+            $("#tech-info-piece-date").hide();
+            $("#tech-info-piece-date").prev("h4").hide();
+        }
+        if (theArtist != "") {
+            $("#tech-info-creator-name").text(theArtist);
+        } else {
+            $("#tech-info-creator-name").hide();
+            $("#tech-info-creator-name").prev("h4").hide();
+        }
+        if (theMaterials != "") {
+            $("#tech-info-materials").html(theMaterials);
+        } else {
+            $("#tech-info-materials").hide();
+            $("#tech-info-materials").prev("h4").hide();
+        }
+        if (thePlace != "") {
+            $("#tech-info-place").text(thePlace);
+        } else {
+            $("#tech-info-place").hide();
+            $("#tech-info-place").prev("h4").hide();
+        }
+        if (theDimensions != "") {
+            $("#dimensions").text(theDimensions);
+        } else {
+            $("#dimensions").hide();
+            $("#dimensions").prev("h4").hide();
+        }
+        if (theMuseumLocation != "") {
+            $("#museum-location").text(theMuseumLocation);
+        } else {
+            $("#museum-location").hide();
+            $("#museum-location").prev("h4").hide();
+        }
+        if (theMuseumNumber != "") {
+            $("#museum-number").text(theMuseumNumber);
+        } else {
+            $("#museum-number").hide();
+            $("#museum-number").prev("h4").hide();
+        }
+        $("#search-terms").text(theReadableSearchTerms);
+        SITE.onThrottledResize();
+        $(".content-placeholder, .hide-until-loaded").addClass("loaded");
+        $("img.image-hide-until-loaded").load(function() {
+            $(".image-hide-until-loaded, .hide-after-loaded").addClass("loaded");
+        });
+    } else if (expectResponse === 3) {
+        var historyObjectHTML = "";
+        historyObjectHTML += '<div class="history-object" ';
+        historyObjectHTML += "style=\"background-image: url('" + imgUrl + "');\">";
+        historyObjectHTML += "</div>";
+        $("#history-objects").append(historyObjectHTML);
+        if (historyCount < maxHistoryItems - 1) {
+            searchCount = 0;
+            historyCount++;
+            makeVaRequest(theHistory[historyCount], undefined, undefined, undefined, undefined, undefined, undefined, undefined, true);
+        }
     }
-    if (theTitle.length > 40) {
-        $("#title").parent().addClass("reduced-more");
-    }
-    $("#creator-name").text(theArtist);
-    $("#dates-alive").text(datesAlive);
-    $("#title").html(theTitle);
-    if (theDate != "") $("#piece-date").text(theDate);
-    $("#place").html(thePlace);
-    $("#image").attr("src", imgUrl);
-    $("#pinterest-button").attr("href", pinterestUrl);
-    $("#page-link").attr("href", objectUrl);
-    $("#object-description").html("<p>" + theDescription + "</p>");
-    $("#object-context").html("<p>" + theContext + "</p>");
-    $("#object-caption").html(theCaption);
-    if (thePhysicalDescription != "") {
-        $("#physical-description").html(thePhysicalDescription);
-    } else {
-        console.log("hiding physical description");
-        $("#physical-description").hide();
-        $("#physical-description").prev("h4").hide();
-    }
-    if (theDate != "") {
-        $("#tech-info-piece-date").text(theDate);
-    } else {
-        $("#tech-info-piece-date").hide();
-        $("#tech-info-piece-date").prev("h4").hide();
-    }
-    if (theArtist != "") {
-        $("#tech-info-creator-name").text(theArtist);
-    } else {
-        $("#tech-info-creator-name").hide();
-        $("#tech-info-creator-name").prev("h4").hide();
-    }
-    if (theMaterials != "") {
-        $("#tech-info-materials").html(theMaterials);
-    } else {
-        $("#tech-info-materials").hide();
-        $("#tech-info-materials").prev("h4").hide();
-    }
-    if (thePlace != "") {
-        $("#tech-info-place").text(thePlace);
-    } else {
-        $("#tech-info-place").hide();
-        $("#tech-info-place").prev("h4").hide();
-    }
-    if (theDimensions != "") {
-        $("#dimensions").text(theDimensions);
-    } else {
-        $("#dimensions").hide();
-        $("#dimensions").prev("h4").hide();
-    }
-    if (theMuseumLocation != "") {
-        $("#museum-location").text(theMuseumLocation);
-    } else {
-        $("#museum-location").hide();
-        $("#museum-location").prev("h4").hide();
-    }
-    if (theMuseumNumber != "") {
-        $("#museum-number").text(theMuseumNumber);
-    } else {
-        $("#museum-number").hide();
-        $("#museum-number").prev("h4").hide();
-    }
-    $("#search-terms").text(theReadableSearchTerms);
-    SITE.onThrottledResize();
-    $(".content-placeholder, .hide-until-loaded").addClass("loaded");
-    $("img.image-hide-until-loaded").load(function() {
-        $(".image-hide-until-loaded, .hide-after-loaded").addClass("loaded");
-    });
 }
 
 function handleError(jqXHR, status, msg) {

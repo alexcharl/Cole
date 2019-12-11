@@ -143,7 +143,10 @@
 
 	function showHistory() {
 
-		$('#history-objects').text(theHistory.toString());
+		// $('#history-objects').text(theHistory.toString());
+
+		searchCount = 0; // reset the limit so this doesn't interfere
+		makeVaRequest(theHistory[0], undefined, undefined, undefined, undefined, undefined, undefined, undefined, true); // last arg is 'forHistory'
 
 		$('.history-wrapper .loading').addClass('loaded');
 	}

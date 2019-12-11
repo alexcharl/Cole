@@ -121,8 +121,26 @@ body, html {
 
 	.history-title {
 		width: 50%;
-		
 	}
+}
+
+.history-object {
+	display: inline-block;
+	vertical-align: top;
+	text-align: center;
+	width: calc(25% - 88px);
+	min-width: 260px;
+	height:calc(50vh - 176px);
+	min-height: 260px;
+	margin: 88px 44px 44px 44px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: top center;
+
+	// img {
+	// 	width: calc(100% - 80px);
+	// 	height: auto;
+	// }
 }
 
 .overlay.closed {

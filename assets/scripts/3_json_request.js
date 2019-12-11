@@ -47,6 +47,8 @@ var chosenSearchTerm;
 var strictSearch = false;
 var searchCount = 0;
 var maxSearchCounts = 5;
+var historyCount = 0;
+var maxHistoryItems = 8;
 
 // set up history storage
 var theHistory = new Array();
@@ -131,7 +133,7 @@ function addToHistory(objectNumber) {
 
 // make the call to the api
 
-function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, withDescription, after, random) {
+function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, withDescription, after, random, forHistory) {
 
     // set up ajax request, sending VAM parameters as below
     // returns a JSON-formatted response
@@ -168,7 +170,7 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
         // quality => unsure if this is having an effect or not...
         quality = typeof quality !== 'undefined' ? quality : null;
 
-        // set this to tell the processing function whether expect a full data response from the api
+        // set this to tell the processing function whether to expect a full data response from the api
         // this only happens when an object number is sent as a url segment
         var expectResponse = 0;
 
@@ -178,7 +180,18 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
         }
         // else if we have the object number, then we run the final full query
         else if (objectNumber != null) {
-            expectResponse = 2; 
+
+            // if the query is being run from the history populator
+            if (forHistory == true) {
+
+                expectResponse = 3; 
+
+            } else {
+
+                // this is the code for the regular page view
+                // the one that comes up once we have an object and want to populate all the fields
+                expectResponse = 2; 
+            }
         }
 
         // if strict search is on, use an item name search not a general term search
@@ -316,7 +329,7 @@ function processResponse(data, expectResponse) {
         return;
     }
 
-    // if we are expecting a full response (response code 2), carry on...
+    // if we are expecting a full response (response code 2 or 3), carry on...
 
     // cache the fields object for faster performance
     // we should have only one object this time
@@ -362,14 +375,6 @@ function processResponse(data, expectResponse) {
 
     var objectUrl = vaCollectionsUrl+theObjectNumber+"/"+theSlug;
 
-    // Get the information for the technical info panel
-
-    var thePhysicalDescription = objectInfo.physical_description;
-    var theDimensions = objectInfo.dimensions;
-    var thePlace = objectInfo.place;
-    var theMuseumNumber = objectInfo.museum_number;
-    var theMuseumLocation = objectInfo.location;
-
     // remove oddities from the title
     theTitle = theTitle.replace(/\^/, "");
 
@@ -379,6 +384,9 @@ function processResponse(data, expectResponse) {
     theTitle = theTitle.replace(/\<b\>/g,"");
     theTitle = theTitle.replace(/\<\\b\>/g,"");
 
+    // occasionally we get a null date
+    theDate = typeof theDate !== "undefined" && theDate != null ? theDate : "";
+
     //  construct the title for the side margin
     var theCaption  = "<strong>" 
                         + theTitle 
@@ -387,107 +395,139 @@ function processResponse(data, expectResponse) {
                         + " &mdash; "
                         + theArtist;
 
-    // remove the titles that appear in certain captions
-    theDescription = theDescription.replace(/Object Type\n/g, "");
-    theDescription = theDescription.replace(/People\n/g, "");
-    theDescription = theDescription.replace(/Place\n/g, "");
-    theDescription = theDescription.replace(/Places\n/g, "");
-    theDescription = theDescription.replace(/Time\n/g, "");
-    theDescription = theDescription.replace(/Design \& Designing\n/g, "");
-    theDescription = theDescription.replace(/Design\n/g, "");
-    theDescription = theDescription.replace(/Subject Depicted\n/g, "");
-    theDescription = theDescription.replace(/Subjects Depicted\n/g, "");
-    theDescription = theDescription.replace(/Materials \& Making\n/g, "");
-    theDescription = theDescription.replace(/Collectors \& Owners\n/g, "");
-    theDescription = theDescription.replace(/Ownership \& Use\n/g, "");
-    theDescription = theDescription.replace(/Trading\n/g, "");
-    theDescription = theDescription.replace(/Trade\n/g, "");
-    theDescription = theDescription.replace(/Historical Associations\n/g, "");
-    theDescription = theDescription.replace(/Other\n/g, "");
 
-    // remove multiple newlines (more than 2 in a row)
-    theDescription = theDescription.replace(/\n\n\n/g, "\n\n");
+    // ** Parse the full data for the main page ** //
 
-    // replace newlines with <br>
-    theDescription = theDescription.replace(/\n/g,"<br>");
+    if (expectResponse === 2) {
 
-    // strip out <i> tags and <b> tags
-    theDescription = theDescription.replace(/\<i\>/g,"");
-    theDescription = theDescription.replace(/\<\\i\>/g,"");
-    theDescription = theDescription.replace(/\<b\>/g,"");
-    theDescription = theDescription.replace(/\<\\b\>/g,"");
+        // remove the titles that appear in certain captions
+        theDescription = theDescription.replace(/Object Type\n/g, "");
+        theDescription = theDescription.replace(/People\n/g, "");
+        theDescription = theDescription.replace(/Place\n/g, "");
+        theDescription = theDescription.replace(/Places\n/g, "");
+        theDescription = theDescription.replace(/Time\n/g, "");
+        theDescription = theDescription.replace(/Design \& Designing\n/g, "");
+        theDescription = theDescription.replace(/Design\n/g, "");
+        theDescription = theDescription.replace(/Subject Depicted\n/g, "");
+        theDescription = theDescription.replace(/Subjects Depicted\n/g, "");
+        theDescription = theDescription.replace(/Materials \& Making\n/g, "");
+        theDescription = theDescription.replace(/Collectors \& Owners\n/g, "");
+        theDescription = theDescription.replace(/Ownership \& Use\n/g, "");
+        theDescription = theDescription.replace(/Trading\n/g, "");
+        theDescription = theDescription.replace(/Trade\n/g, "");
+        theDescription = theDescription.replace(/Historical Associations\n/g, "");
+        theDescription = theDescription.replace(/Other\n/g, "");
 
-    // strip out <i> tags and <b> tags
-    thePhysicalDescription = thePhysicalDescription.replace(/\<i\>/g,"");
-    thePhysicalDescription = thePhysicalDescription.replace(/\<\\i\>/g,"");
-    thePhysicalDescription = thePhysicalDescription.replace(/\<b\>/g,"");
-    thePhysicalDescription = thePhysicalDescription.replace(/\<\\b\>/g,"");
+        // remove multiple newlines (more than 2 in a row)
+        theDescription = theDescription.replace(/\n\n\n/g, "\n\n");
 
-    // occasionally we get a null date
-    theDate = typeof theDate !== "undefined" && theDate != null ? theDate : "";
+        // replace newlines with <br>
+        theDescription = theDescription.replace(/\n/g,"<br>");
 
-    // format the search terms into a more readable form
-    theReadableSearchTerms = theReadableSearchTerms.replace(/,(?=[^\s])/g, ", "); // replace spaces with commas
+        // strip out <i> tags and <b> tags
+        theDescription = theDescription.replace(/\<i\>/g,"");
+        theDescription = theDescription.replace(/\<\\i\>/g,"");
+        theDescription = theDescription.replace(/\<b\>/g,"");
+        theDescription = theDescription.replace(/\<\\b\>/g,"");
 
-    // construct the Pinterest url
-    var pinterestUrl    = "https://www.pinterest.com/pin/create/button/"
-    pinterestUrl        += "?url="+objectUrl;
-    pinterestUrl        += "&media="+imgUrl;
-    pinterestUrl        += "&description="+theTitle;
-    if (theDate != "") pinterestUrl += " ("+thePlace+", "+theDate+")";
-    pinterestUrl        += ", V%26A Collection";
+        // Get the data for the technical info section
+        var thePhysicalDescription = objectInfo.physical_description;
+        var theDimensions = objectInfo.dimensions;
+        var thePlace = objectInfo.place;
+        var theMuseumNumber = objectInfo.museum_number;
+        var theMuseumLocation = objectInfo.location;
 
-    // inject the data into the page
+        // strip out <i> tags and <b> tags
+        thePhysicalDescription = thePhysicalDescription.replace(/\<i\>/g,"");
+        thePhysicalDescription = thePhysicalDescription.replace(/\<\\i\>/g,"");
+        thePhysicalDescription = thePhysicalDescription.replace(/\<b\>/g,"");
+        thePhysicalDescription = thePhysicalDescription.replace(/\<\\b\>/g,"");
 
-    // set the title class for long and extra-long ones
-    if (theTitle.length > 20 && theTitle.length <= 40) {
-        $('#title').parent().addClass('reduced'); 
-        // $('#piece-date').addClass('reduced'); 
+        // format the search terms into a more readable form to use in the side panel
+        theReadableSearchTerms = theReadableSearchTerms.replace(/,(?=[^\s])/g, ", "); // replace spaces with commas
+
+        // construct the Pinterest url
+        var pinterestUrl    = "https://www.pinterest.com/pin/create/button/"
+        pinterestUrl        += "?url="+objectUrl;
+        pinterestUrl        += "&media="+imgUrl;
+        pinterestUrl        += "&description="+theTitle;
+        if (theDate != "") pinterestUrl += " ("+thePlace+", "+theDate+")";
+        pinterestUrl        += ", V%26A Collection";
+
+        
+
+        // *** inject the data into the page *** //
+
+        // set the title class for long and extra-long ones
+        if (theTitle.length > 20 && theTitle.length <= 40) {
+            $('#title').parent().addClass('reduced'); 
+            // $('#piece-date').addClass('reduced'); 
+        }
+
+        if (theTitle.length > 40) {
+            $('#title').parent().addClass('reduced-more'); 
+            // $('#piece-date').addClass('reduced'); 
+        }
+
+        // main panel
+        $('#creator-name').text(theArtist);
+        $('#dates-alive').text(datesAlive);
+        $('#title').html(theTitle);
+        if (theDate != "") $('#piece-date').text(theDate);
+        $('#place').html(thePlace);
+        $('#image').attr('src', imgUrl);
+        $('#pinterest-button').attr('href', pinterestUrl);
+        $('#page-link').attr('href', objectUrl);
+        $('#object-description').html('<p>'+theDescription+'</p>');
+        $('#object-context').html('<p>'+theContext+'</p>');
+
+        // caption appearing on scroll
+        $('#object-caption').html(theCaption);
+
+        // technical info
+        if (thePhysicalDescription != "") { $('#physical-description').html(thePhysicalDescription) } else { console.log('hiding physical description'); $('#physical-description').hide(); $('#physical-description').prev('h4').hide(); }
+        if (theDate != "") { $('#tech-info-piece-date').text(theDate) } else { $('#tech-info-piece-date').hide(); $('#tech-info-piece-date').prev('h4').hide(); }
+        if (theArtist != "") { $('#tech-info-creator-name').text(theArtist) } else { $('#tech-info-creator-name').hide(); $('#tech-info-creator-name').prev('h4').hide(); }
+        if (theMaterials != "") { $('#tech-info-materials').html(theMaterials) } else { $('#tech-info-materials').hide(); $('#tech-info-materials').prev('h4').hide(); }
+        if (thePlace != "") { $('#tech-info-place').text(thePlace) } else { $('#tech-info-place').hide(); $('#tech-info-place').prev('h4').hide(); }
+        if (theDimensions != "") { $('#dimensions').text(theDimensions) } else { $('#dimensions').hide(); $('#dimensions').prev('h4').hide(); }
+        if (theMuseumLocation != "") { $('#museum-location').text(theMuseumLocation) } else { $('#museum-location').hide(); $('#museum-location').prev('h4').hide(); }
+        if (theMuseumNumber != "") { $('#museum-number').text(theMuseumNumber) } else { $('#museum-number').hide(); $('#museum-number').prev('h4').hide(); }
+
+        // side panel 
+        $('#search-terms').text(theReadableSearchTerms);
+
+        // run resize script
+        SITE.onThrottledResize();
+
+        // reveal everything that's hidden
+        $('.content-placeholder, .hide-until-loaded').addClass('loaded');
+
+        // the image and related items (like the copyright statemetn) gets revealed once that's loaded
+        $('img.image-hide-until-loaded').load( function() {
+            $('.image-hide-until-loaded, .hide-after-loaded').addClass('loaded');
+        });
+
     }
 
-    if (theTitle.length > 40) {
-        $('#title').parent().addClass('reduced-more'); 
-        // $('#piece-date').addClass('reduced'); 
+    // *** Populate the History page *** //
+
+    else if (expectResponse === 3) {
+
+        var historyObjectHTML = '';
+        historyObjectHTML += '<div class="history-object" ';
+        historyObjectHTML += 'style="background-image: url(\''+imgUrl+'\');">';
+        historyObjectHTML += '</div>';
+
+        $('#history-objects').append(historyObjectHTML);
+
+        if (historyCount < maxHistoryItems-1) {
+
+            searchCount = 0;
+            historyCount++;
+            makeVaRequest(theHistory[historyCount], undefined, undefined, undefined, undefined, undefined, undefined, undefined, true); // last arg is 'forHistory'
+        }
     }
-
-    // main panel
-    $('#creator-name').text(theArtist);
-    $('#dates-alive').text(datesAlive);
-    $('#title').html(theTitle);
-    if (theDate != "") $('#piece-date').text(theDate);
-    $('#place').html(thePlace);
-    $('#image').attr('src', imgUrl);
-    $('#pinterest-button').attr('href', pinterestUrl);
-    $('#page-link').attr('href', objectUrl);
-    $('#object-description').html('<p>'+theDescription+'</p>');
-    $('#object-context').html('<p>'+theContext+'</p>');
-
-    // caption appearing on scroll
-    $('#object-caption').html(theCaption);
-
-    // technical info
-    if (thePhysicalDescription != "") { $('#physical-description').html(thePhysicalDescription) } else { console.log('hiding physical description'); $('#physical-description').hide(); $('#physical-description').prev('h4').hide(); }
-    if (theDate != "") { $('#tech-info-piece-date').text(theDate) } else { $('#tech-info-piece-date').hide(); $('#tech-info-piece-date').prev('h4').hide(); }
-    if (theArtist != "") { $('#tech-info-creator-name').text(theArtist) } else { $('#tech-info-creator-name').hide(); $('#tech-info-creator-name').prev('h4').hide(); }
-    if (theMaterials != "") { $('#tech-info-materials').html(theMaterials) } else { $('#tech-info-materials').hide(); $('#tech-info-materials').prev('h4').hide(); }
-    if (thePlace != "") { $('#tech-info-place').text(thePlace) } else { $('#tech-info-place').hide(); $('#tech-info-place').prev('h4').hide(); }
-    if (theDimensions != "") { $('#dimensions').text(theDimensions) } else { $('#dimensions').hide(); $('#dimensions').prev('h4').hide(); }
-    if (theMuseumLocation != "") { $('#museum-location').text(theMuseumLocation) } else { $('#museum-location').hide(); $('#museum-location').prev('h4').hide(); }
-    if (theMuseumNumber != "") { $('#museum-number').text(theMuseumNumber) } else { $('#museum-number').hide(); $('#museum-number').prev('h4').hide(); }
-
-    // side panel 
-    $('#search-terms').text(theReadableSearchTerms);
-
-    // run resize script
-    SITE.onThrottledResize();
-
-    // reveal everything that's hidden
-    $('.content-placeholder, .hide-until-loaded').addClass('loaded');
-
-    // the image and related items (like the copyright statemetn) gets revealed once that's loaded
-    $('img.image-hide-until-loaded').load( function() {
-        $('.image-hide-until-loaded, .hide-after-loaded').addClass('loaded');
-    });
 }
 
 function handleError(jqXHR, status, msg) {
