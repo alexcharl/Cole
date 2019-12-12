@@ -526,17 +526,51 @@ function processResponse(data, expectResponse) {
     else if (expectResponse === 3) {
 
         var historyObjectHTML = '';
-        historyObjectHTML += '<div class="history-object" ';
+        historyObjectHTML += '<div class="history-object hide-until-loaded" data-object-number="'+theHistory[historyCount]+'">';
+        historyObjectHTML += '<div class="history-object-image-holder" '
         historyObjectHTML += 'style="background-image: url(\''+imgUrl+'\');">';
+        historyObjectHTML += '</div>';
+        historyObjectHTML += '<img src="'+imgUrl+'" class="image-holder-for-loading" id="image-holder-'+historyCount+'" >';
+        historyObjectHTML += '<div class="history-object-info">';
+        historyObjectHTML += '<p><strong>'+theTitle+'</strong>, '+theDate+'</p>';
+        historyObjectHTML += '<p>'+theArtist+'</p>';
+        historyObjectHTML += '</div>';
         historyObjectHTML += '</div>';
 
         $('#history-objects').append(historyObjectHTML);
 
-        if (historyCount < maxHistoryItems-1) {
+        // set up load detect
+        $('#image-holder-'+historyCount).on('load', function() {
+           $(this).parent().addClass('loaded');
+           $(this).remove(); // prevent memory leaks
+        });
+
+        // careful, this is a loopback
+        if (historyCount < maxHistoryItems-1 && historyCount < theHistory.length-1) {
 
             searchCount = 0;
             historyCount++;
             makeVaRequest(theHistory[historyCount], undefined, undefined, undefined, undefined, true); // objectNumber, searchTerm, offset, limit, after, forHistory
+        } 
+        else
+        {
+            // ** run once here **
+
+            // reset history counter
+            historyCount = 0;
+            searchCount = 0;
+
+            // turn off the loading thingy
+            $('.history-wrapper .loading').addClass('loaded');
+    
+            // set up the function to enable click to load on each history item
+            $('.history-object').click(function() {
+
+                // hide history panel
+                // SITE.hideHistory();
+                $('.close-overlay').trigger('click');
+                makeVaRequest($(this).data('object-number'));
+            });
         }
     }
 }

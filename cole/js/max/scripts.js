@@ -279,15 +279,10 @@ var pumkin = window.pumkin = {};
                 $overlay.removeClass("closed").addClass("open for-history");
                 showHistory();
                 $overlay.fadeIn(500);
-            } else {
-                $overlay.removeClass("open for-warning for-history").addClass("closed");
-                $overlay.fadeOut(500, function() {
-                    hideHistory();
-                });
             }
         });
         $overlayCloseBtn.click(function() {
-            $overlay.removeClass("open").addClass("closed");
+            $overlay.removeClass("open for-history").addClass("closed");
             $overlay.fadeOut(500);
         });
         $(".go-to-options").click(function() {
@@ -308,8 +303,9 @@ var pumkin = window.pumkin = {};
         $(".history-wrapper .loading").addClass("loaded");
     }
     function hideHistory() {
+        console.log("hiding history");
         $("#history-objects").text("");
-        ".history-wrapper .loading".removeClass("loaded");
+        $(".history-wrapper .loading").removeClass("loaded");
     }
     function onThrottledScroll() {
         var scrollAmt = $textContent.scrollTop();
@@ -345,6 +341,8 @@ var pumkin = window.pumkin = {};
     SITE.initMain = initMain;
     SITE.throwError = throwError;
     SITE.onThrottledResize = onThrottledResize;
+    SITE.showHistory = showHistory;
+    SITE.hideHistory = hideHistory;
 })(this, this.jQuery, this.Modernizr, this.screenfull, this.FastClick);
 
 var vaUrl = "https://www.vam.ac.uk/api/json/museumobject/";
@@ -663,14 +661,33 @@ function processResponse(data, expectResponse) {
         });
     } else if (expectResponse === 3) {
         var historyObjectHTML = "";
-        historyObjectHTML += '<div class="history-object" ';
+        historyObjectHTML += '<div class="history-object hide-until-loaded" data-object-number="' + theHistory[historyCount] + '">';
+        historyObjectHTML += '<div class="history-object-image-holder" ';
         historyObjectHTML += "style=\"background-image: url('" + imgUrl + "');\">";
         historyObjectHTML += "</div>";
+        historyObjectHTML += '<img src="' + imgUrl + '" class="image-holder-for-loading" id="image-holder-' + historyCount + '" >';
+        historyObjectHTML += '<div class="history-object-info">';
+        historyObjectHTML += "<p><strong>" + theTitle + "</strong>, " + theDate + "</p>";
+        historyObjectHTML += "<p>" + theArtist + "</p>";
+        historyObjectHTML += "</div>";
+        historyObjectHTML += "</div>";
         $("#history-objects").append(historyObjectHTML);
-        if (historyCount < maxHistoryItems - 1) {
+        $("#image-holder-" + historyCount).on("load", function() {
+            $(this).parent().addClass("loaded");
+            $(this).remove();
+        });
+        if (historyCount < maxHistoryItems - 1 && historyCount < theHistory.length - 1) {
             searchCount = 0;
             historyCount++;
             makeVaRequest(theHistory[historyCount], undefined, undefined, undefined, undefined, true);
+        } else {
+            historyCount = 0;
+            searchCount = 0;
+            $(".history-wrapper .loading").addClass("loaded");
+            $(".history-object").click(function() {
+                $(".close-overlay").trigger("click");
+                makeVaRequest($(this).data("object-number"));
+            });
         }
     }
 }

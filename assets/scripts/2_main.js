@@ -107,16 +107,16 @@
 				showHistory();
 				$overlay.fadeIn(500);
 			}
-			else {
-				$overlay.removeClass('open for-warning for-history').addClass('closed');
-				$overlay.fadeOut(500, function() {
-					hideHistory();
-				});	
-			}
+			// else {
+			// 	$overlay.removeClass('open for-history').addClass('closed');
+			// 	$overlay.fadeOut(500, function() {
+			// 		hideHistory();
+			// 	});	
+			// }
 		});
 
 		$overlayCloseBtn.click(function() {
-			$overlay.removeClass('open').addClass('closed');
+			$overlay.removeClass('open for-history').addClass('closed');
 			$overlay.fadeOut(500);	
 		});
 
@@ -153,9 +153,11 @@
 
 	function hideHistory() {
 
+		console.log ('hiding history');
+
 		$('#history-objects').text('');
 
-		('.history-wrapper .loading').removeClass('loaded');
+		$('.history-wrapper .loading').removeClass('loaded');
 
 	}
 	
@@ -239,6 +241,7 @@
 	SITE.initMain = initMain;
 	SITE.throwError = throwError;
 	SITE.onThrottledResize = onThrottledResize;
-
+	SITE.showHistory = showHistory;
+	SITE.hideHistory = hideHistory;
 
 })( this, this.jQuery, this.Modernizr, this.screenfull, this.FastClick );
