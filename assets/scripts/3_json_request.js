@@ -118,7 +118,16 @@ function chooseSearchTerm() {
     chosenSearchTerm = theSearchTerms[pumkin.randomNum(0,theSearchTerms.length)];    
 }
 
-function addToHistory(objectNumber) {
+function addToHistory(objectNumber, title, date, artistName, imageUrl, vaCollectionsUrl) {
+
+    var newHistoryObject = new Object();
+
+    newHistoryObject.objectNumber = objectNumber;
+    newHistoryObject.title = title;
+    newHistoryObject.date = date;
+    newHistoryObject.artistName = artistName;
+    newHistoryObject.imageUrl = imageUrl;
+    newHistoryObject.vaCollectionsUrl = vaCollectionsUrl;
 
     theHistory.unshift(objectNumber); // add the new object number to the beginning
 
@@ -334,9 +343,6 @@ function processResponse(data, expectResponse) {
 
         makeVaRequest(objectNumber);
 
-        // add this item to the history
-        addToHistory(objectNumber);
-
         return;
     }
 
@@ -405,6 +411,10 @@ function processResponse(data, expectResponse) {
                         + "</strong>"
                         + " &mdash; "
                         + theArtist;
+
+
+    // add this item to the history
+    addToHistory(objectNumber, theTitle, theDate, theArtist, imgUrl, objectUrl);
 
 
     // ** Parse the full data for the main page ** //
