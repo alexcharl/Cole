@@ -282,8 +282,9 @@ var pumkin = window.pumkin = {};
             }
         });
         $overlayCloseBtn.click(function() {
-            $overlay.removeClass("open for-history").addClass("closed");
-            $overlay.fadeOut(500);
+            $overlay.fadeOut(500, function() {
+                $overlay.removeClass("open for-history for-warning").addClass("closed");
+            });
         });
         $(".go-to-options").click(function() {
             if (chrome.runtime.openOptionsPage) {
@@ -298,14 +299,33 @@ var pumkin = window.pumkin = {};
         $overlay.fadeIn(500);
     }
     function showHistory() {
-        searchCount = 0;
-        makeVaRequest(theHistory[0], undefined, undefined, undefined, undefined, true);
         $(".history-wrapper .loading").addClass("loaded");
+        getHistory();
     }
     function hideHistory() {
-        console.log("hiding history");
         $("#history-objects").text("");
-        $(".history-wrapper .loading").removeClass("loaded");
+    }
+    function getHistory() {
+        var count = 0;
+        theHistory.forEach(function(i) {
+            var historyObjectHTML = "";
+            historyObjectHTML += '<a class="history-object hide-until-loaded" data-object-number="' + i.objectNumber + '" href="' + i.vaCollectionsUrl + '">';
+            historyObjectHTML += '<div class="history-object-image-holder" ';
+            historyObjectHTML += "style=\"background-image: url('" + i.imageUrl + "');\">";
+            historyObjectHTML += "</div>";
+            historyObjectHTML += '<img src="' + i.imageUrl + '" class="image-holder-for-loading" id="image-holder-' + count + '" >';
+            historyObjectHTML += '<div class="history-object-info">';
+            historyObjectHTML += "<p><strong>" + i.title + "</strong>, " + i.date + "</p>";
+            historyObjectHTML += "<p>" + i.artist + "</p>";
+            historyObjectHTML += "</div>";
+            historyObjectHTML += "</a";
+            $("#history-objects").append(historyObjectHTML);
+            $("#image-holder-" + count).on("load", function() {
+                $(this).parent().addClass("loaded");
+                $(this).remove();
+            });
+            count++;
+        });
     }
     function onThrottledScroll() {
         var scrollAmt = $textContent.scrollTop();
@@ -412,8 +432,18 @@ function chooseSearchTerm() {
     chosenSearchTerm = theSearchTerms[pumkin.randomNum(0, theSearchTerms.length)];
 }
 
-function addToHistory(objectNumber) {
-    theHistory.unshift(objectNumber);
+function addToHistory(objectNumber, title, date, artist, imageUrl, vaCollectionsUrl) {
+    var newHistoryObject = new Object();
+    newHistoryObject = {
+        objectNumber: objectNumber,
+        title: title,
+        date: date,
+        artist: artist,
+        imageUrl: imageUrl,
+        vaCollectionsUrl: vaCollectionsUrl
+    };
+    console.log("adding to history: " + newHistoryObject.title);
+    theHistory.unshift(newHistoryObject);
     if (theHistory.length > 10) {
         theHistory.pop();
     }
@@ -436,11 +466,7 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, after, forHistor
         if (offset != null) {
             expectResponse = 1;
         } else if (objectNumber != null) {
-            if (forHistory == true) {
-                expectResponse = 3;
-            } else {
-                expectResponse = 2;
-            }
+            expectResponse = 2;
         }
         if (strictSearch == true) {
             var searchItem = searchTerm;
@@ -515,7 +541,6 @@ function processResponse(data, expectResponse) {
         imageId = whichObject.fields.primary_image_id;
         console.log("Making query 3. Choosing object " + objectNumber + " at position " + randomNum + " from " + numRecords + " available objects.");
         makeVaRequest(objectNumber);
-        addToHistory(objectNumber);
         return;
     }
     var objectInfo = data[0].fields;
@@ -549,6 +574,7 @@ function processResponse(data, expectResponse) {
     theTitle = theTitle.replace(/\<\\b\>/g, "");
     theDate = typeof theDate !== "undefined" && theDate != null ? theDate : "";
     var theCaption = "<strong>" + theTitle + ", " + theDate + "</strong>" + " &mdash; " + theArtist;
+    addToHistory(theObjectNumber, theTitle, theDate, theArtist, imgUrl, objectUrl);
     if (expectResponse === 2) {
         theDescription = theDescription.replace(/Object Type\n/g, "");
         theDescription = theDescription.replace(/People\n/g, "");
@@ -659,36 +685,6 @@ function processResponse(data, expectResponse) {
         $("img.image-hide-until-loaded").load(function() {
             $(".image-hide-until-loaded, .hide-after-loaded").addClass("loaded");
         });
-    } else if (expectResponse === 3) {
-        var historyObjectHTML = "";
-        historyObjectHTML += '<div class="history-object hide-until-loaded" data-object-number="' + theHistory[historyCount] + '">';
-        historyObjectHTML += '<div class="history-object-image-holder" ';
-        historyObjectHTML += "style=\"background-image: url('" + imgUrl + "');\">";
-        historyObjectHTML += "</div>";
-        historyObjectHTML += '<img src="' + imgUrl + '" class="image-holder-for-loading" id="image-holder-' + historyCount + '" >';
-        historyObjectHTML += '<div class="history-object-info">';
-        historyObjectHTML += "<p><strong>" + theTitle + "</strong>, " + theDate + "</p>";
-        historyObjectHTML += "<p>" + theArtist + "</p>";
-        historyObjectHTML += "</div>";
-        historyObjectHTML += "</div>";
-        $("#history-objects").append(historyObjectHTML);
-        $("#image-holder-" + historyCount).on("load", function() {
-            $(this).parent().addClass("loaded");
-            $(this).remove();
-        });
-        if (historyCount < maxHistoryItems - 1 && historyCount < theHistory.length - 1) {
-            searchCount = 0;
-            historyCount++;
-            makeVaRequest(theHistory[historyCount], undefined, undefined, undefined, undefined, true);
-        } else {
-            historyCount = 0;
-            searchCount = 0;
-            $(".history-wrapper .loading").addClass("loaded");
-            $(".history-object").click(function() {
-                $(".close-overlay").trigger("click");
-                makeVaRequest($(this).data("object-number"));
-            });
-        }
     }
 }
 

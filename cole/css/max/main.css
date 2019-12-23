@@ -897,10 +897,10 @@ body, html {
   .overlay.for-history .history-wrapper {
     display: block; }
   /* line 78, ../../../assets/sass/pages/_global.scss */
-  .overlay.for-credits .warning-wrapper {
+  .overlay.for-warning .warning-wrapper {
     display: block; }
   /* line 81, ../../../assets/sass/pages/_global.scss */
-  .overlay.for-credits .history-wrapper {
+  .overlay.for-warning .history-wrapper {
     display: none; }
 
 /* line 87, ../../../assets/sass/pages/_global.scss */

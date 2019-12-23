@@ -92,7 +92,6 @@
 		});
 
 		$downArrow.click(function() {
-			// console.log('scroll');
 			$('.object-text').velocity('scroll', {
 	            duration: 700,
 	            offset: -100,
@@ -107,17 +106,12 @@
 				showHistory();
 				$overlay.fadeIn(500);
 			}
-			// else {
-			// 	$overlay.removeClass('open for-history').addClass('closed');
-			// 	$overlay.fadeOut(500, function() {
-			// 		hideHistory();
-			// 	});	
-			// }
 		});
 
 		$overlayCloseBtn.click(function() {
-			$overlay.removeClass('open for-history').addClass('closed');
-			$overlay.fadeOut(500);	
+			$overlay.fadeOut(500, function() {
+				$overlay.removeClass('open for-history for-warning').addClass('closed');
+			});	
 		});
 
 		$('.go-to-options').click(function() {
@@ -143,22 +137,47 @@
 
 	function showHistory() {
 
-		// $('#history-objects').text(theHistory.toString());
-
-		searchCount = 0; // reset the limit so this doesn't interfere
-		makeVaRequest(theHistory[0], undefined, undefined, undefined, undefined, true); // last arg is 'forHistory'
-
 		$('.history-wrapper .loading').addClass('loaded');
+		getHistory();
 	}
 
 	function hideHistory() {
 
-		console.log ('hiding history');
-
 		$('#history-objects').text('');
 
-		$('.history-wrapper .loading').removeClass('loaded');
 
+	}
+
+	function getHistory() {
+
+		// *** Populate the History page *** //
+
+		var count = 0;
+
+		theHistory.forEach(function (i) {
+  
+		    var historyObjectHTML = '';
+		    historyObjectHTML += '<a class="history-object hide-until-loaded" data-object-number="'+i.objectNumber+'" href="'+i.vaCollectionsUrl+'">';
+		    historyObjectHTML += '<div class="history-object-image-holder" '
+		    historyObjectHTML += 'style="background-image: url(\''+i.imageUrl+'\');">';
+		    historyObjectHTML += '</div>';
+		    historyObjectHTML += '<img src="'+i.imageUrl+'" class="image-holder-for-loading" id="image-holder-'+count+'" >';
+		    historyObjectHTML += '<div class="history-object-info">';
+		    historyObjectHTML += '<p><strong>'+i.title+'</strong>, '+i.date+'</p>';
+		    historyObjectHTML += '<p>'+i.artist+'</p>';
+		    historyObjectHTML += '</div>';
+		    historyObjectHTML += '</a';
+
+		    $('#history-objects').append(historyObjectHTML);
+
+		    // set up load detect
+		    $('#image-holder-'+count).on('load', function() {
+		       $(this).parent().addClass('loaded');
+		       $(this).remove(); // prevent memory leaks
+		    });
+
+		    count++;
+		});
 	}
 	
 	// Scroll events
@@ -166,18 +185,7 @@
 
 	function onThrottledScroll () {
 
-		// console.log('text col scrollstop = '+$('.text-content-column').scrollTop());
-
 		var scrollAmt = $textContent.scrollTop();
-
-		// if ( scrollAmt > HEIGHT*0.85) {
-		// 	// hide the arrow
-		// 	$downArrow.addClass('hide');
-		// }
-		// else {	
-		// 	// show the arrow
-		// 	$downArrow.removeClass('hide');
-		// }
 
 		if ( scrollAmt > HEIGHT*0.5) {
 			// show the caption
@@ -203,7 +211,6 @@
 		onThrottledScroll();
 		
 	};
-
 
 
 	// RESIZE SCRIPTS

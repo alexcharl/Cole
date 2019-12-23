@@ -118,18 +118,22 @@ function chooseSearchTerm() {
     chosenSearchTerm = theSearchTerms[pumkin.randomNum(0,theSearchTerms.length)];    
 }
 
-function addToHistory(objectNumber, title, date, artistName, imageUrl, vaCollectionsUrl) {
+function addToHistory(objectNumber, title, date, artist, imageUrl, vaCollectionsUrl) {
 
     var newHistoryObject = new Object();
 
-    newHistoryObject.objectNumber = objectNumber;
-    newHistoryObject.title = title;
-    newHistoryObject.date = date;
-    newHistoryObject.artistName = artistName;
-    newHistoryObject.imageUrl = imageUrl;
-    newHistoryObject.vaCollectionsUrl = vaCollectionsUrl;
+    newHistoryObject = {
+        objectNumber : objectNumber,
+        title : title,
+        date : date,
+        artist : artist,
+        imageUrl : imageUrl,
+        vaCollectionsUrl : vaCollectionsUrl
+    }
 
-    theHistory.unshift(objectNumber); // add the new object number to the beginning
+    console.log("adding to history: "+newHistoryObject.title);
+
+    theHistory.unshift(newHistoryObject); // add the new history object to the beginning
 
     if (theHistory.length > 10) {
         theHistory.pop(); // and pop out the last one
@@ -191,17 +195,9 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, after, forHistor
         // else if we have the object number, then we run the final full query
         else if (objectNumber != null) {
 
-            // if the query is being run from the history populator
-            if (forHistory == true) {
-
-                expectResponse = 3; 
-
-            } else {
-
-                // this is the code for the regular page view
-                // the one that comes up once we have an object and want to populate all the fields
-                expectResponse = 2; 
-            }
+            // this is the code for the regular page view
+            // the one that comes up once we have an object and want to populate all the fields
+            expectResponse = 2; 
         }
 
         // if strict search is on, use an item name search not a general term search
@@ -414,7 +410,7 @@ function processResponse(data, expectResponse) {
 
 
     // add this item to the history
-    addToHistory(objectNumber, theTitle, theDate, theArtist, imgUrl, objectUrl);
+    addToHistory(theObjectNumber, theTitle, theDate, theArtist, imgUrl, objectUrl);
 
 
     // ** Parse the full data for the main page ** //
@@ -529,59 +525,6 @@ function processResponse(data, expectResponse) {
             $('.image-hide-until-loaded, .hide-after-loaded').addClass('loaded');
         });
 
-    }
-
-    // *** Populate the History page *** //
-
-    else if (expectResponse === 3) {
-
-        var historyObjectHTML = '';
-        historyObjectHTML += '<div class="history-object hide-until-loaded" data-object-number="'+theHistory[historyCount]+'">';
-        historyObjectHTML += '<div class="history-object-image-holder" '
-        historyObjectHTML += 'style="background-image: url(\''+imgUrl+'\');">';
-        historyObjectHTML += '</div>';
-        historyObjectHTML += '<img src="'+imgUrl+'" class="image-holder-for-loading" id="image-holder-'+historyCount+'" >';
-        historyObjectHTML += '<div class="history-object-info">';
-        historyObjectHTML += '<p><strong>'+theTitle+'</strong>, '+theDate+'</p>';
-        historyObjectHTML += '<p>'+theArtist+'</p>';
-        historyObjectHTML += '</div>';
-        historyObjectHTML += '</div>';
-
-        $('#history-objects').append(historyObjectHTML);
-
-        // set up load detect
-        $('#image-holder-'+historyCount).on('load', function() {
-           $(this).parent().addClass('loaded');
-           $(this).remove(); // prevent memory leaks
-        });
-
-        // careful, this is a loopback
-        if (historyCount < maxHistoryItems-1 && historyCount < theHistory.length-1) {
-
-            searchCount = 0;
-            historyCount++;
-            makeVaRequest(theHistory[historyCount], undefined, undefined, undefined, undefined, true); // objectNumber, searchTerm, offset, limit, after, forHistory
-        } 
-        else
-        {
-            // ** run once here **
-
-            // reset history counter
-            historyCount = 0;
-            searchCount = 0;
-
-            // turn off the loading thingy
-            $('.history-wrapper .loading').addClass('loaded');
-    
-            // set up the function to enable click to load on each history item
-            $('.history-object').click(function() {
-
-                // hide history panel
-                // SITE.hideHistory();
-                $('.close-overlay').trigger('click');
-                makeVaRequest($(this).data('object-number'));
-            });
-        }
     }
 }
 
