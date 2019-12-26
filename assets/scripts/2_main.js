@@ -157,7 +157,8 @@
 		theHistory.forEach(function (i) {
   
 		    var historyObjectHTML = '';
-		    historyObjectHTML += '<a class="history-object hide-until-loaded" data-object-number="'+i.objectNumber+'" href="'+i.vaCollectionsUrl+'">';
+		    historyObjectHTML += '<a class="history-object hide-until-loaded" data-object-number="'+i.objectNumber+'" href="'+i.vaCollectionsUrl+'"';
+		    historyObjectHTML += 'title="View this item in the V&amp;A archive">';
 		    historyObjectHTML += '<div class="history-object-image-holder" '
 		    historyObjectHTML += 'style="background-image: url(\''+i.imageUrl+'\');">';
 		    historyObjectHTML += '</div>';

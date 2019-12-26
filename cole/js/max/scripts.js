@@ -309,7 +309,8 @@ var pumkin = window.pumkin = {};
         var count = 0;
         theHistory.forEach(function(i) {
             var historyObjectHTML = "";
-            historyObjectHTML += '<a class="history-object hide-until-loaded" data-object-number="' + i.objectNumber + '" href="' + i.vaCollectionsUrl + '">';
+            historyObjectHTML += '<a class="history-object hide-until-loaded" data-object-number="' + i.objectNumber + '" href="' + i.vaCollectionsUrl + '"';
+            historyObjectHTML += 'title="View this item in the V&amp;A archive">';
             historyObjectHTML += '<div class="history-object-image-holder" ';
             historyObjectHTML += "style=\"background-image: url('" + i.imageUrl + "');\">";
             historyObjectHTML += "</div>";
@@ -525,11 +526,11 @@ function processResponse(data, expectResponse) {
             var randomOffset = pumkin.randomNum(0, data.meta.result_count - 1);
             console.log("total results = " + data.meta.result_count);
             console.log("making query 2. Returning a new set of results from " + data.meta.result_count + " results with randomOffset of " + randomOffset);
-            makeVaRequest(null, chosenSearchTerm, randomOffset, 1);
+            makeVaRequest(null, chosenSearchTerm, randomOffset, 15);
         } else {
             console.log("making a second request, no results found last time");
             chooseSearchTerm();
-            makeVaRequest(null, chosenSearchTerm, null, 15);
+            makeVaRequest(null, chosenSearchTerm);
         }
         return;
     }
@@ -607,13 +608,29 @@ function processResponse(data, expectResponse) {
         thePhysicalDescription = thePhysicalDescription.replace(/\<\\i\>/g, "");
         thePhysicalDescription = thePhysicalDescription.replace(/\<b\>/g, "");
         thePhysicalDescription = thePhysicalDescription.replace(/\<\\b\>/g, "");
+        var readableChosenSearchTerm = chosenSearchTerm.replace(/\+/g, "");
         theReadableSearchTerms = theReadableSearchTerms.replace(/,(?=[^\s])/g, ", ");
+        theReadableSearchTerms = theReadableSearchTerms.replace(readableChosenSearchTerm, '<strong title="This was the selected search term">' + readableChosenSearchTerm + "</strong>");
         var pinterestUrl = "https://www.pinterest.com/pin/create/button/";
         pinterestUrl += "?url=" + objectUrl;
         pinterestUrl += "&media=" + imgUrl;
         pinterestUrl += "&description=" + theTitle;
-        if (theDate != "") pinterestUrl += " (" + thePlace + ", " + theDate + ")";
-        pinterestUrl += ", V%26A Collection";
+        pinterestUrl += " (";
+        if (theArtist != "") pinterestUrl += theArtist;
+        if (theDate != "") pinterestUrl += ", " + theDate;
+        pinterestUrl += ")";
+        pinterestUrl += ", V%26A Collection. Discovered via the Cole browser extension.\nhttp://cole-extension.com/";
+        var twitterUrl = "https://twitter.com/intent/tweet";
+        twitterUrl += "?hashtags=worksofart";
+        twitterUrl += "&original_referer=http://cole-extension.com/";
+        twitterUrl += "&text=" + theTitle;
+        twitterUrl += " (";
+        if (theArtist != "") twitterUrl += theArtist;
+        if (theDate != "") twitterUrl += ", " + theDate;
+        twitterUrl += ")";
+        twitterUrl += ", V%26A Collection, discovered via the Cole browser extension\n";
+        twitterUrl += "&via=cole_extension";
+        twitterUrl += "&url=" + objectUrl;
         if (theTitle.length > 20 && theTitle.length <= 40) {
             $("#title").parent().addClass("reduced");
         }
@@ -627,6 +644,7 @@ function processResponse(data, expectResponse) {
         $("#place").html(thePlace);
         $("#image").attr("src", imgUrl);
         $("#pinterest-button").attr("href", pinterestUrl);
+        $("#twitter-button").attr("href", twitterUrl);
         $("#page-link").attr("href", objectUrl);
         $("#object-description").html("<p>" + theDescription + "</p>");
         $("#object-context").html("<p>" + theContext + "</p>");
@@ -679,7 +697,7 @@ function processResponse(data, expectResponse) {
             $("#museum-number").hide();
             $("#museum-number").prev("h4").hide();
         }
-        $("#search-terms").text(theReadableSearchTerms);
+        $("#search-terms").html(theReadableSearchTerms);
         SITE.onThrottledResize();
         $(".content-placeholder, .hide-until-loaded").addClass("loaded");
         $("img.image-hide-until-loaded").load(function() {

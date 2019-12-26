@@ -275,6 +275,7 @@ function processResponse(data, expectResponse) {
     console.log(data);
 
     // if expectResponse is 0 (as it should be the first time around)
+    // all we do is look for the number of records returned for this search term
     // then we query the api again using a randomised offset based on the total number of records
     // this helps us get deeper into the results and by-passes the fixed limit
     
@@ -292,7 +293,7 @@ function processResponse(data, expectResponse) {
             // send another query but this time with an offset, and with the same search term
 
             console.log('making query 2. Returning a new set of results from '+data.meta.result_count+' results with randomOffset of '+randomOffset);
-            makeVaRequest(null, chosenSearchTerm, randomOffset, 1);
+            makeVaRequest(null, chosenSearchTerm, randomOffset, 15);
 
         }
 
@@ -303,7 +304,7 @@ function processResponse(data, expectResponse) {
 
             console.log('making a second request, no results found last time');
             chooseSearchTerm();
-            makeVaRequest(null, chosenSearchTerm, null, 15);   // objectNumber, searchTerm, offset, limit
+            makeVaRequest(null, chosenSearchTerm);   // objectNumber, searchTerm, offset, limit
         }
 
         return;
@@ -461,29 +462,49 @@ function processResponse(data, expectResponse) {
         thePhysicalDescription = thePhysicalDescription.replace(/\<\\b\>/g,"");
 
         // format the search terms into a more readable form to use in the side panel
+        var readableChosenSearchTerm = chosenSearchTerm.replace(/\+/g,'');
         theReadableSearchTerms = theReadableSearchTerms.replace(/,(?=[^\s])/g, ", "); // replace spaces with commas
+        theReadableSearchTerms = theReadableSearchTerms.replace(readableChosenSearchTerm, '<strong title="This was the selected search term">'+readableChosenSearchTerm+'</strong>');
 
         // construct the Pinterest url
-        var pinterestUrl    = "https://www.pinterest.com/pin/create/button/"
+        var pinterestUrl    = "https://www.pinterest.com/pin/create/button/";
         pinterestUrl        += "?url="+objectUrl;
         pinterestUrl        += "&media="+imgUrl;
         pinterestUrl        += "&description="+theTitle;
-        if (theDate != "") pinterestUrl += " ("+thePlace+", "+theDate+")";
-        pinterestUrl        += ", V%26A Collection";
+        pinterestUrl        += " (";
+        if (theArtist != "") pinterestUrl += theArtist;
+        if (theDate != "") pinterestUrl += ", "+theDate;
+        pinterestUrl        += ")";
+        pinterestUrl        += ", V%26A Collection. Discovered via the Cole browser extension.\nhttp://cole-extension.com/";
 
-        
+         // construct the Twitter url
+        var twitterUrl    = "https://twitter.com/intent/tweet";
+        twitterUrl        += "?hashtags=worksofart";
+        twitterUrl        += "&original_referer=http://cole-extension.com/";
+        // twitterUrl        += "&image="+imgUrl;  
+        twitterUrl        += "&text="+theTitle;
+        twitterUrl        += " (";
+        if (theArtist != "") twitterUrl += theArtist;
+        if (theDate != "") twitterUrl += ", "+theDate;
+        twitterUrl        += ")";
+        twitterUrl        += ", V%26A Collection, discovered via the Cole browser extension\n";
+        twitterUrl        += "&via=cole_extension";
+        twitterUrl        += "&url="+objectUrl;
+
+        // &ref_src=twsrc%5Etfw
+        // &related=twitterapi%2Ctwitter
+        // &tw_p=tweetbutton
+        // &url=https%3A%2F%2Fdev.twitter.com%2Fweb%2Ftweet-button
 
         // *** inject the data into the page *** //
 
         // set the title class for long and extra-long ones
         if (theTitle.length > 20 && theTitle.length <= 40) {
             $('#title').parent().addClass('reduced'); 
-            // $('#piece-date').addClass('reduced'); 
         }
 
         if (theTitle.length > 40) {
             $('#title').parent().addClass('reduced-more'); 
-            // $('#piece-date').addClass('reduced'); 
         }
 
         // main panel
@@ -494,6 +515,7 @@ function processResponse(data, expectResponse) {
         $('#place').html(thePlace);
         $('#image').attr('src', imgUrl);
         $('#pinterest-button').attr('href', pinterestUrl);
+        $('#twitter-button').attr('href', twitterUrl);
         $('#page-link').attr('href', objectUrl);
         $('#object-description').html('<p>'+theDescription+'</p>');
         $('#object-context').html('<p>'+theContext+'</p>');
@@ -512,7 +534,7 @@ function processResponse(data, expectResponse) {
         if (theMuseumNumber != "") { $('#museum-number').text(theMuseumNumber) } else { $('#museum-number').hide(); $('#museum-number').prev('h4').hide(); }
 
         // side panel 
-        $('#search-terms').text(theReadableSearchTerms);
+        $('#search-terms').html(theReadableSearchTerms);
 
         // run resize script
         SITE.onThrottledResize();
