@@ -12,8 +12,8 @@ function save_options() {
     var status = document.getElementById('status');
     status.textContent = 'Options saved';
     setTimeout(function() {
-      status.textContent = '';
-    }, 750);
+      status.textContent = ' ';
+    }, 2000);
   });
 }
 
