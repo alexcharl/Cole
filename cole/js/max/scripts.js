@@ -445,7 +445,7 @@ function addToHistory(objectNumber, title, date, artist, imageUrl, vaCollections
     };
     console.log("adding to history: " + newHistoryObject.title);
     theHistory.unshift(newHistoryObject);
-    if (theHistory.length > 10) {
+    if (theHistory.length > maxHistoryItems) {
         theHistory.pop();
     }
     chrome.storage.sync.set({

@@ -135,7 +135,7 @@ function addToHistory(objectNumber, title, date, artist, imageUrl, vaCollections
 
     theHistory.unshift(newHistoryObject); // add the new history object to the beginning
 
-    if (theHistory.length > 10) {
+    if (theHistory.length > maxHistoryItems) {
         theHistory.pop(); // and pop out the last one
     }
 
