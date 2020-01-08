@@ -80,7 +80,7 @@ body {
 
 h1 {
 	@include medium;
-	@include font-smoothing;
+	// @include font-smoothing;
 	font-size: 48px;
 	line-height: 59px;
 	margin-bottom: 0.4em;
