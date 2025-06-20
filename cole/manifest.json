@@ -1,36 +1,32 @@
 {
   "name": "Cole",
   "version": "0.2.0",
-  "manifest_version": 2,
-  "description": "Discover objects from the Victoria and Albert museum’s collection every time you open a new tab",
+  "manifest_version": 3,
+  "description": "Discover objects from the Victoria and Albert museum's collection every time you open a new tab",
   "homepage_url": "http://cole-extension.com",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' https://www.google-analytics.com; object-src 'self'"
+  },
   "default_locale": "en",
   "offline_enabled": false,
-  "background": {
-    "page": "src/bg/background.html",
-    "persistent": false
-  },
   "options_ui": {
-      "page": "src/options/index.html",
-      "chrome_style": true
-  },
-  "page_action": {
-    "default_icon": "icons/icon19.png",
-    "default_title": "Page action",
-    "default_popup": "src/page_action/page_action.html"
+      "page": "src/options/index.html"
   },
   "chrome_url_overrides": {
     "newtab": "src/override/override.html"
   },
   "permissions": [
-    "storage",
-    "http://www.vam.ac.uk/*",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://api.vam.ac.uk/*",
+    "https://framemark.vam.ac.uk/*",
+    "https://collections.vam.ac.uk/*",
     "https://*.pinterest.com/*"
   ]
 }
