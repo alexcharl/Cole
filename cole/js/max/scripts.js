@@ -343,9 +343,9 @@ var pumkin = window.pumkin = {};
     SITE.onThrottledResize = onThrottledResize;
 })(this, this.jQuery, this.Modernizr, this.screenfull, this.FastClick);
 
-var vaUrl = "https://www.vam.ac.uk/api/json/museumobject/";
+var vaUrl = "https://api.vam.ac.uk/v2/objects/search";
 
-var vaMediaUrl = "https://media.vam.ac.uk/media/thira/collection_images/";
+var vaMediaUrl = "https://framemark.vam.ac.uk/collections/";
 
 var vaCollectionsUrl = "https://collections.vam.ac.uk/item/";
 
@@ -420,7 +420,7 @@ function makeVaRequest(objectNumber, searchTerm, offset, limit, withImages, with
         }
         console.log("strictSearch = " + strictSearch);
         var queryUrl = "";
-        queryUrl = objectNumber != null ? vaUrl + objectNumber : vaUrl;
+        queryUrl = objectNumber != null ? vaUrl + "/" + objectNumber : vaUrl;
         console.log("expectResponse = " + expectResponse);
         console.log("queryUrl = " + queryUrl);
         console.log("Chosen term = " + searchTerm);
